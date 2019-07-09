@@ -79,3 +79,27 @@ $$
 $$
 language SQL;
 
+--Funcion para modificar el codigo de la asignatura en la relacion esta_en
+create or replace function modEsta_en(int, int) returns void
+as
+$$
+	update esta_en set codigo_asignatura=$2 Where codigo_asignatura=$1;
+$$
+language SQL;
+
+--Funcion para modificar el codigo de la asignatura en la relacion consta_de
+create or replace function modConsta_de(int, int) returns void
+as
+$$
+	update consta_de set codigo_asignatura=$2 Where codigo_asignatura=$1;
+$$
+language SQL;
+
+--Funcion para modificar el codigo de la asignatura en la relacion se_le_otorga
+create or replace function modSe_le_otorga(int, int) returns void
+as
+$$
+	update se_le_otorga set codigo_asignatura=$2 Where codigo_asignatura=$1;
+$$
+language SQL;
+
