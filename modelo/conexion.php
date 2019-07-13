@@ -11,6 +11,7 @@
 			}catch(PDOException $e)
 			{
 					echo "La conexion fallo <br>".$e->getMessage();
+					
 			}
 		}
 	}

@@ -38,15 +38,7 @@
         </ul>
     </div>
     <div id="body">
-        <table>
-            <tr>
-                <th>columna</th>
-                <th>columna</th>
-                <th>columna</th>
-                <th>columna</th>
-                <th>columna</th>
-            </tr>
-        </table>
+        
     </div>
     <div id="footer"></div>
 </body>
