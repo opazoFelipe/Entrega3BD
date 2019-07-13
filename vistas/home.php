@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/bodyStyle.css">
     <link rel="stylesheet" href="css/navStyle.css">
     <script src="../controladores/consultasE2/showQueries.js"></script>
+    <script src="../controladores/asignatura/showAsig.js"></script>
     <title>Aplicacion BD</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
         <ul>
             <li>Consultas E2
                 <ul>
-                    <li onclick="alerta()">Ver Consulta 1</li>
+                    <li onclick="mostrarAsignaturas()">Ver Consulta 1</li>
                     <li onclick="alerta()">Ver Consulta 2</li>
                     <li onclick="alerta()">Ver Consulta 3</li>
                     <li onclick="alerta()">Ver Consulta 4</li>
