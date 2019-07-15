@@ -26,82 +26,76 @@ function mostrarAsignaturas()
 			{
                 var asignaturas=JSON.parse(peticionHTTP.responseText);
                 var largoAsignaturas=asignaturas.length;
+                var div=document.getElementById("tablaAsignaturas");
+                var itemsThead=["Codigo", "Nombre", "Rut Profesor", "Curso Asociado", "Sala", "Bloque Asignado", "Opciones", "Asociar"];
+                var largoItemsThead=itemsThead.length;
                 if(largoAsignaturas>0)
                 {
-                    var div=document.getElementById("body");
                     var tabla=document.createElement("table");
                     tabla.setAttribute("id","tablaAsignaturas");
+                    tabla.className="tablaDinamica";
                     var tr=document.createElement("tr");
-                    var thCodigoAsig=document.createElement("th");
-                    var thNombreAsig=document.createElement("th");
-                    var thRutProfesor=document.createElement("th");
-                    var thCodigoCurso=document.createElement("th");
-                    var thSala=document.createElement("th");
-                    var thBloque=document.createElement("th");
-
-                    var textoThCodigo=document.createTextNode("Codigo");
-                    var textoThNombreAsig=document.createTextNode("Nombre");
-                    var textoThRutProfesor=document.createTextNode("rut Profesor");
-                    var textoThCodigoCurso=document.createTextNode("Curso Asociado");
-                    var textoThSala=document.createTextNode("Sala");
-                    var textoThBloque=document.createTextNode("Bloque Asignado");
-
-                    thCodigoAsig.append(textoThCodigo);
-                    thNombreAsig.append(textoThNombreAsig);
-                    thRutProfesor.append(textoThRutProfesor);
-                    thCodigoCurso.append(textoThCodigoCurso);
-                    thSala.append(textoThSala);
-                    thBloque.append(textoThBloque);
-
-                    tr.append(thCodigoAsig);
-                    tr.append(thNombreAsig);
-                    tr.append(thRutProfesor);
-                    tr.append(thCodigoCurso);
-                    tr.append(thSala);
-                    tr.append(thBloque);
-                    
+                    for(var i=0; i<largoItemsThead; i++)
+                    {
+                        var th=document.createElement("th");
+                        th.innerHTML=itemsThead[i];
+                        tr.append(th);
+                    }
                     tabla.append(tr);
-                }
+                    for(var i=0; i<largoAsignaturas; i++)
+                    {
+                        var tr=document.createElement("tr");
+                        tr.setAttribute("id", asignaturas[i].codigo);
+                        var tdCodigoAsig=document.createElement("td");
+                        var tdNombreAsig=document.createElement("td");
+                        var tdRutProfesor=document.createElement("td");
+                        var tdCodigoCurso=document.createElement("td");
+                        var tdSala=document.createElement("td");
+                        var tdBloque=document.createElement("td");
+                        var tdOpcionesAsig=document.createElement("td");
+                        var tdAsociarAsig=document.createElement("td");
 
-                for(var i=0; i<largoAsignaturas; i++)
-                {
-                    var tr=document.createElement("tr");
-                    tr.setAttribute("id", asignaturas[i].codigo);
+                        //Botones de Opciones de Asignatura (Modificar y Eliminar)
+                        var btnModificar=document.createElement("button");
+                        var btnEliminar=document.createElement("button");
+                        //Botones de Asociar a Asignatura (Alumnos, Profesor que la dicta y Cursos que la dictan)
+                        var btnAsociarAlumno=document.createElement("button");
+                        var btnAsociarProfesor=document.createElement("button");
+                        var btnAsociarCurso=document.createElement("button");
 
-                    var tdCodigoAsig=document.createElement("td");
-                    var tdNombreAsig=document.createElement("td");
-                    var tdRutProfesor=document.createElement("td");
-                    var tdCodigoCurso=document.createElement("td");
-                    var tdSala=document.createElement("td");
-                    var tdBloque=document.createElement("td");
+                        btnModificar.innerHTML="Modificar";
+                        btnEliminar.innerHTML="Eliminar";
+                        btnAsociarAlumno.innerHTML="Alumnos";
+                        btnAsociarProfesor.innerHTML="Profesor";
+                        btnAsociarCurso.innerHTML="Cursos";
 
-                    var textoCodigo=document.createTextNode(asignaturas[i].codigo);
-                    var textoNombreAsig=document.createTextNode(asignaturas[i].nombre);
-                    var textoRutProfesor=document.createTextNode(asignaturas[i].rutProfesor);
-                    var textoCodigoCurso=document.createTextNode(asignaturas[i].codigoCurso);
-                    var textoSala=document.createTextNode(asignaturas[i].sala);
-                    var textoBloque=document.createTextNode(asignaturas[i].bloque);
+                        tdOpcionesAsig.append(btnModificar);
+                        tdOpcionesAsig.append(btnEliminar);
+                        tdAsociarAsig.append(btnAsociarAlumno);
+                        tdAsociarAsig.append(btnAsociarProfesor);
+                        tdAsociarAsig.append(btnAsociarCurso);
 
-                    tdCodigoAsig.append(textoCodigo);
-                    tdNombreAsig.append(textoNombreAsig);
-                    tdRutProfesor.append(textoRutProfesor);
-                    tdCodigoCurso.append(textoCodigoCurso);
-                    tdSala.append(textoSala);
-                    tdBloque.append(textoBloque);
+                        tdCodigoAsig.innerHTML=asignaturas[i].codigo;
+                        tdNombreAsig.innerHTML=asignaturas[i].nombre;
+                        tdRutProfesor.innerHTML=asignaturas[i].rutProfesor;
+                        tdCodigoCurso.innerHTML=asignaturas[i].codigoCurso;
+                        tdSala.innerHTML=asignaturas[i].sala;
+                        tdBloque.innerHTML=asignaturas[i].bloque;
 
-                    tr.append(tdCodigoAsig);
-                    tr.append(tdNombreAsig);
-                    tr.append(tdRutProfesor);
-                    tr.append(tdCodigoCurso);
-                    tr.append(tdSala);
-                    tr.append(tdBloque);
-                    
-                    tabla.append(tr);
-                }
-                div.append(tabla);
-				//var info=document.getElementById("info");
-				//info.innerHTML=peticionHTTP.responseText;
-			}
+                        tr.append(tdCodigoAsig);
+                        tr.append(tdNombreAsig);
+                        tr.append(tdRutProfesor);
+                        tr.append(tdCodigoCurso);
+                        tr.append(tdSala);
+                        tr.append(tdBloque);
+                        tr.append(tdOpcionesAsig);
+                        tr.append(tdAsociarAsig);
+
+                        tabla.append(tr); 
+                    } 
+                    div.append(tabla);  
+                }else div.innerHTML="No hay asignaturas actualmente";
+            }
         }
         
         function cargarFuncion()
