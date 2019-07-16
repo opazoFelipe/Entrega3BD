@@ -4,13 +4,14 @@
     color: black;
     background-color: white;
     table-layout: fixed;
+    height: 100%;
     
 }
 .tablaDinamica tbody
 {
-    height: 40%;
+    max-height: 90%;
     overflow-y: auto;
-    display: relative;   
+    display: block;   
 }
 .tablaDinamica thead
 {
@@ -34,22 +35,6 @@
     width: 140px;
     text-align: center;
     word-wrap: break-word;
-}
-.tablaDinamica tr th:nth-last-child(2)
-{
-    width: 180px;
-}
-.tablaDinamica tr th:nth-last-child(1)
-{
-    width: 220px;
-}
-.tablaDinamica tr td:nth-last-child(2)
-{
-    width: 180px;
-}
-.tablaDinamica tr td:nth-last-child(1)
-{
-    width: 220px;
 }
 .btnModificar
 {

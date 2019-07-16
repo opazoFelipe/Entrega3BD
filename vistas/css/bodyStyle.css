@@ -2,7 +2,7 @@ body
 {
     background-color: #232c41;
 }
-#header, #nav, #body, #footer
+#header, #nav
 {
     display: block;
 }
@@ -25,12 +25,30 @@ body
 #tablaAsignaturas
 {
     display: block;
-    width: 100%;
     background-color: white;
 }
 #divTablaAsignaturas
 {
-    width: 100%;
-    height: 30%;
+    height: 250px;
+    border-radius: 5px;
+}
+#divBuscarAsignatura
+{
+    height: 20%;
+    background-color: orange;
+
+}
+#buscarAsignatura
+{
+    margin: 15px 400px;
+}
+#buscarAsignatura input
+{
+    width: 40%;
+    border-radius: 5px;
+}
+#divTablaAsociar
+{
+    height: 250px;
     border-radius: 5px;
 }

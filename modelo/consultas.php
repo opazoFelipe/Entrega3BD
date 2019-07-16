@@ -379,10 +379,57 @@
 			    echo $arregloJSON;
             }
         }
+
+        //funcion para obtener los alumnos asociados actualmente a una asignatura,
+        //solo requiere el codigo de la asignatura
+        function getAlumnosEnAsignatura($codigoAsignatura)
+        {
+            $conexion=new conexion();
+            $bd=$conexion->get_conexion();
+            $sql=
+                "select 
+                    e.rut_alumno, 
+                    a.nombres, 
+                    a.apellidos
+                from 
+                    esta_en e,
+                    alumno a
+                where
+                    e.codigo_asignatura=? and
+                    e.rut_alumno=a.rut"
+            ;
+
+            $smt=$bd->prepare($sql);
+            $smt->bindValue(1, $codigoAsignatura, PDO::PARAM_INT);
+            if($smt->execute())
+            {
+                $datos=array();
+                $i=0;
+                while($result = $smt->fetch(PDO::FETCH_ASSOC))
+			    {
+                    $rutAlumno=$result["rut_alumno"];
+                    $nombres=$result["nombres"];
+                    $apellidos=$result["apellidos"];
+                    $datos[$i]=
+                    [
+                        "rutAlumno"=>$rutAlumno, 
+                        "nombres"=>$nombres,
+                        "apellidos"=>$apellidos
+                    ];	
+                    $i++;		
+                }
+			    $arregloJSON=json_encode($datos);
+			    echo $arregloJSON;
+            }else{
+                echo "Error al ingresar los datos";
+            }
+            $conexion=null;
+        }
     }
 
     $asig=new asignatura();
     //$asig->modAsignatura(8, 16, '16.381.101-k', 'Quimica', 'SALA 6A');
+    //$asig->getAlumnosEnAsignatura(6);
     $asig->getAsignaturas();
 
 ?>

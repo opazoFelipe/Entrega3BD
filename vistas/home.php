@@ -23,12 +23,12 @@
         <ul>
             <li>Consultas E2
                 <ul>
-                    <li onclick="mostrarAsignaturas()">Ver Consulta 1</li>
-                    <li onclick="alerta()">Ver Consulta 2</li>
-                    <li onclick="alerta()">Ver Consulta 3</li>
-                    <li onclick="alerta()">Ver Consulta 4</li>
-                    <li onclick="alerta()">Ver Consulta 5</li>
-                    <li onclick="alerta()">Ver Consulta 6</li>
+                    <li onclick="">Ver Consulta 1</li>
+                    <li onclick="">Ver Consulta 2</li>
+                    <li onclick="">Ver Consulta 3</li>
+                    <li onclick="">Ver Consulta 4</li>
+                    <li onclick="">Ver Consulta 5</li>
+                    <li onclick="">Ver Consulta 6</li>
                 </ul>
             </li>
         </ul>
