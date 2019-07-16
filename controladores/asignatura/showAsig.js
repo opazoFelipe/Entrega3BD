@@ -26,7 +26,7 @@ function mostrarAsignaturas()
 			{
                 var asignaturas=JSON.parse(peticionHTTP.responseText);
                 var largoAsignaturas=asignaturas.length;
-                var div=document.getElementById("tablaAsignaturas");
+                var div=document.getElementById("divTablaAsignaturas");
                 var itemsThead=["Codigo", "Nombre", "Rut Profesor", "Curso Asociado", "Sala", "Bloque Asignado", "Opciones", "Asociar"];
                 var largoItemsThead=itemsThead.length;
                 if(largoAsignaturas>0)
@@ -34,6 +34,8 @@ function mostrarAsignaturas()
                     var tabla=document.createElement("table");
                     tabla.setAttribute("id","tablaAsignaturas");
                     tabla.className="tablaDinamica";
+                    var theadTabla=document.createElement("thead");
+                    var tbodyTabla=document.createElement("tbody");
                     var tr=document.createElement("tr");
                     for(var i=0; i<largoItemsThead; i++)
                     {
@@ -41,7 +43,8 @@ function mostrarAsignaturas()
                         th.innerHTML=itemsThead[i];
                         tr.append(th);
                     }
-                    tabla.append(tr);
+                    theadTabla.append(tr);
+                    tabla.append(theadTabla);
                     for(var i=0; i<largoAsignaturas; i++)
                     {
                         var tr=document.createElement("tr");
@@ -69,6 +72,12 @@ function mostrarAsignaturas()
                         btnAsociarProfesor.innerHTML="Profesor";
                         btnAsociarCurso.innerHTML="Cursos";
 
+                        btnModificar.className="btnModificar";
+                        btnEliminar.className="btnEliminar";
+                        btnAsociarAlumno.className="btnAsociar";
+                        btnAsociarProfesor.className="btnAsociar";
+                        btnAsociarCurso.className="btnAsociar";
+
                         tdOpcionesAsig.append(btnModificar);
                         tdOpcionesAsig.append(btnEliminar);
                         tdAsociarAsig.append(btnAsociarAlumno);
@@ -91,8 +100,9 @@ function mostrarAsignaturas()
                         tr.append(tdOpcionesAsig);
                         tr.append(tdAsociarAsig);
 
-                        tabla.append(tr); 
+                        tbodyTabla.append(tr);
                     } 
+                    tabla.append(tbodyTabla);
                     div.append(tabla);  
                 }else div.innerHTML="No hay asignaturas actualmente";
             }

@@ -1,0 +1,71 @@
+.tablaDinamica
+{
+    font-size: 15px;
+    color: black;
+    background-color: white;
+    table-layout: fixed;
+    
+}
+.tablaDinamica tbody
+{
+    height: 40%;
+    overflow-y: auto;
+    display: relative;   
+}
+.tablaDinamica thead
+{
+    background-color: blue;
+    color: white;
+    display: block;   
+}
+.tablaDinamica tbody tr:hover
+{
+    background-color: silver;
+    color: black;
+}
+.tablaDinamica td
+{
+    width: 140px;
+    text-align: center;
+    word-wrap: break-word;
+}
+.tablaDinamica th
+{
+    width: 140px;
+    text-align: center;
+    word-wrap: break-word;
+}
+.tablaDinamica tr th:nth-last-child(2)
+{
+    width: 180px;
+}
+.tablaDinamica tr th:nth-last-child(1)
+{
+    width: 220px;
+}
+.tablaDinamica tr td:nth-last-child(2)
+{
+    width: 180px;
+}
+.tablaDinamica tr td:nth-last-child(1)
+{
+    width: 220px;
+}
+.btnModificar
+{
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+}
+.btnEliminar
+{
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+}
+.btnAsociar
+{
+    background-color: orange;
+    color: white; 
+    border-radius: 5px;
+}

@@ -6,22 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/bodyStyle.css">
     <link rel="stylesheet" href="css/navStyle.css">
+    <link rel="stylesheet" href="css/tablas.css">
     <script src="../controladores/consultasE2/showQueries.js"></script>
     <script src="../controladores/asignatura/showAsig.js"></script>
     <title>Aplicacion BD</title>
 </head>
 <body>
-    <div id="header">
-        <p>Aplicacion Entrega 3 Base de Datos</p>
-        <p style="margin:-1.5% 0;">Felipe Opazo Rivas</p>
-    </div>
     <div id="nav">
         <ul>
             <li>Asignaturas
                 <ul>
-                    <li>Agregar Asignatura</a></li>
-                    <li>Modificar Asignatura</a></li>
-                    <li>Eliminar Asignatura</a></li>
+                    <li>Ver Asignaturas</a></li>
                 </ul>
             </li>
         </ul>
@@ -38,9 +33,8 @@
             </li>
         </ul>
     </div>
-    <div id="body">
-        
+    <div id="divTablaAsignaturas">
     </div>
-    <div id="footer"></div>
+    <div id="tablaAsociar"></div>
 </body>
 </html>
