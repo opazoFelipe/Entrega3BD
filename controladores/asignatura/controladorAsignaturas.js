@@ -93,6 +93,7 @@ function mostrarTablaAsignaturas()
             var columnasThead=["Codigo", "Nombre", "Rut Profesor", "Curso Asociado", "Sala", "Bloque Asignado", "Opciones", "Asociar"];
             
             crearTabla(columnasThead, idComponentesTabla,"divTablaAsignaturas");
+            
             var tbody=document.getElementById("tbodyAsignaturas");
 
             for(var i=0; i<largoAsignaturas; i++)
