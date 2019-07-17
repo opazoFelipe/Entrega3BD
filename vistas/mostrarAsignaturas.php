@@ -34,11 +34,13 @@
     </div>
     <div id="divTablaAsociar">
         <div id="divTablaBuscar">
-        este es el div tablaBuscar
+            Alumnos no Asociados
+        <br>
         </div>
        
         <div id="divTablaActualAsociados">
-        este es el div #divTablaActualAsociados
+            Alumnos Asociados
+        <br>
         </div>
     </div>
 </body>
