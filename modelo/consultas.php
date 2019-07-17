@@ -429,7 +429,5 @@
 
     $asig=new asignatura();
     //$asig->modAsignatura(8, 16, '16.381.101-k', 'Quimica', 'SALA 6A');
-    //$asig->getAlumnosEnAsignatura(6);
-    $asig->getAsignaturas();
-
+    $asig->getAlumnosEnAsignatura(6);
 ?>

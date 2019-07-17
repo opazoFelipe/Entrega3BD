@@ -41,7 +41,7 @@ function crearTabla(columnasThead, idComponentesTabla, idDivTabla)
     // idDivTabla: 
     //        es el id del div donde se mostrara la tabla de asignaturas.
 
-    var divTabla=document.getElementById("divTablaAsignaturas");
+    var divTabla=document.getElementById(idDivTabla);
 
     // Creacion de la tabla
     var tabla=document.createElement("table");
@@ -65,7 +65,67 @@ function crearTabla(columnasThead, idComponentesTabla, idDivTabla)
     divTabla.append(tabla);
 }
 
-function mostrarTablaAsignaturas()
+function asociarAlumno()
+{
+    // asociarAlumno2();
+    //Llamada Ajax
+    var peticionHTTP;
+   
+    if(window.XMLHttpRequest)
+        peticionHTTP=new XMLHttpRequest();
+    else
+        peticionHTTP=new ActiveObject("Microsoft.XMLHTTP");
+ 
+    peticionHTTP.onreadystatechange=funcionActuadora;
+    peticionHTTP.open("POST", "../modelo/consultas.php", true);
+    peticionHTTP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    peticionHTTP.send(null); //No envian datos al servidor
+
+    function funcionActuadora()
+    {
+        if(peticionHTTP.readyState==4 && peticionHTTP.status==200)
+        {
+            var respuesta=peticionHTTP.responseText;
+            var jsonAlumnos=JSON.parse(respuesta);
+            var largoAlumnos=jsonAlumnos.length;
+
+            var idComponentesTabla={"idTabla":"asociarAlumno", "idThead": "theadAsociarAlumno", "idTbody": "tbodyAsociarAlumno"};
+            var columnasThead=["Rut", "Nombres", "Apellidos", "Opcion"];
+            
+            crearTabla(columnasThead, idComponentesTabla,"divTablaBuscar");
+            
+            var tbody=document.getElementById("tbodyAsociarAlumno");
+
+            for(var i=0; i<largoAlumnos; i++)
+            {
+                var alumnos=jsonAlumnos[i];
+                var fila=document.createElement("tr");
+                fila.setAttribute("id", alumnos.rutAlumno);
+                for(var j=0; j<3; j++)
+                {
+                    var item=Object.keys(alumnos)[j];
+                    var valor=alumnos[item];
+                    var columna=document.createElement("td");
+                    columna.innerHTML=valor;
+                    fila.append(columna);
+                }
+                //boton desAsociar alumno
+                var columnaOpcion=document.createElement("td");
+              
+                var boton=document.createElement("button");
+                boton.innerHTML="DesAsociar";
+                boton.className="btnEliminarAlumno";
+                boton.addEventListener("click", desAsociarAlumno);
+                columnaOpcion.append(boton);
+                fila.append(columnaOpcion);
+                tbody.append(fila);
+            }
+
+        }
+    }    
+
+}
+function asociarAlumno2()
 {
     //Llamada Ajax
     var peticionHTTP;
@@ -84,79 +144,51 @@ function mostrarTablaAsignaturas()
     {
         if(peticionHTTP.readyState==4 && peticionHTTP.status==200)
         {
-            //se espera un array con las asignaturas registradas
             var respuesta=peticionHTTP.responseText;
-            var jsonAsignaturas=JSON.parse(respuesta);
-            var largoAsignaturas=jsonAsignaturas.length;
+            var jsonAlumnos=JSON.parse(respuesta);
+            var largoAlumnos=jsonAlumnos.length;
 
-            var idComponentesTabla={"idTabla":"Asignaturas", "idThead": "theadAsignaturas", "idTbody": "tbodyAsignaturas"};
-            var columnasThead=["Codigo", "Nombre", "Rut Profesor", "Curso Asociado", "Sala", "Bloque Asignado", "Opciones", "Asociar"];
+            var idComponentesTabla={"idTabla":"asociarAlumno", "idThead": "theadAsociarAlumno", "idTbody": "tbodyAsociarAlumno"};
+            var columnasThead=["Rut", "Nombres", "Apellidos", "Opcion"];
             
-            crearTabla(columnasThead, idComponentesTabla,"divTablaAsignaturas");
+            crearTabla(columnasThead, idComponentesTabla,"divTablaBuscar");
             
-            var tbody=document.getElementById("tbodyAsignaturas");
+            var tbody=document.getElementById("tbodyAsociarAlumno");
 
-            for(var i=0; i<largoAsignaturas; i++)
+            for(var i=0; i<largoAlumnos; i++)
             {
-                var asignaturas=jsonAsignaturas[i];
+                var alumnos=jsonAlumnos[i];
                 var fila=document.createElement("tr");
-                fila.setAttribute("id", asignaturas.codigo);
-                for(var j=0; j<6; j++)
+                fila.setAttribute("id", alumnos.rutAlumno);
+                for(var j=0; j<3; j++)
                 {
-                    var item=Object.keys(asignaturas)[j];
-                    var valor=asignaturas[item];
+                    var item=Object.keys(alumnos)[j];
+                    var valor=alumnos[item];
                     var columna=document.createElement("td");
                     columna.innerHTML=valor;
                     fila.append(columna);
                 }
-                
-                //botones opciones(modificar y eliminar) y
-                //botones asignar(alumnos, profesor y cursos)
-                var botones=["Modificar", "Eliminar", "Alumno", "Profesor", "Curso"];
-                var funciones=[modificarAsignatura, eliminarAsignatura, asignarAlumno, asignarProfesor, asignarCurso];
-                var columnaOpciones=document.createElement("td");
-                var columnaAsignar=document.createElement("td");
-                for(var k=0; k<5; k++)
-                {
-                    var boton=document.createElement("button");
-                    boton.innerHTML=botones[k];
-                    boton.className="btn"+botones[k];
-                    boton.addEventListener("click", funciones[k]);
-                    if(k<2)
-                    {
-                        columnaOpciones.append(boton);
-                    }
-                    if(k>1)
-                    {
-                        columnaAsignar.append(boton);
-                    }    
-                }
-                fila.append(columnaOpciones);
-                fila.append(columnaAsignar);
+                //boton desAsociar alumno
+                var columnaOpcion=document.createElement("td");
+              
+                var boton=document.createElement("button");
+                boton.innerHTML="DesAsociar";
+                boton.className="btnEliminarAlumno";
+                boton.addEventListener("click", desAsociarAlumno);
+                columnaOpcion.append(boton);
+                fila.append(columnaOpcion);
                 tbody.append(fila);
             }
+
         }
-    }
-    function modificarAsignatura()
-    {
-        alert("Esta es la funcion modificar asignatura");
-    }
-    function eliminarAsignatura()
-    {
-        alert("Esta es la funcion eliminar asignatura");
-    }
-    function asignarAlumno()
-    {
-        alert("Esta es la funcion modificar asignarAlumno");
-    }
-    function asignarProfesor()
-    {
-        alert("Esta es la funcion eliminar asignarProfesor");
-    }
-    function asignarCurso()
-    {
-        alert("Esta es la funcion eliminar asignarCurso");
-    }
+    }    
+
+}
+function desAsociarAlumno()
+{
+    alert("esta es la funcion desAsociarAlumno");
 }
 
-window.onload=mostrarTablaAsignaturas();
+window.onload=asociarAlumno();
+
+
