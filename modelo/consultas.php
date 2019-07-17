@@ -376,7 +376,7 @@
                     $i++;		
                 }
 			    $arregloJSON=json_encode($asignaturas);
-			    echo $arregloJSON;
+                echo $arregloJSON;
             }
         }
 

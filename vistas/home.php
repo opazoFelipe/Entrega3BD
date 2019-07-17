@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/tablas.css">
     <script src="../controladores/consultasE2/showQueries.js"></script>
     <script src="../controladores/asignatura/showAsig.js"></script>
+
     <title>Aplicacion BD</title>
 </head>
 <body>
