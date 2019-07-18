@@ -64,102 +64,56 @@ function crearTabla(columnasThead, idComponentesTabla, idDivTabla)
 function asociarAlumno()
 {
     // asociarAlumno2();
-    //Llamada Ajax
-    var peticionHTTP;
-   
-    if(window.XMLHttpRequest)
-        peticionHTTP=new XMLHttpRequest();
-    else
-        peticionHTTP=new ActiveObject("Microsoft.XMLHTTP");
- 
-    peticionHTTP.onreadystatechange=funcionActuadora;
-    peticionHTTP.open("POST", "../modelo/consultas.php", true);
-    peticionHTTP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    peticionHTTP.send(null); //No envian datos al servidor
-
-    function funcionActuadora()
+    var idComponentesTablaNoAsociados=
     {
-        if(peticionHTTP.readyState==4 && peticionHTTP.status==200)
+        "idTabla":"asociarAlumno", 
+        "idThead": "theadAsociarAlumno", 
+        "idTbody": "tbodyAsociarAlumno"
+    };
+    var idComponentesTablaAsociados=
+    {
+        "idTabla":"desAsociarAlumno", 
+        "idThead": "theadDesAsociarAlumno", 
+        "idTbody": "tbodyDesAsociarAlumno"
+    };
+    var columnasTheadAsociado=
+    [
+        "Rut", 
+        "Nombres", 
+         "Apellidos",
+        "Nota Final", 
+        "Opcion"
+    ];
+    var columnasTheadNoAsociado=
+    [
+        "Rut", 
+        "Nombres", 
+        "Apellidos", 
+        "Opcion"
+    ];          
+    //Crear los buscadores 
+    var itemsBuscadores=["buscarAlumnoNoAsociado", "buscarAlumnoAsociado"];
+    for(var l=0; l<2; l++)
+    {
+        var buscador=document.createElement("input");
+        buscador.setAttribute("type", "text");
+        buscador.addEventListener("keyup", buscarAlumnoNoAsociado);
+        buscador.setAttribute("id", itemsBuscadores[l]);
+        buscador.setAttribute("name", itemsBuscadores[l]);
+        var label=document.createElement("label");
+        label.setAttribute("for", itemsBuscadores[l]);
+        label.innerHTML="Buscar Alumno:"
+        var div=document.getElementById("divTablaBuscar");
+        if(l==1)
         {
-            var respuesta=peticionHTTP.responseText;
-            var jsonAlumnos=JSON.parse(respuesta);
-            var largoAlumnos=jsonAlumnos.length;
-
-            var idComponentesTablaNoAsociados=
-            {
-                "idTabla":"asociarAlumno", 
-                "idThead": "theadAsociarAlumno", 
-                "idTbody": "tbodyAsociarAlumno"
-            };
-            var idComponentesTablaAsociados=
-            {
-                "idTabla":"desAsociarAlumno", 
-                "idThead": "theadDesAsociarAlumno", 
-                "idTbody": "tbodyDesAsociarAlumno"
-            };
-            var columnasThead=
-            [
-                "Rut", 
-                "Nombres", 
-                "Apellidos", 
-                "Opcion"
-            ];
-                        
-            //Crear los buscadores 
-            var itemsBuscadores=["buscarAlumnoNoAsociado", "buscarAlumnoAsociado"];
-            for(var l=0; l<2; l++)
-            {
-                var buscador=document.createElement("input");
-                buscador.setAttribute("type", "text");
-                buscador.addEventListener("keyup", buscarAlumnoNoAsociado);
-                buscador.setAttribute("id", itemsBuscadores[l]);
-                buscador.setAttribute("name", itemsBuscadores[l]);
-                var label=document.createElement("label");
-                label.setAttribute("for", itemsBuscadores[l]);
-                label.innerHTML="Buscar Alumno:"
-                var div=document.getElementById("divTablaBuscar");
-                if(l==1)
-                {
-                    div=document.getElementById("divTablaActualAsociados");       
-                }
-                div.append(label);
-                div.append(buscador);  
-            }
-
-            crearTabla(columnasThead, idComponentesTablaAsociados,"divTablaActualAsociados");
-            crearTabla(columnasThead, idComponentesTablaNoAsociados,"divTablaBuscar");
-            var tbody=document.getElementById("tbodyDesAsociarAlumno");
-
-            for(var i=0; i<largoAlumnos; i++)
-            {
-                var alumnos=jsonAlumnos[i];
-                var fila=document.createElement("tr");
-                fila.setAttribute("id", alumnos.rutAlumno);
-                for(var j=0; j<3; j++)
-                {
-                    var item=Object.keys(alumnos)[j];
-                    var valor=alumnos[item];
-                    var columna=document.createElement("td");
-                    columna.innerHTML=valor;
-                    fila.append(columna);
-                }
-                //boton desAsociar alumno
-                var columnaOpcion=document.createElement("td");
-              
-                var boton=document.createElement("button");
-                boton.innerHTML="DesAsociar";
-                boton.className="btnEliminarAlumno";
-                boton.addEventListener("click", desAsociarAlumno);
-                columnaOpcion.append(boton);
-                fila.append(columnaOpcion);
-                tbody.append(fila);
-            }
-
+            div1=document.getElementById("divTablaActualAsociados");       
         }
-    }    
+        div.append(label);
+        div.append(buscador);  
+    }
+    crearTabla(columnasTheadAsociado, idComponentesTablaAsociados,"divTablaActualAsociados");
+    crearTabla(columnasTheadNoAsociado, idComponentesTablaNoAsociados,"divTablaBuscar");
 }
-
-
 //Funcion para buscar coincidencias de alumnos al escribir en el buscador,
 //esta hecha para la funcion asociar alumno, para el input buscarAlumnoNoAsociado
 function buscarAlumnoNoAsociado()
@@ -233,7 +187,63 @@ function AsociarAlumno()
 {
     alert("funcion AsociarAlumno");
 }
+function llenarTablaAsociados()
+{
+    //Llamada Ajax
+    var peticionHTTP;
+   
+    if(window.XMLHttpRequest)
+        peticionHTTP=new XMLHttpRequest();
+    else
+        peticionHTTP=new ActiveObject("Microsoft.XMLHTTP");
+ 
+    peticionHTTP.onreadystatechange=funcionActuadora;
+    peticionHTTP.open("POST", "../modelo/getAlumnosAsociados.php", true);
+    peticionHTTP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    peticionHTTP.send(null); //No envian datos al servidor
 
+    function funcionActuadora()
+    {
+        if(peticionHTTP.readyState==4 && peticionHTTP.status==200)
+        {
+            var respuesta=peticionHTTP.responseText;
+            if(respuesta == "vacio")
+            {
+            }
+            else
+            {    
+                var jsonAlumnos=JSON.parse(respuesta);
+                var largoAlumnos=jsonAlumnos.length;
+                var tbody=document.getElementById("tbodyDesAsociarAlumno");
+
+                for(var i=0; i<largoAlumnos; i++)
+                {
+                    var alumnos=jsonAlumnos[i];
+                    var fila=document.createElement("tr");
+                    fila.setAttribute("id", alumnos.rutAlumno);
+                    for(var j=0; j<4; j++)
+                    {
+                        var item=Object.keys(alumnos)[j];
+                        var valor=alumnos[item];
+                        var columna=document.createElement("td");
+                        columna.innerHTML=valor;
+                        fila.append(columna);
+                    }
+                    //boton desAsociar alumno
+                    var columnaOpcion=document.createElement("td");
+                
+                    var boton=document.createElement("button");
+                    boton.innerHTML="DesAsociar";
+                    boton.className="btnEliminarAlumno";
+                    boton.addEventListener("click", desAsociarAlumno);
+                    columnaOpcion.append(boton);
+                    fila.append(columnaOpcion);
+                    tbody.append(fila);
+                }
+            } 
+        }
+    }
+}
 
 
 window.onload=asociarAlumno();
