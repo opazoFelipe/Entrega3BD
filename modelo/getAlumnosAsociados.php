@@ -27,6 +27,8 @@
             $nombres=$result["nombres"];
             $apellidos=$result["apellidos"];
             $notaFinal=$result["nota_final"];
+            if($notaFinal==0)
+                $notaFinal="Por Asignar";
             $datos[$i]=
             [
                 "rut"=>$rut, 
