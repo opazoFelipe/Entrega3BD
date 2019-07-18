@@ -14,7 +14,8 @@
             from 
                 alumno a
             where
-                a.rut like ?";
+                a.rut like ? and
+                a.rut not in(select rut_alumno from esta_en)";
         $smt=$bd->prepare($sql);
         $smt->bindValue(1, $coincidencia, PDO::PARAM_STR);
         if($smt->execute())

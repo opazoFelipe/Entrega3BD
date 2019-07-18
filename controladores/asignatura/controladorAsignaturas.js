@@ -189,7 +189,6 @@ function buscarAlumnoNoAsociado()
             console.log(respuesta);
             if(respuesta=="vacio")
             {
-                alert("vacion");
             }
             else
             {
