@@ -104,15 +104,20 @@ function asociarAlumno()
         label.setAttribute("for", itemsBuscadores[l]);
         label.innerHTML="Buscar Alumno:"
         var div=document.getElementById("divTablaBuscar");
+        if(l==0)
+        {
+            buscador.addEventListener("blur", limpiarTablaNoAsociados);
+        }
         if(l==1)
         {
-            div1=document.getElementById("divTablaActualAsociados");       
+            div=document.getElementById("divTablaActualAsociados");       
         }
         div.append(label);
         div.append(buscador);  
     }
     crearTabla(columnasTheadAsociado, idComponentesTablaAsociados,"divTablaActualAsociados");
     crearTabla(columnasTheadNoAsociado, idComponentesTablaNoAsociados,"divTablaBuscar");
+    llenarTablaAsociados();
 }
 //Funcion para buscar coincidencias de alumnos al escribir en el buscador,
 //esta hecha para la funcion asociar alumno, para el input buscarAlumnoNoAsociado
@@ -140,7 +145,6 @@ function buscarAlumnoNoAsociado()
         {
             //Si no hay coincidencias, la peticion retorna como string la frase "vacio";
             var respuesta=peticionHTTP.responseText;
-            console.log(respuesta);
             if(respuesta=="vacio")
             {
             }
@@ -189,9 +193,9 @@ function AsociarAlumno()
 }
 function llenarTablaAsociados()
 {
+    var codigoAsignatura="codigoAsignatura=6";
     //Llamada Ajax
     var peticionHTTP;
-   
     if(window.XMLHttpRequest)
         peticionHTTP=new XMLHttpRequest();
     else
@@ -200,7 +204,7 @@ function llenarTablaAsociados()
     peticionHTTP.onreadystatechange=funcionActuadora;
     peticionHTTP.open("POST", "../modelo/getAlumnosAsociados.php", true);
     peticionHTTP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    peticionHTTP.send(null); //No envian datos al servidor
+    peticionHTTP.send(codigoAsignatura); //No envian datos al servidor
 
     function funcionActuadora()
     {
@@ -245,7 +249,14 @@ function llenarTablaAsociados()
     }
 }
 
-
-window.onload=asociarAlumno();
+function limpiarTablaNoAsociados()
+{
+    if(this.value.length==0)
+    {
+        var tbody=document.getElementById("tbodyAsociarAlumno");
+        tbody.innerHTML="";
+    }
+}
+window.onload=asociarAlumno;
 
 

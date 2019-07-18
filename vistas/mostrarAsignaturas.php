@@ -33,6 +33,7 @@
     <div id="divTablaAsignaturas">
     </div>
     <div id="divTablaAsociar">
+
         <div id="divTablaBuscar">
             Alumnos no Asociados
         <br>
@@ -43,5 +44,6 @@
         <br>
         </div>
     </div>
+    
 </body>
 </html>
