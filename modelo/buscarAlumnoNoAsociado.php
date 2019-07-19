@@ -4,6 +4,7 @@
     $coincidencia=$_POST["coincidencia"];
     function buscarAlumno($coincidencia)
     {
+        $codigoAsignatura=6;
         $conexion=new conexion();
         $coincidencia="%".$coincidencia."%";
         $bd=$conexion->get_conexion();
@@ -15,9 +16,10 @@
                 alumno a
             where
                 a.rut like ? and
-                a.rut not in(select rut_alumno from esta_en)";
+                a.rut not in(select rut_alumno from esta_en where codigo_asignatura=?)";
         $smt=$bd->prepare($sql);
         $smt->bindValue(1, $coincidencia, PDO::PARAM_STR);
+        $smt->bindValue(2, $codigoAsignatura, PDO::PARAM_STR);
         if($smt->execute())
         {
             $datos=array();

@@ -20,6 +20,11 @@
             width: 500px;
             height: 400px;
         }
+        #parrafoNombreAsignatura
+        {
+            margin-top: -15px;
+            margin-bottom: -15px;
+        }
     </style>
     <title>Aplicacion BD</title>
 </head>
@@ -33,13 +38,14 @@
     <div id="divTablaAsignaturas">
     </div>
     <div id="divTablaAsociar">
-
         <div id="divTablaBuscar">
-            Alumnos no Asociados
+        <div id="infoTablaAsociar"></div>
+            Alumnos No Asociados
         <br>
         </div>
        
         <div id="divTablaActualAsociados">
+        <div id="infoTablaNoAsociados"></div>
             Alumnos Asociados
         <br>
         </div>

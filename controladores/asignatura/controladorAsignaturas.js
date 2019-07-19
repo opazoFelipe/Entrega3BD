@@ -1,5 +1,5 @@
 
-window.onload=tablaAlumnos;
+window.onload=iniciar;
 
 var respuestaAjax; //variable global que guarda la respuesta de cualquier llamada ajax,
 //esta variable requiere de una funcion unica que la gestione.
@@ -65,8 +65,12 @@ function crearTabla(columnasThead, idComponentesTabla, idDivTabla)
     divTabla.append(tabla);
 }
 
-function tablaAlumnos()
+function tablaAlumnos(nombreAsignatura)
 {
+    divInfoTabla=document.getElementById("infoTablaAsociar");
+    parrafo=document.createElement("p");
+    parrafo.innerHTML=nombreAsignatura;
+    divInfoTabla.append(parrafo);
     var idComponentesTablaNoAsociados=
     {
         "idTabla":"asociarAlumno", 
@@ -204,7 +208,7 @@ function mostrarAlumnosAsociados()
         {
             var alumnos=jsonAlumnos[i];
             var fila=document.createElement("tr");
-            fila.setAttribute("id", alumnos.rutAlumno);
+            fila.setAttribute("id", alumnos.rut);
             for(var j=0; j<4; j++)
             {
                 var item=Object.keys(alumnos)[j];
@@ -218,8 +222,9 @@ function mostrarAlumnosAsociados()
                 
             var boton=document.createElement("button");
             boton.innerHTML="DesAsociar";
+            boton.setAttribute("id", alumnos.rut);
             boton.className="btnEliminarAlumno";
-            boton.addEventListener("click", desAsociarAlumno);
+            boton.addEventListener("click", botonDesAsociar);
             columnaOpcion.append(boton);
             fila.append(columnaOpcion);
             tbody.append(fila);
@@ -238,7 +243,8 @@ function limpiarTabla(idTbody)
 // |               Funciones de los botones asociar y desasocar Alumnos                             |     |                                                                                                |
 // |------------------------------------------------------------------------------------------------|
 
-var objbotonAsociar; //Variable global, solo usada para funciones asociadas a botones de las tablas.
+var objbotonAsociar; //Variable global, solo usada para funciones asociadas a boton asociar
+var objbotonDesAsociar //Variable global, solo usada para funciones asociadas a boton desAsociar.
 function botonAsociar()
 {
     //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
@@ -282,6 +288,32 @@ function asociarAlumno()
     objbotonAsociar="";
 }
 
+function botonDesAsociar()
+{
+    //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
+    objbotonDesAsociar=this;
+    var urlServidor="../modelo/desAsociarAlumno.php";
+    var rut=this.id;
+    var codigoAsignatura=6;
+    var parametros="rut="+rut+"&codigoAsignatura="+codigoAsignatura;
+    llamadaAjax(urlServidor, parametros, desAsociarAlumno);
+}
+
+function desAsociarAlumno()
+{
+    if(respuestaAjax=="hecho")
+    {
+        var fila=objbotonDesAsociar.parentNode.parentNode;
+        fila.remove();
+    }else alert("Error al desAsociar alumno a asignatura");
+    respuestaAjax="";
+    objbotonAsociar="";
+}
+
+function iniciar()
+{
+    tablaAlumnos("lenguaje 1");
+}
 
 
 
