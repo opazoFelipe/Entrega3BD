@@ -1,5 +1,5 @@
 <?php
-    require ('conexion.php');
+    require ('../conexion.php');
 
     $rut=$_POST["rut"];
     $codigoAsignatura=$_POST["codigoAsignatura"];

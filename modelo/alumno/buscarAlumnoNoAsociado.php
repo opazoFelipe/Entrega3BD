@@ -1,5 +1,5 @@
 <?php
-    require ('conexion.php');
+    require ('../conexion.php');
 
     $coincidencia=$_POST["coincidencia"];
     function buscarAlumno($coincidencia)

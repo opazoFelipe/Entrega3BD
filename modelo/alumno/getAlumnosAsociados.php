@@ -1,5 +1,5 @@
 <?php
-    require ('conexion.php');
+    require ('../conexion.php');
 
     $conexion=new conexion();
     $codigoAsignatura=$_POST["codigoAsignatura"];

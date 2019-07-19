@@ -132,7 +132,7 @@ function buscarAlumnoNoAsociado()
     {
         clave="coincidencia="+clave;
         // Llamada Ajax
-        var urlServidor="../modelo/buscarAlumnoNoAsociado.php";
+        var urlServidor="../modelo/alumno/buscarAlumnoNoAsociado.php";
         var parametros=clave;
         llamadaAjax(urlServidor, parametros, mostrarAlumnosNoAsociados);
     }
@@ -188,7 +188,7 @@ function desAsociarAlumno()
 function llenarTablaAsociados()
 {
     //Llamada Ajax
-    var urlServidor="../modelo/getAlumnosAsociados.php";
+    var urlServidor="../modelo/alumno/getAlumnosAsociados.php";
     var parametros="codigoAsignatura=6";
     llamadaAjax(urlServidor, parametros, mostrarAlumnosAsociados);
 }
@@ -249,7 +249,7 @@ function botonAsociar()
 {
     //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
     objbotonAsociar=this;
-    var urlServidor="../modelo/asociarAlumno.php";
+    var urlServidor="../modelo/alumno/asociarAlumno.php";
     var rut=this.id;
     var codigoAsignatura=6;
     var parametros="rut="+rut+"&codigoAsignatura="+codigoAsignatura;
@@ -292,7 +292,7 @@ function botonDesAsociar()
 {
     //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
     objbotonDesAsociar=this;
-    var urlServidor="../modelo/desAsociarAlumno.php";
+    var urlServidor="../modelo/alumno/desAsociarAlumno.php";
     var rut=this.id;
     var codigoAsignatura=6;
     var parametros="rut="+rut+"&codigoAsignatura="+codigoAsignatura;
