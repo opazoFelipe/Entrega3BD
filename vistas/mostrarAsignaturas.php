@@ -45,8 +45,7 @@
         </div>
        
         <div id="divTablaActualAsociados">
-        <div id="infoTablaNoAsociados"></div>
-            Alumnos Asociados
+        <div id="infoTablaAsociados"></div>
         <br>
         </div>
     </div>

@@ -2,9 +2,9 @@
     require ('../conexion.php');
 
     $coincidencia=$_POST["coincidencia"];
-    function buscarAlumno($coincidencia)
+    $codigoAsignatura=$_POST["codigoAsignatura"];
+    function buscarAlumno($coincidencia, $codigoAsignatura)
     {
-        $codigoAsignatura=6;
         $conexion=new conexion();
         $coincidencia="%".$coincidencia."%";
         $bd=$conexion->get_conexion();
@@ -51,5 +51,5 @@
         }
         $conexion=null;
     }
-    buscarAlumno($coincidencia);
+    buscarAlumno($coincidencia, $codigoAsignatura);
 ?>
