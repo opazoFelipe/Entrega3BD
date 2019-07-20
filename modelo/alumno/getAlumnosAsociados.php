@@ -14,7 +14,9 @@
             esta_en e
         where
             e.rut_alumno=a.rut and
-            e.codigo_asignatura=?";
+            e.codigo_asignatura=?
+        order by
+            a.rut";
     $smt=$bd->prepare($sql);
     $smt->bindValue(1, $codigoAsignatura, PDO::PARAM_STR);
     if($smt->execute())

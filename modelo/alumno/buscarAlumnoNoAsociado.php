@@ -16,7 +16,9 @@
                 alumno a
             where
                 a.rut like ? and
-                a.rut not in(select rut_alumno from esta_en where codigo_asignatura=?)";
+                a.rut not in(select rut_alumno from esta_en where codigo_asignatura=?)
+            order by
+                a.rut";
         $smt=$bd->prepare($sql);
         $smt->bindValue(1, $coincidencia, PDO::PARAM_STR);
         $smt->bindValue(2, $codigoAsignatura, PDO::PARAM_STR);

@@ -25,10 +25,7 @@
 </head>
 <body>
     <div id="divBuscarAsignatura">
-        <form id="buscarAsignatura">
-            <label for="buscarAsignatura">Asignaturas</label>
-            <input type="text" name="buscarAsignatura" placeholder="buscarAsignatura">
-        </form>
+
     </div>
     
     <div id="divTablaAsignaturas">

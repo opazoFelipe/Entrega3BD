@@ -1,44 +1,14 @@
 
 window.onload=mostrarTablaAsignaturas;
-function crearTablaAsignaturas(columnasThead, idComponentesTabla, idDivTabla)
-{
-    // columnasThead: 
-    //        es un array con los nombres de las columnas para el thead.
-    // idComponentesTabla: 
-    //      es un Json con los id para la crearTabla, su thead y su tbody,
-    //      su formato es {"idTabla":"", "idThead": "", "idTbody", ""}
-    // idDivTabla: 
-    //        es el id del div donde se mostrara la tabla de asignaturas.
 
-    var divTabla=document.getElementById("divTablaAsignaturas");
-
-    // Creacion de la tabla
-    var tabla=document.createElement("table");
-    var thead=document.createElement("thead");
-    var tbody=document.createElement("tbody");
-    tabla.setAttribute("id", idComponentesTabla.idTabla);
-    thead.setAttribute("id", idComponentesTabla.idThead);
-    tbody.setAttribute("id", idComponentesTabla.idTbody);
-    var tr=document.createElement("tr");
-    var cantColThead=columnasThead.length;
-
-    for(var i=0; i<cantColThead; i++)
-    {
-        var th=document.createElement("th");
-        th.innerHTML=columnasThead[i];
-        tr.append(th);
-    }
-    thead.append(tr);
-    tabla.append(thead);
-    tabla.append(tbody);
-    divTabla.append(tabla);
-}
 
 var codigoAsignaturaSeleccionada;
 var nombreAsignaturaSeleccionada;
 
+
 function mostrarTablaAsignaturas()
 {
+    tablaNoAsociadosPrincipal=true;
     //Llamada Ajax
     var peticionHTTP;
    
@@ -123,8 +93,9 @@ function mostrarTablaAsignaturas()
     {
         codigoAsignaturaSeleccionada=this.id;
         nombreAsignaturaSeleccionada=this.name;
+        alert(codigoAsignaturaSeleccionada);
         iniciarAlumnos();
-        document.getElementById("Asignaturas").style.display="hidden";
+        // 
     }
     function asignarProfesor()
     {
@@ -137,12 +108,45 @@ function mostrarTablaAsignaturas()
 }
 
 
+function crearTablaAsignaturas(columnasThead, idComponentesTabla, idDivTabla)
+{
+    // columnasThead: 
+    //        es un array con los nombres de las columnas para el thead.
+    // idComponentesTabla: 
+    //      es un Json con los id para la crearTabla, su thead y su tbody,
+    //      su formato es {"idTabla":"", "idThead": "", "idTbody", ""}
+    // idDivTabla: 
+    //        es el id del div donde se mostrara la tabla de asignaturas.
+
+    // Creacion de la tabla
+    var divTabla=document.getElementById("divTablaAsignaturas");
+    var tabla=document.createElement("table");
+    var thead=document.createElement("thead");
+    var tbody=document.createElement("tbody");
+    tabla.setAttribute("id", idComponentesTabla.idTabla);
+    thead.setAttribute("id", idComponentesTabla.idThead);
+    tbody.setAttribute("id", idComponentesTabla.idTbody);
+    var tr=document.createElement("tr");
+    var cantColThead=columnasThead.length;
+
+    for(var i=0; i<cantColThead; i++)
+    {
+        var th=document.createElement("th");
+        th.innerHTML=columnasThead[i];
+        tr.append(th);
+    }
+    thead.append(tr);
+    tabla.append(thead);
+    tabla.append(tbody);
+    divTabla.append(tabla);
+}
 
 var respuestaAjax; //variable global que guarda la respuesta de cualquier llamada ajax,
 //esta variable requiere de una funcion unica que la gestione.
 
 // Esta funcion requiere de la url del servidor, parametros que enviar al servidor y una funcion
 // que gestione la respuesta de la llamada, la cual se almacena en la variable global respuestaAjax
+
 function llamadaAjax(url, parametros, gestionarRespuesta)
 {
     var peticionHTTP;
@@ -167,28 +171,9 @@ function llamadaAjax(url, parametros, gestionarRespuesta)
     }
 }
 
-function crearTablaAsociados()
-{
-    var idComponentesTablaAsociados=
-    {
-        "idTabla":"desAsociarAlumno", 
-        "idThead": "theadDesAsociarAlumno", 
-        "idTbody": "tbodyDesAsociarAlumno"
-    };
-
-    var divTabla=document.getElementById("divTablaActualAsociados");
-    var tabla=document.createElement("table");
-    var thead=document.createElement("thead");
-    var tbody=document.createElement("tbody");
-
-    tabla.setAttribute("id", "desAsociarAlumno");
-    thead.setAttribute("id", "theadDesAsociarAlumno");
-    tbody.setAttribute("id", "tbodyDesAsociarAlumno");
-
-    tabla.append(thead);
-    tabla.append(tbody);
-    divTabla.append(tabla);
-}
+// --------------------------------------------------------------------------------------------------
+// |               Funciones para la tabla de alumnos NO ASOCIADOS                                  |                                                                                                |
+// |------------------------------------------------------------------------------------------------|
 
 function crearTablaNoAsociados()
 {
@@ -205,97 +190,51 @@ function crearTablaNoAsociados()
     tabla.append(tbody);
     divTabla.append(tabla);
 }
+var tablaNoAsociadosPrincipal=true;
 
-var divTituloAsignatura;//Variable Global
-function tablaAlumnos(nombreAsignatura)
-{
-    document.getElementById("divBuscarAsignatura").style.display = 'none';
-    document.getElementById("divTablaAsignaturas").style.display = 'none';
-    divInfoTabla=document.getElementById("infoTablaAsociar");
-    divTituloAsignatura=document.getElementById("tituloAsignatura");
-    var TituloAsignatura=document.createElement("h2");
-    TituloAsignatura.innerHTML=nombreAsignaturaSeleccionada;
-    divTituloAsignatura.append(TituloAsignatura);
-    
-    parrafo=document.createElement("p");
-    parrafo.innerHTML=" Alumnos no asociados a "+nombreAsignatura;
-    parrafo.style.display="inline-block";
-    var botonFinalizar=document.createElement("button");
-    botonFinalizar.innerHTML="Listo";
-    botonFinalizar.style.display="inline-block";
-    botonFinalizar.style.marginLeft="5px";
-    botonFinalizar.addEventListener("click", finalizarAlumnos);
-    divInfoTabla.append(botonFinalizar);
-
-    //Crear los buscadores 
-    var itemsBuscadores=["buscarAlumnoNoAsociado", "buscarAlumnoAsociado"];
-    for(var l=0; l<2; l++)
-    {
-        var buscador=document.createElement("input");
-        buscador.setAttribute("type", "text");
-        buscador.addEventListener("keyup", buscarAlumnoNoAsociado);
-        buscador.setAttribute("id", itemsBuscadores[l]);
-        buscador.setAttribute("name", itemsBuscadores[l]);
-        var label=document.createElement("label");
-        label.setAttribute("for", itemsBuscadores[l]);
-        label.innerHTML="Buscar Alumno:"
-        var div=document.getElementById("divTablaBuscar");
-        var tituloTabla=document.createElement("h4");
-        tituloTabla.style.marginBottom="10px";
-        tituloTabla.style.marginTop="10px";
-        if(l==1)
-        {
-            div=document.getElementById("divTablaActualAsociados");  
-            buscador.addEventListener("keyup", buscarAlumnoAsociado); 
-            tituloTabla.innerHTML="ALUMNOS ASOCIADOS";
-            div.append(tituloTabla);
-            div.append(label);
-            div.append(buscador); 
-            
-            break;
-        }
-        tituloTabla.innerHTML="ALUMNOS NO ASOCIADOS";
-        div.append(tituloTabla);
-        div.append(label);
-        div.append(buscador);  
-    
-    }
-    // crearTabla(columnasTheadAsociado, idComponentesTablaAsociados,"divTablaActualAsociados");
-    //crearTabla(columnasTheadNoAsociado, idComponentesTablaNoAsociados,"divTablaBuscar");
-    tablaAsociadosIniciada=0;
-    crearTablaAsociados();
-    llenarTablaAsociados();
-}
-//Funcion para buscar coincidencias de alumnos al escribir en el buscador,
-//esta hecha para la funcion asociar alumno, para el input buscarAlumnoNoAsociado
 function buscarAlumnoNoAsociado()
 {
     var buscador=document.getElementById("buscarAlumnoNoAsociado");
     var clave=buscador.value;
     if(clave.length > 0)
     {
+        stringAnteriorBuscadorNoAsociados=clave;
         clave="coincidencia="+clave;
         // Llamada Ajax
         var urlServidor="../modelo/alumno/buscarAlumnoNoAsociado.php";
         var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
         llamadaAjax(urlServidor, parametros, mostrarAlumnosNoAsociados);
     }
-    else limpiarTabla("tbodyAsociarAlumno");
+    else
+    {
+        if(tablaNoAsociadosPrincipal==true)
+        {
+            if(document.getElementById("asociarAlumno"))
+            {
+                document.getElementById("asociarAlumno").remove();
+                tablaNoAsociadosPrincipal=false;
+            }  
+        }
+    }
 }
 
-var gTablaNoAsociados=0;
 function mostrarAlumnosNoAsociados()
 {
     if(respuestaAjax=="vacio")
     {
-        respuestaAjax="";
+        if(document.getElementById("asociarAlumno"))
+        {
+            document.getElementById("asociarAlumno").remove();
+        }
     }
     else
     {
+        stringAnteriorBuscadorAsociados=document.getElementById("buscarAlumnoNoAsociado").value;
+        tablaNoAsociadosPrincipal=true;
         var jsonAlumnos=JSON.parse(respuestaAjax);
         var largoAlumnos=jsonAlumnos.length;
 
-        if(gTablaNoAsociados==0)
+        if(!document.getElementById("asociarAlumno"))
         {
             crearTablaNoAsociados();
             var columnasTheadNoAsociado=
@@ -306,8 +245,7 @@ function mostrarAlumnosNoAsociados()
                 "Opcion"
             ]; 
 
-            var tablaNoAsociados=document.getElementById("asociarAlumno");
-            var thead=document.getElementById("theadAsociarAlumno");
+            thead=document.getElementById("theadAsociarAlumno");
             var filaThead=document.createElement("tr");
             for(var k=0; k<4; k++)
             {
@@ -316,9 +254,9 @@ function mostrarAlumnosNoAsociados()
                 filaThead.append(th);
             }
             thead.append(filaThead);
-            gTablaNoAsociados=1;
         }
         
+        document.getElementById("theadAsociarAlumno").display="none";
         var tbody=document.getElementById("tbodyAsociarAlumno");
         tbody.innerHTML="";
         for(var i=0; i<largoAlumnos; i++)
@@ -339,184 +277,17 @@ function mostrarAlumnosNoAsociados()
             var columnaOpcion=document.createElement("td");
             var boton=document.createElement("button");
             boton.setAttribute("id", rut);
-            boton.innerHTML="A";
+            boton.innerHTML="Asociar";
             boton.className="btnAsociarAlumno";
             boton.addEventListener("click", botonAsociar);
             columnaOpcion.append(boton);
             fila.append(columnaOpcion);
+            document.getElementById("theadAsociarAlumno").display="block";
             tbody.append(fila);
         }
-        respuestaAjax="";
     }
 }
 
-var buscadorAsociadosVacio=0;
-function buscarAlumnoAsociado()
-{
-    var buscador=document.getElementById("buscarAlumnoAsociado");
-    var clave=buscador.value;
-    if(clave.length > 0)
-    {
-        clave="coincidencia="+clave;
-        // Llamada Ajax
-        var urlServidor="../modelo/alumno/buscarAlumnoAsociado.php";
-        var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
-        llamadaAjax(urlServidor, parametros, mostrarAlumnosAsociadosCoincidencia);
-    }
-    else 
-    {
-        alert(buscadorAsociadosVacio);
-        if(buscadorAsociadosVacio==0)
-        {
-            llenarTablaAsociados();
-            buscadorAsociadosVacio=1;
-        } 
-    }
-}
-
-function mostrarAlumnosAsociadosCoincidencia()
-{
-    if(respuestaAjax=="vacio")
-    {
-        respuestaAjax="";
-        document.getElementById("desAsociarAlumno").remove();
-        gTablaAsociados=0;
-        buscadorAsociadosVacio=0;
-    }
-    else
-    {
-        gTablaAsociados=0;
-        buscadorAsociadosVacio=0;
-        var jsonAlumnos=JSON.parse(respuestaAjax);
-        var largoAlumnos=jsonAlumnos.length;
-        var tbody=document.getElementById("tbodyDesAsociarAlumno");
-        tbody.innerHTML="";
-        for(var i=0; i<largoAlumnos; i++)
-        {
-            var alumnos=jsonAlumnos[i];
-            var rut=alumnos.rut;
-            var fila=document.createElement("tr");
-            fila.setAttribute("id", rut);
-            for(var j=0; j<4; j++)
-            {
-                var item=Object.keys(alumnos)[j];
-                var valor=alumnos[item];
-                var columna=document.createElement("td");
-                columna.innerHTML=valor;
-                fila.append(columna);
-            }
-            //boton Asociar alumno
-            var columnaOpcion=document.createElement("td");
-            var boton=document.createElement("button");
-            boton.setAttribute("id", rut);
-            boton.innerHTML="desAsociar";
-            boton.className="btnAsociarAlumno";
-            boton.addEventListener("click", botonDesAsociar);
-            columnaOpcion.append(boton);
-            fila.append(columnaOpcion);
-            tbody.append(fila);
-        }
-        respuestaAjax="";
-    }  
-}
-
-var tablaAsociadosIniciada=0;
-var tablaNoAsociadosIniciada=0; //Variable global para cuando se usa el buscador de alumnos asociados
-function llenarTablaAsociados()
-{
-    //Llamada Ajax
-    var urlServidor="../modelo/alumno/getAlumnosAsociados.php";
-    var parametros="codigoAsignatura="+codigoAsignaturaSeleccionada;
-    llamadaAjax(urlServidor, parametros, mostrarAlumnosAsociados);
-}
-
-var gTablaAsociados=0;
-function mostrarAlumnosAsociados()
-{
-    if(respuestaAjax == "vacio")
-    {
-        
-    }
-    else
-    {   
-        var jsonAlumnos=JSON.parse(respuestaAjax);
-        var largoAlumnos=jsonAlumnos.length;
-        var buscador=document.getElementById("buscarAlumnoAsociado");
-
-        if(gTablaAsociados==0)
-        {
-            crearTablaAsociados();
-            var columnasTheadAsociado=
-            [
-                "Rut", 
-                "Nombres", 
-                "Apellidos",
-                "Nota Final", 
-                "Opcion"
-            ];
-
-            var tablaAsociados=document.getElementById("desAsociarAlumno");
-            var thead=document.getElementById("theadDesAsociarAlumno");
-            var filaThead=document.createElement("tr");
-            for(var k=0; k<4; k++)
-            {
-                var th=document.createElement("th");
-                th.innerHTML=columnasTheadAsociado[k];
-                filaThead.append(th);
-            }
-            thead.append(filaThead);
-            tablaAsociados.append(thead);
-            gTablaAsociados=1;
-        }
-        
-        var parrafo=document.createElement("p");
-        parrafo.innerHTML="Cantidad Alumnos Asociados: "+largoAlumnos;
-        parrafo.style.marginTop="0";
-        divTituloAsignatura.append(parrafo);
-
-        var tbody=document.getElementById("tbodyDesAsociarAlumno");
-
-        for(var i=0; i<largoAlumnos; i++)
-        {
-            var alumnos=jsonAlumnos[i];
-            var fila=document.createElement("tr");
-            fila.setAttribute("id", alumnos.rut);
-            for(var j=0; j<4; j++)
-            {
-                var item=Object.keys(alumnos)[j];
-                var valor=alumnos[item];
-                var columna=document.createElement("td");
-                columna.innerHTML=valor;
-                fila.append(columna);
-            }
-            //boton desAsociar alumno
-            var columnaOpcion=document.createElement("td");
-                
-            var boton=document.createElement("button");
-            boton.innerHTML="DesAsociar";
-            boton.setAttribute("id", alumnos.rut);
-            boton.className="btnEliminarAlumno";
-            boton.addEventListener("click", botonDesAsociar);
-            columnaOpcion.append(boton);
-            fila.append(columnaOpcion);
-            tbody.append(fila);
-        }
-        respuestaAjax="";
-    } 
-}
-
-function limpiarTabla(idTbody)
-{
-    // var tbody=document.getElementById(idTbody);
-    // tbody.innerHTML="";
-}
-
-// --------------------------------------------------------------------------------------------------
-// |               Funciones de los botones asociar y desasocar Alumnos                             |     |                                                                                                |
-// |------------------------------------------------------------------------------------------------|
-
-var objbotonAsociar; //Variable global, solo usada para funciones asociadas a boton asociar
-var objbotonDesAsociar //Variable global, solo usada para funciones asociadas a boton desAsociar.
 function botonAsociar()
 {
     //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
@@ -531,9 +302,12 @@ function asociarAlumno()
 {
     if(respuestaAjax=="hecho")
     {
+        cantidadActualAsociados=cantidadActualAsociados+1;
+        document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Alumnos Asociados: "+cantidadActualAsociados;
         var tbodyAsociados=document.getElementById("tbodyDesAsociarAlumno");
         var fila=objbotonAsociar.parentNode.parentNode;
         fila.remove();
+        tablaAsociadosPrincipal=true;
         // var columnas=fila.childNodes;
         // var largoColumnas=columnas.length;
         // var nuevaFila=document.createElement("tr");
@@ -559,6 +333,283 @@ function asociarAlumno()
     objbotonAsociar="";
 }
 
+
+
+
+// --------------------------------------------------------------------------------------------------
+// |               Funciones para la tabla de alumnos ASOCIADOS                                     |                                                                                                |
+// |------------------------------------------------------------------------------------------------|
+
+function crearTablaAsociados()
+{
+    var divTabla=document.getElementById("divTablaActualAsociados");
+    var tabla=document.createElement("table");
+    var thead=document.createElement("thead");
+    var tbody=document.createElement("tbody");
+
+    tabla.setAttribute("id", "desAsociarAlumno");
+    thead.setAttribute("id", "theadDesAsociarAlumno");
+    tbody.setAttribute("id", "tbodyDesAsociarAlumno");
+
+    tabla.append(thead);
+    tabla.append(tbody);
+    divTabla.append(tabla);
+}
+
+var tablaAsociadosPrincipal=true;
+function llenarTablaAsociados()
+{
+    alert(tablaAsociadosPrincipal);
+    //Llamada Ajax
+    if(tablaAsociadosPrincipal==true)
+    {
+        if(document.getElementById("desAsociarAlumno"))
+            document.getElementById("desAsociarAlumno").remove();
+        var urlServidor="../modelo/alumno/getAlumnosAsociados.php";
+        var parametros="codigoAsignatura="+codigoAsignaturaSeleccionada;
+        llamadaAjax(urlServidor, parametros, mostrarAlumnosAsociados);
+        tablaAsociadosPrincipal=false;
+    }   
+}
+
+function mostrarAlumnosAsociados()
+{
+    if(respuestaAjax == "vacio")
+    {
+        if(document.getElementById("desAsociarAlumno"))
+            document.getElementById("desAsociarAlumno").remove();
+        llenarTablaAsociados();
+    }
+    else
+    {   
+        var jsonAlumnos=JSON.parse(respuestaAjax);
+        var largoAlumnos=jsonAlumnos.length;
+        cantidadActualAsociados=largoAlumnos;
+
+        if(!document.getElementById("parrafoCantidadAsociados"))
+        {
+            var parrafo=document.createElement("p");
+            parrafo.setAttribute("id", "parrafoCantidadAsociados");
+            parrafo.innerHTML="Cantidad Alumnos Asociados: "+largoAlumnos;
+            parrafo.style.marginTop="0";
+            divTituloAsignatura.append(parrafo);
+        }
+        
+        if(!document.getElementById("desAsociarAlumno"))
+        {
+            crearTablaAsociados();
+            var columnasTheadAsociado=
+            [
+                "Rut", 
+                "Nombres", 
+                "Apellidos",
+                "Nota Final", 
+                "Opcion"
+            ];
+
+            var thead=document.getElementById("theadDesAsociarAlumno");
+            var filaThead=document.createElement("tr");
+            for(var k=0; k<4; k++)
+            {
+                var th=document.createElement("th");
+                th.innerHTML=columnasTheadAsociado[k];
+                filaThead.append(th);
+            }
+            thead.append(filaThead);
+        }
+        var tbody=document.getElementById("tbodyDesAsociarAlumno");
+
+        for(var i=0; i<largoAlumnos; i++)
+        {
+            var alumnos=jsonAlumnos[i];
+            var fila=document.createElement("tr");
+            fila.setAttribute("id", alumnos.rut);
+            for(var j=0; j<4; j++)
+            {
+                var item=Object.keys(alumnos)[j];
+                var valor=alumnos[item];
+                var columna=document.createElement("td");
+                columna.innerHTML=valor;
+                fila.append(columna);
+            }
+            //boton desAsociar alumno
+            var columnaOpcion=document.createElement("td");
+                
+            var boton=document.createElement("button");
+            boton.innerHTML="Remover";
+            boton.setAttribute("id", alumnos.rut);
+            boton.className="btnEliminarAlumno";
+            boton.addEventListener("click", botonDesAsociar);
+            columnaOpcion.append(boton);
+            fila.append(columnaOpcion);
+            tbody.append(fila);
+        }
+    } 
+}
+
+function buscarAlumnoAsociado()
+{
+    var buscador=document.getElementById("buscarAlumnoAsociado");
+    var clave=buscador.value;
+    if(clave.length > 0)
+    {
+        
+            clave="coincidencia="+clave;
+            // Llamada Ajax
+            var urlServidor="../modelo/alumno/buscarAlumnoAsociado.php";
+            var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
+            ultimoLargoBuscador=buscador.value.length;
+            llamadaAjax(urlServidor, parametros, mostrarAlumnosAsociadosCoincidencia);
+        
+    }
+
+}
+
+function mostrarAlumnosAsociadosCoincidencia()
+{
+    if(respuestaAjax=="vacio")
+    {
+        if(document.getElementById("desAsociarAlumno"))
+            document.getElementById("desAsociarAlumno").remove();
+        document.getElementById("buscarAlumnoAsociado").value="";
+        tablaAsociadosPrincipal=true
+        llenarTablaAsociados();
+    }
+    else
+    {
+        tablaAsociadosPrincipal=true;
+        llenarTablaAsociadosCoincidencia();
+    }  
+}
+
+function llenarTablaAsociadosCoincidencia()
+{
+    if(!document.getElementById("desAsociarAlumno"))
+        {
+            crearTablaAsociados();
+            var columnasTheadAsociado=
+            [
+                "Rut", 
+                "Nombres", 
+                "Apellidos",
+                "Nota Final", 
+                "Opcion"
+            ];
+
+            var thead=document.getElementById("theadDesAsociarAlumno");
+            var filaThead=document.createElement("tr");
+            for(var k=0; k<4; k++)
+            {
+                var th=document.createElement("th");
+                th.innerHTML=columnasTheadAsociado[k];
+                filaThead.append(th);
+            }
+            thead.append(filaThead);
+        }
+       
+        var jsonAlumnos=JSON.parse(respuestaAjax);
+        var largoAlumnos=jsonAlumnos.length;
+        var tbody=document.getElementById("tbodyDesAsociarAlumno");
+        tbody.innerHTML="";
+        for(var i=0; i<largoAlumnos; i++)
+        {
+            var alumnos=jsonAlumnos[i];
+            var rut=alumnos.rut;
+            var fila=document.createElement("tr");
+            fila.setAttribute("id", rut);
+            for(var j=0; j<4; j++)
+            {
+                var item=Object.keys(alumnos)[j];
+                var valor=alumnos[item];
+                var columna=document.createElement("td");
+                columna.innerHTML=valor;
+                fila.append(columna);
+            }
+            //boton Asociar alumno
+            var columnaOpcion=document.createElement("td");
+            var boton=document.createElement("button");
+            boton.setAttribute("id", rut);
+            boton.innerHTML="Remover";
+            boton.className="btnAsociarAlumno";
+            boton.addEventListener("click", botonDesAsociar);
+            columnaOpcion.append(boton);
+            fila.append(columnaOpcion);
+            tbody.append(fila);
+        }
+        respuestaAjax="";
+}
+
+var divTituloAsignatura;//Variable Global
+function tablaAlumnos()
+{
+    divTituloAsignatura=document.getElementById("tituloAsignatura");
+    var TituloAsignatura=document.createElement("h3");
+    TituloAsignatura.innerHTML="Asignatura Seleccionada: "+nombreAsignaturaSeleccionada;
+    divTituloAsignatura.append(TituloAsignatura);
+    TituloAsignatura.style.display="inline-block";
+    var botonFinalizar=document.createElement("button");
+    botonFinalizar.innerHTML="Listo";
+    botonFinalizar.style.display="inline-block";
+    botonFinalizar.style.marginLeft="5px";
+    botonFinalizar.addEventListener("click", finalizarAlumnos);
+    divTituloAsignatura.append(botonFinalizar);
+
+    //Crear los buscadores 
+    var itemsBuscadores=["buscarAlumnoNoAsociado", "buscarAlumnoAsociado"];
+    for(var l=0; l<2; l++)
+    {
+        var buscador=document.createElement("input");
+        buscador.setAttribute("type", "text");
+        buscador.addEventListener("keyup", buscarAlumnoNoAsociado);
+        buscador.setAttribute("id", itemsBuscadores[l]);
+        buscador.setAttribute("name", itemsBuscadores[l]);
+        var label=document.createElement("label");
+        label.setAttribute("for", itemsBuscadores[l]);
+        label.innerHTML="Buscar Alumno:"
+        var div=document.getElementById("divTablaBuscar");
+        var tituloTabla=document.createElement("h4");
+        tituloTabla.style.marginBottom="10px";
+        tituloTabla.style.marginTop="10px";
+        if(l==1)
+        {
+            var boton=document.createElement("button");
+            boton.innerHTML="ver todos";
+            boton.addEventListener("click", llenarTablaAsociados);
+            boton.style.display="inline-block";
+            div=document.getElementById("divTablaActualAsociados");  
+            buscador.addEventListener("keyup", buscarAlumnoAsociado); 
+            tituloTabla.innerHTML="ALUMNOS ASOCIADOS";
+            div.append(tituloTabla);
+            div.append(label);
+            div.append(buscador); 
+            div.append(boton);
+            break;
+        }
+        tituloTabla.innerHTML="ALUMNOS NO ASOCIADOS";
+        div.append(tituloTabla);
+        div.append(label);
+        div.append(buscador);  
+    
+    }
+    // crearTabla(columnasTheadAsociado, idComponentesTablaAsociados,"divTablaActualAsociados");
+    //crearTabla(columnasTheadNoAsociado, idComponentesTablaNoAsociados,"divTablaBuscar");
+    crearTablaAsociados();
+    llenarTablaAsociados();
+}
+//Funcion para buscar coincidencias de alumnos al escribir en el buscador,
+//esta hecha para la funcion asociar alumno, para el input buscarAlumnoNoAsociado
+
+
+// --------------------------------------------------------------------------------------------------
+// |               Funciones de los botones asociar y desasocar Alumnos                             |     |                                                                                                |
+// |------------------------------------------------------------------------------------------------|
+
+var objbotonAsociar; //Variable global, solo usada para funciones asociadas a boton asociar
+var objbotonDesAsociar //Variable global, solo usada para funciones asociadas a boton desAsociar.
+var cantidadActualAsociados;
+
+
+
 function botonDesAsociar()
 {
     //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
@@ -575,6 +626,8 @@ function desAsociarAlumno()
     {
         var fila=objbotonDesAsociar.parentNode.parentNode;
         fila.remove();
+        cantidadActualAsociados=cantidadActualAsociados-1;
+        document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Alumnos Asociados: "+cantidadActualAsociados;
     }else 
     {
        alert("Error al desAsociar Alumno");     
@@ -585,8 +638,6 @@ function desAsociarAlumno()
 
 function finalizarAlumnos()
 {
-    document.getElementById("divBuscarAsignatura").style.display="block";
-    document.getElementById("divTablaAsignaturas").style.display="block";
     document.getElementById("infoTablaAsociar").innerHTML="";
     document.getElementById("divTablaBuscar").innerHTML="";
     document.getElementById("divTablaActualAsociados").innerHTML="";
@@ -595,11 +646,13 @@ function finalizarAlumnos()
     codigoAsignaturaSeleccionada="";
     nombreAsignaturaSeleccionada="";
     gTablaNoAsociados=0;
-    mostrarTablaAsignaturas;
+    tablaAsociadosPrincipal=true;
+    mostrarTablaAsignaturas();
 }
 function iniciarAlumnos()
 {
     tablaAlumnos(nombreAsignaturaSeleccionada);
+    document.getElementById("Asignaturas").remove();
 }
 
 
