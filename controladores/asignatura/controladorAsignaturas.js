@@ -215,15 +215,11 @@ function buscarAlumnoNoAsociado()
     }
     else
     {
-        if(tablaNoAsociadosPrincipal==true)
+        if(document.getElementById("asociarAlumno"))
         {
-            if(document.getElementById("asociarAlumno"))
-            {
-                document.getElementById("asociarAlumno").remove();
-                tablaNoAsociadosPrincipal=false;
-            }  
+            document.getElementById("asociarAlumno").remove();
+            tablaNoAsociadosPrincipal=false;            }  
         }
-    }
 }
 
 function mostrarAlumnosNoAsociados()
@@ -312,35 +308,32 @@ function asociarAlumno()
     {
         cantidadActualAsociados=cantidadActualAsociados+1;
         document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Alumnos Asociados: "+cantidadActualAsociados;
-        var tbodyAsociados=document.getElementById("tbodyDesAsociarAlumno");
         var fila=objbotonAsociar.parentNode.parentNode;
         fila.remove();
         tablaAsociadosPrincipal=true;
-        // var columnas=fila.childNodes;
-        // var largoColumnas=columnas.length;
-        // var nuevaFila=document.createElement("tr");
-        // for(var i=0; i<largoColumnas-1; i++)
-        // {
-        //     var columna=document.createElement("td");
-        //     columna.innerHTML=columnas[i].innerHTML;
-        //     nuevaFila.append(columna);
-        // }
-        // var columnaNotaFinal=document.createElement("td");
-        // columnaNotaFinal.innerHTML="Por Asignar";
-        // nuevaFila.append(columnaNotaFinal);
-        // var columnaOpcion=document.createElement("td");
-        // var boton=document.createElement("button");
-        // boton.setAttribute("id", objbotonAsociar.id);
-        // boton.innerHTML="desAsociar";
-        // boton.addEventListener("click", botonDesAsociar);
-        // columnaOpcion.append(boton);
-        // nuevaFila.append(columnaOpcion);
-        // tbodyAsociados.append(nuevaFila);
+        if(document.getElementById("tbodyAsociarAlumno"))
+        {
+            if(document.getElementById("tbodyAsociarAlumno").childNodes.length==0)
+            {
+                document.getElementById("asociarAlumno").remove();
+            }
+        }
     }else alert("Error al asociar alumno a asignatura");
     respuestaAjax="";
     objbotonAsociar="";
 }
 
+function limpiarNoAsociados()
+{
+    if(document.getElementById("asociarAlumno"))
+    {
+        document.getElementById("asociarAlumno").remove();
+    }
+    if(document.getElementById("buscarAlumnoNoAsociado"))
+    {
+        document.getElementById("buscarAlumnoNoAsociado").value="";
+    }
+}
 
 // --------------------------------------------------------------------------------------------------
 // |               Funciones para la tabla de alumnos ASOCIADOS                                     |                                                                                                |
@@ -562,6 +555,13 @@ function desAsociarAlumno()
         fila.remove();
         cantidadActualAsociados=cantidadActualAsociados-1;
         document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Alumnos Asociados: "+cantidadActualAsociados;
+        if(document.getElementById("tbodyDesAsociarAlumno"))
+        {
+            if(document.getElementById("tbodyDesAsociarAlumno").childNodes.length==0)
+            {
+                document.getElementById("desAsociarAlumno").remove();
+            }
+        }
     }else 
     {
        alert("Error al desAsociar Alumno");     
@@ -569,7 +569,6 @@ function desAsociarAlumno()
     respuestaAjax="";
     objbotonAsociar="";
 }
-
 
 
 // --------------------------------------------------------------------------------------------------
@@ -607,6 +606,7 @@ function tablaAlumnos()
         var tituloTabla=document.createElement("h4");
         tituloTabla.style.marginBottom="10px";
         tituloTabla.style.marginTop="10px";
+        var botonLimpiar;
         if(l==1)
         {
             var boton=document.createElement("button");
@@ -622,10 +622,18 @@ function tablaAlumnos()
             div.append(boton);
             break;
         }
+        if(l==0)
+        {
+            botonLimpiar=document.createElement("button");
+            botonLimpiar.innerHTML="Limpiar";
+            botonLimpiar.addEventListener("click", limpiarNoAsociados);
+            botonLimpiar.style.display="inline-block";
+        }
         tituloTabla.innerHTML="ALUMNOS NO ASOCIADOS";
         div.append(tituloTabla);
         div.append(label);
-        div.append(buscador);  
+        div.append(buscador);
+        div.append(botonLimpiar);  
     
     }
     // crearTabla(columnasTheadAsociado, idComponentesTablaAsociados,"divTablaActualAsociados");
@@ -892,6 +900,13 @@ function desAsociarCurso()
         fila.remove();
         cantidadActualAsociados=cantidadActualAsociados-1;
         document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Cursos Asociados: "+cantidadActualAsociados;
+        if(document.getElementById("tbodyDesAsociarCurso"))
+        {
+            if(document.getElementById("tbodyDesAsociarCurso").childNodes.length==0)
+            {
+                document.getElementById("desAsociarCurso").remove();
+            }
+        }
     }else 
     {
        alert("Error al desAsociar Curso");     
@@ -932,11 +947,6 @@ function buscarCursoNoAsociado()
         // Llamada Ajax
         var urlServidor="../modelo/curso/buscarCursoNoAsociado.php";
         var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
-        if(document.getElementById("asociarCurso"))
-        {
-            document.getElementById("asociarCurso").remove();
-           
-        }
         llamadaAjax(urlServidor, parametros, mostrarCursosNoAsociados);
     }
     else
@@ -956,7 +966,13 @@ function mostrarCursosNoAsociados()
     }
     else
     {
+        if(document.getElementById("asociarCurso"))
+        {
+            document.getElementById("asociarCurso").remove();
+           
+        }
         stringAnteriorBuscadorAsociados=document.getElementById("buscarCursoNoAsociado").value;
+
         var jsonCursos=JSON.parse(respuestaAjax);
         var largoCursos=jsonCursos.length;
 
@@ -970,8 +986,6 @@ function mostrarCursosNoAsociados()
                 "Año"
             ]; 
 
-            if(!document.getElementById("theadAsociarCurso")) alert("oa");
-
             thead=document.getElementById("theadAsociarCurso");
             var filaThead=document.createElement("tr");
             for(var k=0; k<3; k++)
@@ -983,9 +997,8 @@ function mostrarCursosNoAsociados()
             thead.append(filaThead);
         }
         
-        document.getElementById("theadAsociarCurso").display="none";
         var tbody=document.getElementById("tbodyAsociarCurso");
-        tbody.innerHTML="";
+        
         for(var i=0; i<largoCursos; i++)
         {
             var cursos=jsonCursos[i];
@@ -1009,7 +1022,6 @@ function mostrarCursosNoAsociados()
             boton.addEventListener("click", botonAsociarCurso);
             columnaOpcion.append(boton);
             fila.append(columnaOpcion);
-            document.getElementById("theadAsociarCurso").display="block";
             tbody.append(fila);
         }
     }
@@ -1031,12 +1043,18 @@ function asociarCurso()
     {
         cantidadActualAsociados=cantidadActualAsociados+1;
         document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Cursos Asociados: "+cantidadActualAsociados;
-        var fila=objbotonAsociarCurso.parentNode.parentNode;
+        var fila=objbotonAsociar.parentNode.parentNode;
         fila.remove();
-        tablaAsociadosPrincipal=true;
+        if(document.getElementById("tbodyAsociarCurso"))
+        {
+            if(document.getElementById("tbodyAsociarCurso").childNodes.length==0)
+            {
+                document.getElementById("AsociarCurso").remove();
+            }
+        }
     }else alert("Error al asociar curso a asignatura");
     respuestaAjax="";
-    objbotonAsociarCurso="";
+    objbotonAsociar="";
 }
 
 
