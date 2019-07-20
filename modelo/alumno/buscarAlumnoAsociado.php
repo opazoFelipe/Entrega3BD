@@ -11,12 +11,13 @@
         $sql="select 
                 a.rut, 
                 a.nombres, 
-                a.apellidos
+                a.apellidos,
+                e.nota_final
             from 
-                alumno a
+                alumno a, 
+                esta_en e
             where
-                a.rut like ? and
-                a.rut not in(select rut_alumno from esta_en where codigo_asignatura=?)";
+                a.rut like ? and e.codigo_asignatura=? and a.rut=e.rut_alumno";
         $smt=$bd->prepare($sql);
         $smt->bindValue(1, $coincidencia, PDO::PARAM_STR);
         $smt->bindValue(2, $codigoAsignatura, PDO::PARAM_STR);
@@ -29,11 +30,13 @@
                 $rut=$result["rut"];
                 $nombres=$result["nombres"];
                 $apellidos=$result["apellidos"];
+                $notaFinal=$result["nota_final"];
                 $datos[$i]=
                 [
                     "rut"=>$rut, 
                     "nombres"=>$nombres,
-                    "apellidos"=>$apellidos
+                    "apellidos"=>$apellidos,
+                    "notaFinal"=>$notaFinal
                 ];	
                 $i++;		
             }
