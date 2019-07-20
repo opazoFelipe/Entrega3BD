@@ -93,7 +93,6 @@ function mostrarTablaAsignaturas()
     {
         codigoAsignaturaSeleccionada=this.id;
         nombreAsignaturaSeleccionada=this.name;
-        alert(codigoAsignaturaSeleccionada);
         iniciarAlumnos();
         // 
     }
