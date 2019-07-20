@@ -5,6 +5,9 @@ window.onload=mostrarTablaAsignaturas;
 var codigoAsignaturaSeleccionada;
 var nombreAsignaturaSeleccionada;
 
+var objbotonAsociar; //Variable global, solo usada para funciones asociadas a boton asociar
+var objbotonDesAsociar //Variable global, solo usada para funciones asociadas a boton desAsociar.
+var cantidadActualAsociados;
 
 function mostrarTablaAsignaturas()
 {
@@ -32,7 +35,7 @@ function mostrarTablaAsignaturas()
             var largoAsignaturas=jsonAsignaturas.length;
 
             var idComponentesTabla={"idTabla":"Asignaturas", "idThead": "theadAsignaturas", "idTbody": "tbodyAsignaturas"};
-            var columnasThead=["Codigo", "Nombre", "Rut Profesor", "Curso Asociado", "Sala", "Bloque Asignado", "Opciones", "Asociar"];
+            var columnasThead=["Codigo", "Nombre", "Rut Profesor", "Sala", "Opciones", "Asociar"];
             
             crearTablaAsignaturas(columnasThead, idComponentesTabla,"divTablaAsignaturas");
             
@@ -43,7 +46,7 @@ function mostrarTablaAsignaturas()
                 var asignaturas=jsonAsignaturas[i];
                 var fila=document.createElement("tr");
                 fila.setAttribute("id", asignaturas.codigo);
-                for(var j=0; j<6; j++)
+                for(var j=0; j<4; j++)
                 {
                     var item=Object.keys(asignaturas)[j];
                     var valor=asignaturas[item];
@@ -54,11 +57,11 @@ function mostrarTablaAsignaturas()
                 
                 //botones opciones(modificar y eliminar) y
                 //botones asignar(alumnos, profesor y cursos)
-                var botones=["Modificar", "Eliminar", "Alumno", "Profesor", "Curso"];
-                var funciones=[modificarAsignatura, eliminarAsignatura, asignarAlumno, asignarProfesor, asignarCurso];
+                var botones=["MODIFICAR", "ELIMINAR", "ALUMNO", "PROFESOR", "CURSO", "BLOQUE"];
+                var funciones=[modificarAsignatura, eliminarAsignatura, asignarAlumno, asignarProfesor, asignarCurso, asignarBloque];
                 var columnaOpciones=document.createElement("td");
                 var columnaAsignar=document.createElement("td");
-                for(var k=0; k<5; k++)
+                for(var k=0; k<6; k++)
                 {
                     var boton=document.createElement("button");
                     boton.innerHTML=botones[k];
@@ -102,7 +105,13 @@ function mostrarTablaAsignaturas()
     }
     function asignarCurso()
     {
-        alert("Esta es la funcion eliminar asignarCurso");
+        codigoAsignaturaSeleccionada=this.id;
+        nombreAsignaturaSeleccionada=this.name;
+        iniciarCursos();
+    }
+    function asignarBloque()
+    {
+
     }
 }
 
@@ -333,8 +342,6 @@ function asociarAlumno()
 }
 
 
-
-
 // --------------------------------------------------------------------------------------------------
 // |               Funciones para la tabla de alumnos ASOCIADOS                                     |                                                                                                |
 // |------------------------------------------------------------------------------------------------|
@@ -358,7 +365,6 @@ function crearTablaAsociados()
 var tablaAsociadosPrincipal=true;
 function llenarTablaAsociados()
 {
-    alert(tablaAsociadosPrincipal);
     //Llamada Ajax
     if(tablaAsociadosPrincipal==true)
     {
@@ -538,6 +544,38 @@ function llenarTablaAsociadosCoincidencia()
         respuestaAjax="";
 }
 
+function botonDesAsociar()
+{
+    //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
+    objbotonDesAsociar=this;
+    var urlServidor="../modelo/alumno/desAsociarAlumno.php";
+    var rut=this.id;
+    var parametros="rut="+rut+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
+    llamadaAjax(urlServidor, parametros, desAsociarAlumno);
+}
+
+function desAsociarAlumno()
+{
+    if(respuestaAjax=="hecho")
+    {
+        var fila=objbotonDesAsociar.parentNode.parentNode;
+        fila.remove();
+        cantidadActualAsociados=cantidadActualAsociados-1;
+        document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Alumnos Asociados: "+cantidadActualAsociados;
+    }else 
+    {
+       alert("Error al desAsociar Alumno");     
+    }    
+    respuestaAjax="";
+    objbotonAsociar="";
+}
+
+
+
+// --------------------------------------------------------------------------------------------------
+// |               Funciones par iniciar y finalizar la asociacion o desasociacion de Alumnos       |                                                                                                |
+// |------------------------------------------------------------------------------------------------|
+
 var divTituloAsignatura;//Variable Global
 function tablaAlumnos()
 {
@@ -595,44 +633,11 @@ function tablaAlumnos()
     crearTablaAsociados();
     llenarTablaAsociados();
 }
-//Funcion para buscar coincidencias de alumnos al escribir en el buscador,
-//esta hecha para la funcion asociar alumno, para el input buscarAlumnoNoAsociado
 
-
-// --------------------------------------------------------------------------------------------------
-// |               Funciones de los botones asociar y desasocar Alumnos                             |     |                                                                                                |
-// |------------------------------------------------------------------------------------------------|
-
-var objbotonAsociar; //Variable global, solo usada para funciones asociadas a boton asociar
-var objbotonDesAsociar //Variable global, solo usada para funciones asociadas a boton desAsociar.
-var cantidadActualAsociados;
-
-
-
-function botonDesAsociar()
+function iniciarAlumnos()
 {
-    //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
-    objbotonDesAsociar=this;
-    var urlServidor="../modelo/alumno/desAsociarAlumno.php";
-    var rut=this.id;
-    var parametros="rut="+rut+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
-    llamadaAjax(urlServidor, parametros, desAsociarAlumno);
-}
-
-function desAsociarAlumno()
-{
-    if(respuestaAjax=="hecho")
-    {
-        var fila=objbotonDesAsociar.parentNode.parentNode;
-        fila.remove();
-        cantidadActualAsociados=cantidadActualAsociados-1;
-        document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Alumnos Asociados: "+cantidadActualAsociados;
-    }else 
-    {
-       alert("Error al desAsociar Alumno");     
-    }    
-    respuestaAjax="";
-    objbotonAsociar="";
+    tablaAlumnos(nombreAsignaturaSeleccionada);
+    document.getElementById("Asignaturas").remove();
 }
 
 function finalizarAlumnos()
@@ -648,13 +653,391 @@ function finalizarAlumnos()
     tablaAsociadosPrincipal=true;
     mostrarTablaAsignaturas();
 }
-function iniciarAlumnos()
+
+// --------------------------------------------------------------------------------------------------
+// |               Funciones par iniciar y finalizar la asociacion o desasociacion de Cursos        |                                                                                                |
+// |------------------------------------------------------------------------------------------------|
+
+function tablaCursos()
 {
-    tablaAlumnos(nombreAsignaturaSeleccionada);
+    divTituloAsignatura=document.getElementById("tituloAsignatura");
+    var TituloAsignatura=document.createElement("h3");
+    TituloAsignatura.innerHTML="Asignatura Seleccionada: "+nombreAsignaturaSeleccionada;
+    divTituloAsignatura.append(TituloAsignatura);
+    TituloAsignatura.style.display="inline-block";
+    var botonFinalizar=document.createElement("button");
+    botonFinalizar.innerHTML="Listo";
+    botonFinalizar.style.display="inline-block";
+    botonFinalizar.style.marginLeft="5px";
+    botonFinalizar.addEventListener("click", finalizarCursos);
+    divTituloAsignatura.append(botonFinalizar);
+
+    //Crear los buscadores 
+    var itemsBuscadores=["buscarCursoNoAsociado", "buscarCursoAsociado"];
+    for(var l=0; l<2; l++)
+    {
+        var buscador=document.createElement("input");
+        buscador.setAttribute("type", "text");
+        buscador.addEventListener("keyup", buscarCursoNoAsociado);
+        buscador.setAttribute("id", itemsBuscadores[l]);
+        buscador.setAttribute("name", itemsBuscadores[l]);
+        var label=document.createElement("label");
+        label.setAttribute("for", itemsBuscadores[l]);
+        label.innerHTML="Buscar Curso:"
+        var div=document.getElementById("divTablaBuscar");
+        var tituloTabla=document.createElement("h4");
+        tituloTabla.style.marginBottom="10px";
+        tituloTabla.style.marginTop="10px";
+        if(l==1)
+        {
+            var boton=document.createElement("button");
+            boton.innerHTML="ver todos";
+            boton.addEventListener("click", llenarTablaCursosAsociados);
+            boton.style.display="inline-block";
+            div=document.getElementById("divTablaActualAsociados");  
+            buscador.addEventListener("keyup", buscarCursoAsociado); 
+            tituloTabla.innerHTML="CURSOS ASOCIADOS";
+            div.append(tituloTabla);
+            div.append(label);
+            div.append(buscador); 
+            div.append(boton);
+            break;
+        }
+        tituloTabla.innerHTML="CURSOS NO ASOCIADOS";
+        div.append(tituloTabla);
+        div.append(label);
+        div.append(buscador);  
+    
+    }
+
+    llenarTablaCursosAsociados();
+}
+
+function iniciarCursos()
+{
+    tablaCursos(nombreAsignaturaSeleccionada);
     document.getElementById("Asignaturas").remove();
 }
 
+function finalizarCursos()
+{
+    document.getElementById("infoTablaAsociar").innerHTML="";
+    document.getElementById("divTablaBuscar").innerHTML="";
+    document.getElementById("divTablaActualAsociados").innerHTML="";
+    document.getElementById("infoTablaAsociados").innerHTML="";
+    document.getElementById("tituloAsignatura").innerHTML="";
+    codigoAsignaturaSeleccionada="";
+    nombreAsignaturaSeleccionada="";
+    mostrarTablaAsignaturas();
+}
 
+// --------------------------------------------------------------------------------------------------
+// |               Funciones para la tabla de Cursos ASOCIADOS                                     |                                                                                                |
+// |------------------------------------------------------------------------------------------------|
+
+function crearTablaCursosAsociados()
+{
+    var divTabla=document.getElementById("divTablaActualAsociados");
+    var tabla=document.createElement("table");
+    var thead=document.createElement("thead");
+    var tbody=document.createElement("tbody");
+
+    tabla.setAttribute("id", "desAsociarCurso");
+    thead.setAttribute("id", "theadDesAsociarCurso");
+    tbody.setAttribute("id", "tbodyDesAsociarCurso");
+
+    tabla.append(thead);
+    tabla.append(tbody);
+    divTabla.append(tabla);
+
+}
+
+function llenarTablaCursosAsociados()
+{
+    //Llamada Ajax  
+    if(document.getElementById("desAsociarCurso"))
+        document.getElementById("desAsociarCurso").remove();
+    var urlServidor="../modelo/curso/getCursosAsociados.php";
+    var parametros="codigoAsignatura="+codigoAsignaturaSeleccionada;
+    llamadaAjax(urlServidor, parametros, mostrarCursosAsociados);
+}
+
+function mostrarCursosAsociados()
+{
+    if(respuestaAjax == "vacio")
+    {
+        if(document.getElementById("desAsociarCurso"))
+            document.getElementById("desAsociarCurso").remove();
+        llenarTablaCursosAsociados();
+    }
+    else
+    {   if(document.getElementById("desAsociarCurso"))
+        {
+            document.getElementById("desAsociarCurso").remove();
+        }
+        var jsonCursos=JSON.parse(respuestaAjax);
+        var largoCursos=jsonCursos.length;
+        cantidadActualAsociados=largoCursos;
+
+        if(!document.getElementById("parrafoCantidadAsociados"))
+        {
+            var parrafo=document.createElement("p");
+            parrafo.setAttribute("id", "parrafoCantidadAsociados");
+            parrafo.innerHTML="Cantidad Cursos Asociados: "+largoCursos;
+            parrafo.style.marginTop="0";
+            divTituloAsignatura.append(parrafo);
+        }
+        
+        //si no existe la tabla de alumnos asociados entonces se crea
+        if(!document.getElementById("desAsociarCurso"))
+        {
+            crearTablaCursosAsociados();
+            var columnasTheadAsociado=
+            [
+                "Codigo", 
+                "Rut Profesor Jefe", 
+                "Año"
+            ];
+            var thead=document.getElementById("theadDesAsociarCurso");
+            var filaThead=document.createElement("tr");
+            for(var k=0; k<3; k++)
+            {
+                var th=document.createElement("th");
+                th.innerHTML=columnasTheadAsociado[k];
+                filaThead.append(th);
+            }
+            thead.append(filaThead);
+        }
+
+        var tbody=document.getElementById("tbodyDesAsociarCurso");
+
+        for(var i=0; i<largoCursos; i++)
+        {
+            var cursos=jsonCursos[i];
+            var codigoCurso=cursos.codigo;
+            var fila=document.createElement("tr");
+            fila.setAttribute("id", codigoCurso);
+            for(var j=0; j<3; j++)
+            {
+                var item=Object.keys(cursos)[j];
+                var valor=cursos[item];
+                var columna=document.createElement("td");
+                columna.innerHTML=valor;
+                fila.append(columna);
+            }
+            //boton desAsociar Curso
+            var columnaOpcion=document.createElement("td");
+            var boton=document.createElement("button");
+            boton.innerHTML="Remover";
+            boton.setAttribute("id", codigoCurso);
+            boton.className="btnEliminarCurso";
+            boton.addEventListener("click", botonDesAsociarCurso);
+            columnaOpcion.append(boton);
+            fila.append(columnaOpcion);
+            tbody.append(fila);
+        }
+    } 
+}
+
+function buscarCursoAsociado()
+{
+    var buscador=document.getElementById("buscarCursoAsociado");
+    var clave=buscador.value;
+    if(clave.length > 0)
+    {
+        clave="coincidencia="+clave;
+        // Llamada Ajax
+        var urlServidor="../modelo/curso/buscarCursoAsociado.php";
+        var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
+        ultimoLargoBuscador=buscador.value.length;
+        llamadaAjax(urlServidor, parametros, mostrarCursosAsociadosCoincidencia);
+    }
+    else
+    {
+        if(!document.getElementById("desAsociarCurso"))
+        {
+            llenarTablaCursosAsociados();
+        }
+    }
+}
+
+function mostrarCursosAsociadosCoincidencia()
+{
+    if(respuestaAjax=="vacio")
+    {
+        if(document.getElementById("desAsociarCurso"))
+            document.getElementById("desAsociarCurso").remove();
+    }
+    else
+    {
+        mostrarCursosAsociados();
+    }  
+}
+
+function botonDesAsociarCurso()
+{
+    //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
+    objbotonDesAsociar=this;
+    var urlServidor="../modelo/curso/desAsociarCurso.php";
+    var codigoCurso=this.id;
+    var parametros="codigoCurso="+codigoCurso+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
+    llamadaAjax(urlServidor, parametros, desAsociarCurso);
+}
+
+function desAsociarCurso()
+{
+    if(respuestaAjax=="hecho")
+    {
+        var fila=objbotonDesAsociar.parentNode.parentNode;
+        fila.remove();
+        cantidadActualAsociados=cantidadActualAsociados-1;
+        document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Cursos Asociados: "+cantidadActualAsociados;
+    }else 
+    {
+       alert("Error al desAsociar Curso");     
+    }    
+    respuestaAjax="";
+    objbotonDesAsociar="";
+}
+
+
+// --------------------------------------------------------------------------------------------------
+// |               Funciones para la tabla de Cursos NO ASOCIADOS                                   |                                                                                                |
+// |------------------------------------------------------------------------------------------------|
+
+function crearTablaCursosNoAsociados()
+{
+    var divTabla=document.getElementById("divTablaBuscar");
+    var tabla=document.createElement("table");
+    var thead=document.createElement("thead");
+    var tbody=document.createElement("tbody");
+
+    tabla.setAttribute("id", "asociarCurso");
+    thead.setAttribute("id", "theadAsociarCurso");
+    tbody.setAttribute("id", "tbodyAsociarCurso");
+
+    tabla.append(thead);
+    tabla.append(tbody);
+    divTabla.append(tabla);
+}
+
+function buscarCursoNoAsociado()
+{
+    var buscador=document.getElementById("buscarCursoNoAsociado");
+    var clave=buscador.value;
+    if(clave.length > 0)
+    {
+        stringAnteriorBuscadorNoAsociados=clave;
+        clave="coincidencia="+clave;
+        // Llamada Ajax
+        var urlServidor="../modelo/curso/buscarCursoNoAsociado.php";
+        var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
+        if(document.getElementById("asociarCurso"))
+        {
+            document.getElementById("asociarCurso").remove();
+           
+        }
+        llamadaAjax(urlServidor, parametros, mostrarCursosNoAsociados);
+    }
+    else
+    {
+
+    }
+}
+
+function mostrarCursosNoAsociados()
+{
+    if(respuestaAjax=="vacio")
+    {
+        if(document.getElementById("asociarCurso"))
+        {
+            document.getElementById("asociarCurso").remove();
+        }
+    }
+    else
+    {
+        stringAnteriorBuscadorAsociados=document.getElementById("buscarCursoNoAsociado").value;
+        var jsonCursos=JSON.parse(respuestaAjax);
+        var largoCursos=jsonCursos.length;
+
+        if(!document.getElementById("asociarAlumno"))
+        {
+            crearTablaCursosNoAsociados();
+            var columnasTheadNoAsociado=
+            [
+                "Codigo", 
+                "Rut Profesor Jefe", 
+                "Año"
+            ]; 
+
+            if(!document.getElementById("theadAsociarCurso")) alert("oa");
+
+            thead=document.getElementById("theadAsociarCurso");
+            var filaThead=document.createElement("tr");
+            for(var k=0; k<3; k++)
+            {
+                var th=document.createElement("th");
+                th.innerHTML=columnasTheadNoAsociado[k];
+                filaThead.append(th);
+            }
+            thead.append(filaThead);
+        }
+        
+        document.getElementById("theadAsociarCurso").display="none";
+        var tbody=document.getElementById("tbodyAsociarCurso");
+        tbody.innerHTML="";
+        for(var i=0; i<largoCursos; i++)
+        {
+            var cursos=jsonCursos[i];
+            var codigo=cursos.codigo;
+            var fila=document.createElement("tr");
+            fila.setAttribute("id", codigo);
+            for(var j=0; j<3; j++)
+            {
+                var item=Object.keys(cursos)[j];
+                var valor=cursos[item];
+                var columna=document.createElement("td");
+                columna.innerHTML=valor;
+                fila.append(columna);
+            }
+            //boton Asociar alumno
+            var columnaOpcion=document.createElement("td");
+            var boton=document.createElement("button");
+            boton.setAttribute("id", codigo);
+            boton.innerHTML="Asociar";
+            boton.className="btnAsociarCurso";
+            boton.addEventListener("click", botonAsociarCurso);
+            columnaOpcion.append(boton);
+            fila.append(columnaOpcion);
+            document.getElementById("theadAsociarCurso").display="block";
+            tbody.append(fila);
+        }
+    }
+}
+
+function botonAsociarCurso()
+{
+    //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
+    objbotonAsociar=this;
+    var urlServidor="../modelo/curso/asociarCurso.php";
+    var codigoCurso=this.id;
+    var parametros="codigoCurso="+codigoCurso+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
+    llamadaAjax(urlServidor, parametros, asociarCurso);
+}
+
+function asociarCurso()
+{
+    if(respuestaAjax=="hecho")
+    {
+        cantidadActualAsociados=cantidadActualAsociados+1;
+        document.getElementById("parrafoCantidadAsociados").innerHTML="Cantidad Cursos Asociados: "+cantidadActualAsociados;
+        var fila=objbotonAsociarCurso.parentNode.parentNode;
+        fila.remove();
+        tablaAsociadosPrincipal=true;
+    }else alert("Error al asociar curso a asignatura");
+    respuestaAjax="";
+    objbotonAsociarCurso="";
+}
 
 
 
