@@ -20,11 +20,6 @@
             width: 500px;
             height: 400px;
         }
-        #parrafoNombreAsignatura
-        {
-            margin-top: -15px;
-            margin-bottom: -15px;
-        }
     </style>
     <title>Aplicacion BD</title>
 </head>
@@ -35,19 +30,16 @@
             <input type="text" name="buscarAsignatura" placeholder="buscarAsignatura">
         </form>
     </div>
+    
     <div id="divTablaAsignaturas">
     </div>
+    <div id="tituloAsignatura"></div>
     <div id="divTablaAsociar">
-        <div id="divTablaBuscar">
         <div id="infoTablaAsociar"></div>
-            Alumnos No Asociados
-        <br>
-        </div>
-       
-        <div id="divTablaActualAsociados">
-        <div id="infoTablaAsociados"></div>
-        <br>
-        </div>
+        <div id="divTablaBuscar"></div>
+
+        <div id="infoTablaAsociados" style="display: inline-block;"></div>
+        <div id="divTablaActualAsociados"></div>
     </div>
     
 </body>
