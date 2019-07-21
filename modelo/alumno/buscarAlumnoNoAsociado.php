@@ -24,30 +24,37 @@
         $smt->bindValue(2, $codigoAsignatura, PDO::PARAM_STR);
         if($smt->execute())
         {
-            $datos=array();
-            $i=0;
+            $tablaAlumnos=
+            "
+                <table id='asociarAlumno'>
+                    <thead id='theadAsociarAlumno'>
+                        <tr>
+                            <th>Rut</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Opcion</th>
+                        </tr>
+                    </thead>
+                <tbody id='tbodyAsociarAlumno'>
+            ";
             while($result = $smt->fetch(PDO::FETCH_ASSOC))
 			{
                 $rut=$result["rut"];
                 $nombres=$result["nombres"];
                 $apellidos=$result["apellidos"];
-                $datos[$i]=
-                [
-                    "rut"=>$rut, 
-                    "nombres"=>$nombres,
-                    "apellidos"=>$apellidos
-                ];	
-                $i++;		
+
+                $tablaAlumnos.=
+                "<tr>
+                    <td>".$rut."</td>
+                    <td>".$nombres."</td>
+                    <td>".$apellidos."</td>
+                    <td>
+                        <button id=".$rut." onclick='botonAsociar(this.id)'>ASOCIAR</button>
+                    </td>
+                </tr>";
+               		
             }
-            if(sizeof($datos) == 0)
-            {
-                echo "vacio";
-            }
-            else
-            {
-                $arregloJSON=json_encode($datos);
-			    echo $arregloJSON;
-            }
+			    echo $tablaAlumnos;
         }else{
             echo "Error al buscar coincidencias de Alumnos";
         }

@@ -17,12 +17,25 @@
             e.codigo_asignatura=?
         order by
             a.rut";
+    
     $smt=$bd->prepare($sql);
     $smt->bindValue(1, $codigoAsignatura, PDO::PARAM_STR);
     if($smt->execute())
     {
-        $datos=array();
-        $i=0;
+        $tablaAlumnos=
+        "
+            <table id='asociarAlumno'>
+                <thead id='theadAsociarAlumno'>
+                    <tr>
+                        <th>Rut</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Opcion</th>
+                    </tr>
+                </thead>
+                <tbody id='tbodyAsociarAlumno'>
+        ";
+
         while($result = $smt->fetch(PDO::FETCH_ASSOC))
         {
             $rut=$result["rut"];
@@ -31,14 +44,17 @@
             $notaFinal=$result["nota_final"];
             if($notaFinal==0)
                 $notaFinal="Por Asignar";
-            $datos[$i]=
-            [
-                "rut"=>$rut, 
-                "nombres"=>$nombres,
-                "apellidos"=>$apellidos,
-                "notaFinal"=>$notaFinal
-            ];	
-            $i++;		
+
+            $tablaAlumnos.=
+                "<tr>
+                    <td>".$rut."</td>
+                    <td>".$nombres."</td>
+                    <td>".$apellidos."</td>
+                    <td>".$notaFinal."</td>
+                    <td>
+                        <button id=".$rut." onclick='botonAsociar(this.id)'>ASOCIAR</button>
+                    </td>
+                </tr>";		
         }
         if(sizeof($datos) == 0)
         {
@@ -46,9 +62,7 @@
         }
         else
         {
-            // var_dump($datos);
-            $arregloJSON=json_encode($datos);
-            echo $arregloJSON;
+            echo $tablaAlumnos;
         }
     }else{
         echo "Error al buscar alumnos asociados a la asignatura";

@@ -52,71 +52,21 @@ function mostrarAlumnosNoAsociados()
     }
     else
     {
-        stringAnteriorBuscadorAsociados=document.getElementById("buscarAlumnoNoAsociado").value;
-        tablaNoAsociadosPrincipal=true;
-        var jsonAlumnos=JSON.parse(respuestaAjax);
-        var largoAlumnos=jsonAlumnos.length;
-
-        if(!document.getElementById("asociarAlumno"))
+        if(document.getElementById("asociarAlumno"))
         {
-            crearTablaNoAsociados();
-            var columnasTheadNoAsociado=
-            [
-                "Rut", 
-                "Nombres", 
-                "Apellidos", 
-                "Opcion"
-            ]; 
-
-            thead=document.getElementById("theadAsociarAlumno");
-            var filaThead=document.createElement("tr");
-            for(var k=0; k<4; k++)
-            {
-                var th=document.createElement("th");
-                th.innerHTML=columnasTheadNoAsociado[k];
-                filaThead.append(th);
-            }
-            thead.append(filaThead);
+            document.getElementById("asociarAlumno").remove();
         }
-        
-        document.getElementById("theadAsociarAlumno").display="none";
-        var tbody=document.getElementById("tbodyAsociarAlumno");
-        tbody.innerHTML="";
-        for(var i=0; i<largoAlumnos; i++)
-        {
-            var alumnos=jsonAlumnos[i];
-            var rut=alumnos.rut;
-            var fila=document.createElement("tr");
-            fila.setAttribute("id", rut);
-            for(var j=0; j<3; j++)
-            {
-                var item=Object.keys(alumnos)[j];
-                var valor=alumnos[item];
-                var columna=document.createElement("td");
-                columna.innerHTML=valor;
-                fila.append(columna);
-            }
-            //boton Asociar alumno
-            var columnaOpcion=document.createElement("td");
-            var boton=document.createElement("button");
-            boton.setAttribute("id", rut);
-            boton.innerHTML="Asociar";
-            boton.className="btnAsociarAlumno";
-            boton.addEventListener("click", botonAsociar);
-            columnaOpcion.append(boton);
-            fila.append(columnaOpcion);
-            document.getElementById("theadAsociarAlumno").display="block";
-            tbody.append(fila);
-        }
+        var divTabla=document.getElementById("divTablaBuscar");
+        divTabla.innerHTML=respuestaAjax;
     }
 }
 
-function botonAsociar()
+function botonAsociar(rut)
 {
     //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
-    objbotonAsociar=this;
+    objbotonAsociar=rut;
     var urlServidor="../modelo/alumno/asociarAlumno.php";
-    var rut=this.id;
+    var rut=rut;
     var parametros="rut="+rut+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
     llamadaAjax(urlServidor, parametros, asociarAlumno);
 }
@@ -397,69 +347,37 @@ function desAsociarAlumno()
 var divTituloAsignatura;//Variable Global
 function tablaAlumnos()
 {
-    divTituloAsignatura=document.getElementById("tituloAsignatura");
-    var TituloAsignatura=document.createElement("h3");
-    TituloAsignatura.innerHTML="Asignatura Seleccionada: "+nombreAsignaturaSeleccionada;
-    divTituloAsignatura.append(TituloAsignatura);
-    TituloAsignatura.style.display="inline-block";
-    var botonFinalizar=document.createElement("button");
-    botonFinalizar.innerHTML="Listo";
-    botonFinalizar.style.display="inline-block";
-    botonFinalizar.style.marginLeft="5px";
-    botonFinalizar.addEventListener("click", finalizarAlumnos);
-    divTituloAsignatura.append(botonFinalizar);
-
+    mostrarAsignaturaSeleccionada();
     //Crear los buscadores 
-    var itemsBuscadores=["buscarAlumnoNoAsociado", "buscarAlumnoAsociado"];
-    for(var l=0; l<2; l++)
-    {
-        var buscador=document.createElement("input");
-        buscador.setAttribute("type", "text");
-        buscador.addEventListener("keyup", buscarAlumnoNoAsociado);
-        buscador.setAttribute("id", itemsBuscadores[l]);
-        buscador.setAttribute("name", itemsBuscadores[l]);
-        var label=document.createElement("label");
-        label.setAttribute("for", itemsBuscadores[l]);
-        label.innerHTML="Buscar Alumno:"
-        var div=document.getElementById("divTablaBuscar");
-        var tituloTabla=document.createElement("h4");
-        tituloTabla.style.marginBottom="10px";
-        tituloTabla.style.marginTop="10px";
-        var botonLimpiar;
-        if(l==1)
-        {
-            var boton=document.createElement("button");
-            boton.innerHTML="ver todos";
-            boton.addEventListener("click", llenarTablaAsociados);
-            boton.style.display="inline-block";
-            div=document.getElementById("divTablaActualAsociados");  
-            buscador.addEventListener("keyup", buscarAlumnoAsociado); 
-            tituloTabla.innerHTML="ALUMNOS ASOCIADOS";
-            div.append(tituloTabla);
-            div.append(label);
-            div.append(buscador); 
-            div.append(boton);
-            break;
-        }
-        if(l==0)
-        {
-            botonLimpiar=document.createElement("button");
-            botonLimpiar.innerHTML="Limpiar";
-            botonLimpiar.addEventListener("click", limpiarNoAsociados);
-            botonLimpiar.style.display="inline-block";
-        }
-        tituloTabla.innerHTML="ALUMNOS NO ASOCIADOS";
-        div.append(tituloTabla);
-        div.append(label);
-        div.append(buscador);
-        div.append(botonLimpiar);  
+    var labelNoAsociado=
+        "<label for='buscarAlumnoNoAsociado'>Buscar Alumno: </label>";
+    var buscadorNoAsociados=
+        "<input type='text' id='buscarAlumnoNoAsociado' name= 'buscarAlumnoNoAsociado' onkeyup='buscarAlumnoNoAsociado()'>";
+    var botonLimpiar=
+        "<button onclick='limpiarNoAsociados()' style='display: inline-block;'>Limpiar</button>";
     
-    }
-    // crearTabla(columnasTheadAsociado, idComponentesTablaAsociados,"divTablaActualAsociados");
-    //crearTabla(columnasTheadNoAsociado, idComponentesTablaNoAsociados,"divTablaBuscar");
-    crearTablaAsociados();
-    llenarTablaAsociados();
+    var divBuscadorNoAsociado=document.getElementById("divBuscadorNoAsociados");
+    divBuscadorNoAsociado.innerHTML=labelNoAsociado+buscadorNoAsociados+botonLimpiar;
+
+    var divInfoTablaNoAsociados=document.getElementById("divInfoTablaNoAsociados");
+    divInfoTablaNoAsociados.innerHTML="<h4>Alumnos No Asociados</h4>"
+
+
+    var labelAsociado=
+        "<label for='buscarAlumnoAsociado'>Buscar Alumno: </label>";
+    var buscadorAsociados=
+        "<input type='text' id='buscarAlumnoAsociado' name= 'buscarAlumnoAsociado' onkeyup='buscarAlumnoAsociado()'>";
+    var botonVerTodos=
+        "<button onclick='llenarTablaAsociados()' style='display: inline-block;'>Ver Todos</button>";
+
+    var divInfoTablaNoAsociados=document.getElementById("divInfoTablaAsociados");
+    divInfoTablaNoAsociados.innerHTML="<h4>Alumnos Asociados</h4>"
+
+    var divBuscadorAsociado=document.getElementById("divBuscadorAsociados");
+    divBuscadorAsociado.innerHTML=labelAsociado+buscadorAsociados+botonVerTodos;
+
 }
+
 
 function iniciarAlumnos()
 {
