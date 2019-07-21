@@ -18,25 +18,49 @@ function getAsignaturas()
     $smt=$bd->prepare($sql);
     if($smt->execute())
     {
-        $asignaturas=array();
-        $i=0;
+        $tablaAsignaturas=
+        "
+            <table id='Asignaturas'>
+                <thead id='theadAsignaturas'>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Rut Profesor</th>
+                        <th>Sala</th>
+                        <th>Opciones</th>
+                        <th>Asociar</th>
+                    </tr>
+                </thead>
+                <tbody id='tbodyAsignaturas'>
+        ";
         while($result = $smt->fetch(PDO::FETCH_ASSOC))
         {
             $codigo=$result["codigo"];
             $nombre=$result["nombre"];
             $rutProfesor=$result["rut_profesor"];
             $sala=$result["sala"];
-            $asignaturas[$i]=
-            [
-                "codigo"=>$codigo, 
-                "nombre"=>$nombre,
-                "rutProfesor"=>$rutProfesor,
-                "sala"=>$sala
-            ];	
-            $i++;		
+
+            $tablaAsignaturas.=
+                "<tr>
+                    <td>".$codigo."</td>
+                    <td>".$nombre."</td>
+                    <td>".$rutProfesor."</td>
+                    <td>".$sala."</td>
+                    <td>
+                        <button id=".$codigo." onclick='modificarAsignatura(this.id)'>MODIFICAR</button>
+                        <button id=".$codigo." onclick='eliminarAsignatura(this.id)'>ELIMINAR</button>
+                    </td>
+                    <td>
+                        <button id=".$codigo." name=".$nombre." onclick='asignarAlumno(this.id, this.name)'>ALUMNO</button>
+                        <button id=".$codigo." name=".$nombre." onclick='asignarProfesor(this.id, this.name)'>PROFESOR</button>
+                        <button id=".$codigo." name=".$nombre." onclick='asignarCurso(this.id, this.name)'>CURSO</button>
+                        <button id=".$codigo." name=".$nombre." onclick='asignarBloque(this.id, this.name)'>BLOQUE</button>
+                    </td>
+                </tr>";
+                    
         }
-        $arregloJSON=json_encode($asignaturas);
-        echo $arregloJSON;
+        $tablaAsignaturas.="</tbody>";
+        echo $tablaAsignaturas;                    
     }
 }
 

@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="../controladores/asignatura/controladorAsignaturas.js"></script>
+    <script src="../controladores/asignatura/controladorPrincipal.js"></script>
+    <script src="../controladores/asignatura/ajax.js"></script>
+    <script src="../controladores/asignatura/controladorAlumnos.js"></script>
+    <script src="../controladores/asignatura/controladorCursos.js"></script>
+    <script src="../controladores/asignatura/controladorProfesores.js"></script>
     <style>
         #divTablaBuscar
         {
