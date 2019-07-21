@@ -1,31 +1,13 @@
 window.onload=mostrarTablaAsignaturas;
 
-
 function mostrarTablaAsignaturas()
 {
-    tablaNoAsociadosPrincipal=true;
-    //Llamada Ajax
-    var peticionHTTP;
-   
-    if(window.XMLHttpRequest)
-        peticionHTTP=new XMLHttpRequest();
-    else
-        peticionHTTP=new ActiveObject("Microsoft.XMLHTTP");
- 
-    peticionHTTP.onreadystatechange=funcionActuadora;
-    peticionHTTP.open("POST", "../modelo/asignatura/obtenerAsignaturas.php", true);
-    peticionHTTP.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    peticionHTTP.send(null); //No envian datos al servidor
+    llamadaAjax("../modelo/asignatura/obtenerAsignaturas.php", null, llenarAsignaturas);
 
-    function funcionActuadora()
+    function llenarAsignaturas()
     {
-        if(peticionHTTP.readyState==4 && peticionHTTP.status==200)
-        {
-            //se espera una tabla asignaturas registradas
-            var respuesta=peticionHTTP.responseText;
-            document.getElementById("divTablaAsignaturas").innerHTML=respuesta;
-            }
-        }
+        document.getElementById("divTablaAsignaturas").innerHTML=respuestaAjax;
+    }
 }
 
 function modificarAsignatura(codigoAsignatura)

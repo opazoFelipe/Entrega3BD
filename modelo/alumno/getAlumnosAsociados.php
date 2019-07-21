@@ -22,48 +22,45 @@
     $smt->bindValue(1, $codigoAsignatura, PDO::PARAM_STR);
     if($smt->execute())
     {
-        $tablaAlumnos=
-        "
-            <table id='asociarAlumno'>
-                <thead id='theadAsociarAlumno'>
-                    <tr>
-                        <th>Rut</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Opcion</th>
-                    </tr>
-                </thead>
-                <tbody id='tbodyAsociarAlumno'>
-        ";
+        if($smt->rowCount()>0)
+        {
+            $tablaAlumnos=
+            "
+                <table id='desAsociarAlumno'>
+                    <thead id='theadDesAsociarAlumno'>
+                        <tr>
+                            <th>Rut</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Nota Final</th>
+                            <th>Opcion</th>
+                        </tr>
+                    </thead>
+                    <tbody id='tbodyDesAsociarAlumno'>
+            ";
 
-        while($result = $smt->fetch(PDO::FETCH_ASSOC))
-        {
-            $rut=$result["rut"];
-            $nombres=$result["nombres"];
-            $apellidos=$result["apellidos"];
-            $notaFinal=$result["nota_final"];
-            if($notaFinal==0)
-                $notaFinal="Por Asignar";
+            while($result = $smt->fetch(PDO::FETCH_ASSOC))
+            {
+                $rut=$result["rut"];
+                $nombres=$result["nombres"];
+                $apellidos=$result["apellidos"];
+                $notaFinal=$result["nota_final"];
+                if($notaFinal==0)
+                    $notaFinal="Por Asignar";
 
-            $tablaAlumnos.=
-                "<tr>
-                    <td>".$rut."</td>
-                    <td>".$nombres."</td>
-                    <td>".$apellidos."</td>
-                    <td>".$notaFinal."</td>
-                    <td>
-                        <button id=".$rut." onclick='botonAsociar(this.id)'>ASOCIAR</button>
-                    </td>
-                </tr>";		
-        }
-        if(sizeof($datos) == 0)
-        {
-            echo "vacio";
-        }
-        else
-        {
+                $tablaAlumnos.=
+                    "<tr>
+                        <td>".$rut."</td>
+                        <td>".$nombres."</td>
+                        <td>".$apellidos."</td>
+                        <td>".$notaFinal."</td>
+                        <td>
+                            <button id=".$rut." onclick='botonDesAsociar(this)'>REMOVER</button>
+                        </td>
+                    </tr>";		
+            }
             echo $tablaAlumnos;
-        }
+        }else echo "vacio"; 
     }else{
         echo "Error al buscar alumnos asociados a la asignatura";
     }

@@ -42,13 +42,23 @@
 
         <div id="divNoAsociados"> 
             <div id="divInfoTablaNoAsociados"></div> <!--Aqui va el titulo de la tabla (Alumnos no asociados)-->
-            <div id="divBuscadorNoAsociados"></div> <!--Aqui va el buscador y el boton limpiar-->
+            
+            <div id="divBuscadorNoAsociados">
+                <div id="buscadorNoAso"></div> <!--Aqui va el buscador y el boton limpiar-->
+                <div id="infoCantidadNoAso"></div> 
+            </div> 
+            
             <div id="divTablaNoAsociados"></div> <!--Aqui va la tabla de registros encontrados-->
         </div>
 
         <div id="divAsociados">
             <div id="divInfoTablaAsociados"></div> <!--Aqui va el titulo de la tabla (Alumnos Asociados)-->
-            <div id="divBuscadorAsociados"></div> <!--Aqui va el buscador y el boton ver todos-->
+            
+            <div id="divBuscadorAsociados">
+                <div id="buscadorAso"></div>   <!--Aqui va el buscador y el boton ver todos--> 
+                <div id="infoCantidadAso"></div> <!--Aqui va la cantidad de registros encontrados-->
+            </div> 
+
             <div id="divTablaAsociados"></div> <!--Aqui va la tabla de registros encontrados-->
         </div>
     </div>

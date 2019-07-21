@@ -24,37 +24,39 @@
         $smt->bindValue(2, $codigoAsignatura, PDO::PARAM_STR);
         if($smt->execute())
         {
-            $tablaAlumnos=
-            "
-                <table id='asociarAlumno'>
-                    <thead id='theadAsociarAlumno'>
-                        <tr>
-                            <th>Rut</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Opcion</th>
-                        </tr>
-                    </thead>
-                <tbody id='tbodyAsociarAlumno'>
-            ";
-            while($result = $smt->fetch(PDO::FETCH_ASSOC))
-			{
-                $rut=$result["rut"];
-                $nombres=$result["nombres"];
-                $apellidos=$result["apellidos"];
+            if($smt->rowCount()>0)
+            {
+                $tablaAlumnos=
+                "
+                    <table id='asociarAlumno'>
+                        <thead id='theadAsociarAlumno'>
+                            <tr>
+                                <th>Rut</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Opcion</th>
+                            </tr>
+                        </thead>
+                    <tbody id='tbodyAsociarAlumno'>
+                ";
+                while($result = $smt->fetch(PDO::FETCH_ASSOC))
+                {
+                    $rut=$result["rut"];
+                    $nombres=$result["nombres"];
+                    $apellidos=$result["apellidos"];
 
-                $tablaAlumnos.=
-                "<tr>
-                    <td>".$rut."</td>
-                    <td>".$nombres."</td>
-                    <td>".$apellidos."</td>
-                    <td>
-                        <button id=".$rut." onclick='botonAsociar(this.id)'>ASOCIAR</button>
-                    </td>
-                </tr>";
-               		
-            }
+                    $tablaAlumnos.=
+                    "<tr>
+                        <td>".$rut."</td>
+                        <td>".$nombres."</td>
+                        <td>".$apellidos."</td>
+                        <td>
+                            <button id=".$rut." onclick='botonAsociar(this)'>ASOCIAR</button>
+                        </td>
+                    </tr>";       
+                }
 			    echo $tablaAlumnos;
+            }else echo "vacio";  
         }else{
             echo "Error al buscar coincidencias de Alumnos";
         }
