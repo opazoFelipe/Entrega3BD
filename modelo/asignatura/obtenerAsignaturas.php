@@ -42,13 +42,13 @@ function getAsignaturas()
 
             $tablaAsignaturas.=
                 "<tr>
-                    <td>".$codigo."</td>
-                    <td>".$nombre."</td>
-                    <td>".$rutProfesor."</td>
-                    <td>".$sala."</td>
+                    <td id='".$codigo."codigo'>".$codigo."</td>
+                    <td id='".$codigo."nombre'>".$nombre."</td>
+                    <td id='".$codigo."rutProfesor'>".$rutProfesor."</td>
+                    <td id='".$codigo."sala'>".$sala."</td>
                     <td>
-                        <button id=".$codigo." onclick='modificarAsignatura(this.id)'>MODIFICAR</button>
-                        <button id=".$codigo." onclick='eliminarAsignatura(this.id)'>ELIMINAR</button>
+                        <button id=".$codigo." onclick='modificarAsignatura(this)'>MODIFICAR</button>
+                        <button id=".$codigo." onclick='eliminarAsignatura(this)'>ELIMINAR</button>
                     </td>
                     <td>
                         <button id=".$codigo." name=".$nombre." onclick='asignarAlumno(this.id, this.name)'>ALUMNO</button>

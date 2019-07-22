@@ -67,13 +67,12 @@ $$
 language SQL;
 
 --Funcion para modificar asignatura en la bd
-create or replace function modAsignatura(int, int, varchar(12), varchar(100), varchar(100)) returns void
+create or replace function modAsignatura(int, int, varchar(100), varchar(100)) returns void
 as
 $$
 	update asignatura set codigo=$2,
-						  rut_profesor=$3,
-						  nombre=$4,
-						  sala_laboratorio=$5
+						  nombre=$3,
+						  sala_laboratorio=$4
 					  Where
 					  	  codigo=$1;
 $$

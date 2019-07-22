@@ -3,11 +3,27 @@
 
     $codActual=$_POST["codigoActual"];
     $codNuevo=$_POST["codigoNuevo"];
-    $rutProf=$_POST["rutProfesor"];
-    $nomAsig=$_POST["nombreAsignatura"];
-    $salaOLab=$_POST["salaOLab"];
+    $nomAsig=$_POST["nombreAsignatura"]; //Nombre Nuevo
+    $salaOLab=$_POST["salaOLab"]; //Sala Nueva
 
-    function modAsignatura($codActual, $codNuevo, $rutProf, $nomAsig, $salaOLab)
+    $nombreActual=$_POST["nombreActual"];
+    $salaActual=$_POST["salaActual"];
+
+    if($codNuevo==$codActual | $codNuevo=="")
+    {
+        $codNuevo=$codActual;
+      
+    }
+    if($nombreActual==$nomAsig | $nomAsig=="")
+    {
+        $nomAsig=$nombreActual;
+    }
+    if($salaActual==$salaOLab | $salaOLab=="")
+    {
+        $salaOLab=$salaActual;
+    }
+
+    function modAsignatura($codActual, $codNuevo, $nomAsig, $salaOLab)
     {
         $se_le_otorga=true;
         $consta_de=true;
@@ -109,7 +125,7 @@
 
         if($se_le_otorga===true)
         {
-            $sql10="alter table consta_de drop constraint se_le_otorga_codigo_asignatura_fkey";
+            $sql10="alter table se_le_otorga drop constraint se_le_otorga_codigo_asignatura_fkey";
             $smt=$bd->prepare($sql10);
             if($smt->execute())
             {
@@ -133,16 +149,15 @@
 
         }
 
-        $sql7="select modAsignatura(?,?,?,?,?)";
+        $sql7="select modAsignatura(?,?,?,?)";
         $smt=$bd->prepare($sql7);
         $smt->bindValue(1, $codActual, PDO::PARAM_INT);
         $smt->bindValue(2, $codNuevo, PDO::PARAM_INT);
-        $smt->bindValue(3, $rutProf, PDO::PARAM_STR);
-        $smt->bindValue(4, $nomAsig, PDO::PARAM_STR);
-        $smt->bindValue(5, $salaOLab, PDO::PARAM_STR);
+        $smt->bindValue(3, $nomAsig, PDO::PARAM_STR);
+        $smt->bindValue(4, $salaOLab, PDO::PARAM_STR);
         if($smt->execute())
         {
-            echo "Asignatura modificado correctamente";
+            echo "Asignatura modificada correctamente";
             if($consta_de==true)
             {
                 $sql11="ALTER TABLE consta_de
@@ -199,5 +214,5 @@
         $conexion=null;
     } 
     
-    modAsignatura($codActual, $codNuevo, $rutProf, $nomAsig, $salaOLab);
+    modAsignatura($codActual, $codNuevo, $nomAsig, $salaOLab);
 ?>

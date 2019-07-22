@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../controladores/asignatura/controladorPrincipal.js"></script>
+    <script src="../controladores/asignatura/mantenedoresAsignatura.js"></script>
     <script src="../controladores/asignatura/ajax.js"></script>
     <script src="../controladores/asignatura/controladorAlumnos.js"></script>
     <script src="../controladores/asignatura/controladorCursos.js"></script>
@@ -63,6 +64,8 @@
             <div id="divTablaAsociados"></div> <!--Aqui va la tabla de registros encontrados-->
         </div>
     </div>
+
+    <div id="divMantenedorAsignatura" style="height: 300px; width: 400px"></div>
     
 </body>
 </html>

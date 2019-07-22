@@ -10,10 +10,9 @@ function mostrarTablaAsignaturas()
     }
 }
 
-function modificarAsignatura(codigoAsignatura)
+function modificarAsignatura(botonAsignatura)
 {
-    codigoAsignaturaSeleccionada=codigoAsignatura;
-    alert("Esta es la funcion modificar asignatura");
+    iniciarModificarAsignatura(botonAsignatura);
 }
 function eliminarAsignatura(codigoAsignatura)
 {
