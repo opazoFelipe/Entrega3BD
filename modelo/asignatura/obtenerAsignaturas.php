@@ -28,7 +28,7 @@ function getAsignaturas()
                         <th>Rut Profesor</th>
                         <th>Sala</th>
                         <th>Opciones</th>
-                        <th>Asociar</th>
+                        <th>Asociar/Ver</th>
                     </tr>
                 </thead>
                 <tbody id='tbodyAsignaturas'>

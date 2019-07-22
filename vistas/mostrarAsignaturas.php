@@ -9,6 +9,7 @@
     <script src="../controladores/asignatura/controladorAlumnos.js"></script>
     <script src="../controladores/asignatura/controladorCursos.js"></script>
     <script src="../controladores/asignatura/controladorProfesores.js"></script>
+    <script src="../controladores/asignatura/controladorBloques.js"></script>
     <script src="../controladores/asignatura/variablesGlobales.js"></script>
     <style>
         #divTablaBuscar
