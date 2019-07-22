@@ -55,7 +55,7 @@
                         <td>".$apellidos."</td>
                         <td>".$notaFinal."</td>
                         <td>
-                            <button id=".$rut." onclick='botonDesAsociar(this)'>ASOCIAR</button>
+                            <button id=".$rut." onclick='botonDesAsociar(this)'>REMOVER</button>
                         </td>
                     </tr>";	
                 }

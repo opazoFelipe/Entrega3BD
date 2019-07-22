@@ -20,32 +20,36 @@
     $smt->bindValue(1, $codigoAsignatura, PDO::PARAM_STR);
     if($smt->execute())
     {
-        $datos=array();
-        $i=0;
-        while($result = $smt->fetch(PDO::FETCH_ASSOC))
-        {
-            $rutProfesor=$result["rut_profesor"];
-            $nombres=$result["nombres"];
-            $apellidos=$result["apellidos"];
-        
-            $datos[$i]=
-            [
-                "rutProfesor"=>$rutProfesor, 
-                "nombres"=>$nombres,
-                "apellidos"=>$apellidos
-            ];	
-            $i++;		
-        }
-        if(sizeof($datos) == 0)
-        {
-            echo "vacio";
-        }
-        else
-        {
-            // var_dump($datos);
-            $arregloJSON=json_encode($datos);
-            echo $arregloJSON;
-        }
+        if($smt->rowCount()>0)
+            {
+                $tablaCursos=
+                "
+                    <table id='desAsociarProfesor'>
+                        <thead id='theadDesAsociarProfesor'>
+                            <tr>
+                                <th>Rut</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                            </tr>
+                        </thead>
+                        <tbody id='tbodyDesAsociarProfesor'>
+                ";
+
+                while($result = $smt->fetch(PDO::FETCH_ASSOC))
+                {
+                    $rut=$result["rut_profesor"];
+                    $nombres=$result["nombres"];
+                    $apellidos=$result["apellidos"];
+            
+                    $tablaCursos.=
+                        "<tr>
+                            <td>".$rut."</td>
+                            <td>".$nombres."</td>
+                            <td>".$apellidos."</td>
+                        </tr>";		
+                }
+                echo $tablaCursos;
+            }else echo "vacio";
     }else{
         echo "Error al buscar profesores asociados a la asignatura";
     }

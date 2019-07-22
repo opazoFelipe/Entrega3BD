@@ -24,32 +24,38 @@
         $smt->bindValue(2, $codigoAsignatura, PDO::PARAM_STR);
         if($smt->execute())
         {
-            $datos=array();
-            $i=0;
-            while($result = $smt->fetch(PDO::FETCH_ASSOC))
-			{
-                $rut=$result["rut"];
-                $nombres=$result["nombres"];
-                $apellidos=$result["apellidos"];
-                $datos[$i]=
-                [
-                    "rut"=>$rut, 
-                    "nombres"=>$nombres,
-                    "apellidos"=>$apellidos
-                ];	
-                $i++;		
-            }
-            if(sizeof($datos) == 0)
+            if($smt->rowCount()>0)
             {
-                echo "vacio";
-            }
-            else
-            {
-                $arregloJSON=json_encode($datos);
-			    echo $arregloJSON;
-            }
+                $tablaProfesores=
+                "
+                    <table id='desAsociarProfesor'>
+                        <thead id='theadDesAsociarProfesor'>
+                            <tr>
+                                <th>Rut</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                            </tr>
+                        </thead>
+                    <tbody id='tbodyDesAsociarProfesor'>
+                ";
+            
+                while($result = $smt->fetch(PDO::FETCH_ASSOC))
+                {
+                    $rut=$result["rut"];
+                    $nombres=$result["nombres"];
+                    $apellidos=$result["apellidos"];
+
+                    $tablaProfesores.=
+                    "<tr>
+                        <td>".$rut."</td>
+                        <td>".$nombres."</td>
+                        <td>".$apellidos."</td>
+                    </tr>";	
+                }
+                echo $tablaProfesores;
+            }else echo "vacio";
         }else{
-            echo "Error al buscar coincidencias de Alumnos";
+            echo "Error al buscar coincidencias de Profesores";
         }
         $conexion=null;
     }

@@ -24,30 +24,39 @@
         $smt->bindValue(2, $codigoAsignatura, PDO::PARAM_STR);
         if($smt->execute())
         {
-            $datos=array();
-            $i=0;
-            while($result = $smt->fetch(PDO::FETCH_ASSOC))
-			{
-                $codigo=$result["codigo"];
-                $rutProfesorJefe=$result["rut_profesor_jefe"];
-                $año=$result["año"];
-                $datos[$i]=
-                [
-                    "codigo"=>$codigo, 
-                    "rutProfesorJefe"=>$rutProfesorJefe,
-                    "año"=>$año
-                ];	
-                $i++;		
-            }
-            if(sizeof($datos) == 0)
+            if($smt->rowCount()>0)
             {
-                echo "vacio";
-            }
-            else
-            {
-                $arregloJSON=json_encode($datos);
-			    echo $arregloJSON;
-            }
+                $tablaCursos=
+                "
+                    <table id='asociarCurso'>
+                        <thead id='theadAsociarCurso'>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Rut Profesor Jefe</th>
+                                <th>Año</th>
+                                <th>Opcion</th>
+                            </tr>
+                        </thead>
+                    <tbody id='tbodyAsociarCurso'>
+                ";
+                while($result = $smt->fetch(PDO::FETCH_ASSOC))
+                {
+                    $codigo=$result["codigo"];
+                    $rutProfesorJefe=$result["rut_profesor_jefe"];
+                    $año=$result["año"];
+
+                    $tablaCursos.=
+                    "<tr>
+                        <td>".$codigo."</td>
+                        <td>".$rutProfesorJefe."</td>
+                        <td>".$año."</td>
+                        <td>
+                            <button id=".$codigo." onclick='botonAsociarCurso(this)'>ASOCIAR</button>
+                        </td>
+                    </tr>";       
+                }
+			    echo $tablaCursos;
+            }else echo "vacio"; 
         }else{
             echo "Error al buscar coincidencias de Cursos no Asociados";
         }

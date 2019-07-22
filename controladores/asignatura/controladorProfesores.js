@@ -1,16 +1,16 @@
 // --------------------------------------------------------------------------------------------------
-// |               Funciones par iniciar y finalizar la asociacion o desasociacion de Alumnos       |                                                                                                |
+// |               Funciones par iniciar y finalizar la asociacion o desasociacion de Profesores    |                                                                                                |
 // |------------------------------------------------------------------------------------------------|
 
 var divTituloAsignatura;//Variable Global
 
-function iniciarAlumnos()
+function iniciarProfesores()
 {
-    tablaAlumnos(nombreAsignaturaSeleccionada);
+    tablaProfesores(nombreAsignaturaSeleccionada);
     document.getElementById("Asignaturas").remove();
 }
 
-function finalizarAlumnos()
+function finalizarCursos()
 {
     mostrarTablaAsignaturas();
     document.getElementById("divInfoTablaNoAsociados").innerHTML="";
@@ -29,32 +29,32 @@ function finalizarAlumnos()
     nombreAsignaturaSeleccionada="";  
 }
 
-function tablaAlumnos()
+function tablaProfesores()
 {
     mostrarAsignaturaSeleccionada();
     //Crear los buscadores 
     var labelNoAsociado=
-        "<label for='buscarAlumnoNoAsociado'>Buscar Alumno: </label>";
+        "<label for='buscarProfesorNoAsociado'>Buscar Profesor: </label>";
     var buscadorNoAsociados=
-        "<input type='text' id='buscarAlumnoNoAsociado' name= 'buscarAlumnoNoAsociado' onkeyup='buscarAlumnoNoAsociado()'>";
+        "<input type='text' id='buscarProfesorNoAsociado' name= 'buscarProfesorNoAsociado' onkeyup='buscarProfesorNoAsociado()'>";
     var botonLimpiar=
-        "<button onclick='limpiarNoAsociados()' style='display: inline-block;'>Limpiar</button>";
+        "<button onclick='limpiarProfesoresNoAsociados()' style='display: inline-block;'>Limpiar</button>";
     
     var divBuscadorNoAsociado=document.getElementById("buscadorNoAso");
     divBuscadorNoAsociado.innerHTML=labelNoAsociado+buscadorNoAsociados+botonLimpiar;
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaNoAsociados");
-    divInfoTablaNoAsociados.innerHTML="<h4>Alumnos No Asociados</h4>"
+    divInfoTablaNoAsociados.innerHTML="<h4>Cursos No Asociados</h4>"
 
     var labelAsociado=
-        "<label for='buscarAlumnoAsociado'>Buscar Alumno: </label>";
+        "<label for='buscarProfesorAsociado'>Buscar Profesor: </label>";
     var buscadorAsociados=
-        "<input type='text' id='buscarAlumnoAsociado' name= 'buscarAlumnoAsociado' onkeyup='buscarAlumnoAsociado()'>";
+        "<input type='text' id='buscarProfesorAsociado' name= 'buscarProfesorAsociado' onkeyup='buscarProfesorAsociado()'>";
     var botonVerTodos=
-        "<button onclick='llenarTablaAsociados()' style='display: inline-block;'>Ver Todos</button>";
+        "<button onclick='llenarTablaProfesoresAsociados()' style='display: inline-block;'>Ver Todos</button>";
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaAsociados");
-    divInfoTablaNoAsociados.innerHTML="<h4>Alumnos Asociados</h4>"
+    divInfoTablaNoAsociados.innerHTML="<h4>Cursos Asociados</h4>"
 
     var divBuscadorAsociado=document.getElementById("buscadorAso");
     divBuscadorAsociado.innerHTML=labelAsociado+buscadorAsociados+botonVerTodos;
@@ -63,35 +63,35 @@ function tablaAlumnos()
 
 
 // --------------------------------------------------------------------------------------------------
-// |               Funciones para la tabla de alumnos NO ASOCIADOS                                  |                                                                                                |
+// |               Funciones para la tabla de PROFESORES NO ASOCIADOS                               |                                                                                                |
 // |------------------------------------------------------------------------------------------------|
 
-function buscarAlumnoNoAsociado()
+function buscarProfesorNoAsociado()
 {
-    var buscador=document.getElementById("buscarAlumnoNoAsociado");
+    var buscador=document.getElementById("buscarProfesorNoAsociado");
     var clave=buscador.value;
     if(clave.length > 0)
     {
         clave="coincidencia="+clave;
         // Llamada Ajax
-        var urlServidor="../modelo/alumno/buscarAlumnoNoAsociado.php";
+        var urlServidor="../modelo/profesor/buscarProfesorNoAsociado.php";
         var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
-        llamadaAjax(urlServidor, parametros, mostrarAlumnosNoAsociados);
+        llamadaAjax(urlServidor, parametros, mostrarProfesoresNoAsociados);
 
-        function mostrarAlumnosNoAsociados()
+        function mostrarProfesoresNoAsociados()
         {
             if(respuestaAjax=="vacio")
             {
-                eliminarTabla("asociarAlumno");
+                eliminarTabla("asociarProfesor");
                 document.getElementById("divTablaNoAsociados").innerHTML="No se han encontrado registros";
                 document.getElementById("infoCantidadNoAso").innerHTML="";
             }
             else
             {
-                eliminarTabla("asociarAlumno");
+                eliminarTabla("asociarProfesor");
                 var divTabla=document.getElementById("divTablaNoAsociados");
                 divTabla.innerHTML=respuestaAjax;
-                cantidadActualNoAsociados=document.getElementById("tbodyAsociarAlumno").childNodes.length;
+                cantidadActualNoAsociados=document.getElementById("tbodyAsociarProfesor").childNodes.length;
                 cantidadActualNoAsociados-=1;
                 document.getElementById("infoCantidadNoAso").innerHTML="Encontrados: "+cantidadActualNoAsociados;
             }
@@ -100,18 +100,18 @@ function buscarAlumnoNoAsociado()
     else
     {
         document.getElementById("infoCantidadNoAso").innerHTML="";
-        eliminarTabla("asociarAlumno");
+        eliminarTabla("asociarProfesor");
     } 
      
 }
 
-function botonAsociar(boton)
+function botonAsociarProfesor(boton)
 {
-    var urlServidor="../modelo/alumno/asociarAlumno.php";
-    var parametros="rut="+boton.id+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
-    llamadaAjax(urlServidor, parametros, asociarAlumno);
+    var urlServidor="../modelo/profesor/asociarProfesor.php";
+    var parametros="rutProfesor="+boton.id+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
+    llamadaAjax(urlServidor, parametros, asociarProfesor);
 
-    function asociarAlumno()
+    function asociarProfesor()
     {
         if(respuestaAjax=="hecho")
         {
@@ -120,121 +120,121 @@ function botonAsociar(boton)
             document.getElementById("infoCantidadNoAso").innerHTML="";
             fila.remove();
     
-            if(document.getElementById("tbodyAsociarAlumno"))
+            if(document.getElementById("tbodyAsociarProfesor"))
             {
-                if(document.getElementById("tbodyAsociarAlumno").childNodes.length==0)
+                if(document.getElementById("tbodyAsociarProfesor").childNodes.length==0)
                 {
-                    document.getElementById("asociarAlumno").remove();
+                    document.getElementById("asociarProfesor").remove();
                 }
                 else
                     document.getElementById("infoCantidadNoAso").innerHTML="Encontrados: "+cantidadActualNoAsociados;  
             }
-        }else alert("Error al asociar alumno a asignatura");
+        }else alert("Error al asociar profesor a asignatura");
         respuestaAjax="";
     }
 }
 
-function limpiarNoAsociados()
+function limpiarProfesoresNoAsociados()
 {
-    eliminarTabla("asociarAlumno");
+    eliminarTabla("asociarProfesor");
     document.getElementById("divTablaNoAsociados").innerHTML="";
     respuestaAjax="";
 
     document.getElementById("infoCantidadNoAso").innerHTML="";
-    if(document.getElementById("buscarAlumnoNoAsociado"))
-        document.getElementById("buscarAlumnoNoAsociado").value="";
+    if(document.getElementById("buscarProfesorNoAsociado"))
+        document.getElementById("buscarProfesorNoAsociado").value="";
     
 }
 
 // --------------------------------------------------------------------------------------------------
-// |               Funciones para la tabla de alumnos ASOCIADOS                                     |                                                                                                |
+// |               Funciones para la tabla de PROFESORES ASOCIADOS                                  |                                                                                                |
 // |------------------------------------------------------------------------------------------------|
 
 
-function llenarTablaAsociados()
+function llenarTablaProfesoresAsociados()
 {
     //Llamada Ajax
-    eliminarTabla("desAsociarAlumno");
-    var urlServidor="../modelo/alumno/getAlumnosAsociados.php";
+    eliminarTabla("desAsociarProfesor");
+    var urlServidor="../modelo/profesor/getProfesoresAsociados.php";
     var parametros="codigoAsignatura="+codigoAsignaturaSeleccionada;
-    llamadaAjax(urlServidor, parametros, mostrarAlumnosAsociados);
+    llamadaAjax(urlServidor, parametros, mostrarProfesoresAsociados);
         
-    function mostrarAlumnosAsociados()
+    function mostrarProfesoresAsociados()
     {
         var infoCantidadAso=document.getElementById("infoCantidadAso");
         if(respuestaAjax == "vacio")
         {
-            eliminarTabla("desAsociarAlumno");
+            eliminarTabla("desAsociarProfesor");
             infoCantidadAso.innerHTML="Econtrados: 0";
             respuestaAjax="";
         }
         else
         {   
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;
-            cantidadActualAsociados=document.getElementById("tbodyDesAsociarAlumno").childNodes.length;
+            cantidadActualAsociados=document.getElementById("tbodyDesAsociarProfesor").childNodes.length;
             cantidadActualAsociados-=1;
-            var hijos= document.getElementById("tbodyDesAsociarAlumno").childNodes;
+            var hijos= document.getElementById("tbodyDesAsociarProfesor").childNodes;
             infoCantidadAso.innerHTML="Econtrados: "+cantidadActualAsociados;
         } 
     }
 }
 
-function buscarAlumnoAsociado()
+function buscarProfesorAsociado()
 {
-    var buscador=document.getElementById("buscarAlumnoAsociado");
+    var buscador=document.getElementById("buscarProfesorAsociado");
     var clave=buscador.value;
     if(clave.length > 0)
     {
         clave="coincidencia="+clave;
         //Llamada Ajax
-        var urlServidor="../modelo/alumno/buscarAlumnoAsociado.php";
+        var urlServidor="../modelo/profesor/buscarProfesorAsociado.php";
         var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
-        llamadaAjax(urlServidor, parametros, mostrarAlumnosAsociadosCoincidencia);    
+        llamadaAjax(urlServidor, parametros, mostrarProfesoresAsociadosCoincidencia);    
     }else
     {
         document.getElementById("infoCantidadAso").innerHTML="";
-        eliminarTabla("desAsociarAlumno");
+        eliminarTabla("desAsociarProfesor");
     } 
 
-    function mostrarAlumnosAsociadosCoincidencia()
+    function mostrarProfesoresAsociadosCoincidencia()
     {
         var infoCantidadAso=document.getElementById("infoCantidadAso");
         if(respuestaAjax=="vacio")
         {
-            eliminarTabla("desAsociarAlumno");
+            eliminarTabla("desAsociarProfesor");
             infoCantidadAso.innerHTML="Econtrados: 0";
         }
         else
         {
-            eliminarTabla("desAsociarAlumno");
+            eliminarTabla("desAsociarProfesor");
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;  
-            cantidadActualAsociados=document.getElementById("tbodyDesAsociarAlumno").childNodes.length;
+            cantidadActualAsociados=document.getElementById("tbodyDesAsociarProfesor").childNodes.length;
             cantidadActualAsociados-=1;
             infoCantidadAso.innerHTML="Econtrados: "+cantidadActualAsociados;
         }       
     }
 }
 
-function botonDesAsociar(boton)
+function botonDesAsociarProfesor(boton)
 {
     //Implementar el codigo asignatura a enviar, por ahora es uno de prueba(6)
-    var urlServidor="../modelo/alumno/desAsociarAlumno.php";
-    var parametros="rut="+boton.id+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
-    llamadaAjax(urlServidor, parametros, desAsociarAlumno);
+    var urlServidor="../modelo/profesor/desAsociarProfesor.php";
+    var parametros="codigoAsignatura="+codigoAsignaturaSeleccionada;
+    llamadaAjax(urlServidor, parametros, desAsociarProfesor);
 
-    function desAsociarAlumno()
+    function desAsociarProfesor()
     {
         if(respuestaAjax=="hecho")
         {
             var fila=boton.parentNode.parentNode;
             fila.remove();
             cantidadActualAsociados=cantidadActualAsociados-1;
-            if(document.getElementById("tbodyDesAsociarAlumno").childNodes.length==0)
+            if(document.getElementById("tbodyDesAsociarProfesor").childNodes.length==0)
             {
-                document.getElementById("desAsociarAlumno").remove();
+                document.getElementById("desAsociarProfesor").remove();
             }else 
                 document.getElementById("infoCantidadAso").innerHTML="Encontrados: "+cantidadActualAsociados; 
-        }else alert("Error al desAsociar Alumno");   
+        }else alert("Error al desAsociar Profesor");   
         respuestaAjax="";
     }
 }
