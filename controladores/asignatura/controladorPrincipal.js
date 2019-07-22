@@ -6,6 +6,8 @@ function mostrarTablaAsignaturas()
 
     function llenarAsignaturas()
     {
+        if(document.getElementById("Asignaturas"))
+            document.getElementById("Asignaturas").remove();
         document.getElementById("divTablaAsignaturas").innerHTML=respuestaAjax;
     }
 }

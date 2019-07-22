@@ -22,6 +22,7 @@ function iniciarModificarAsignatura(botonAsignatura)
     ventanaMantenedor.style.display = "block";
     ventanaMantenedor.style.borderStyle="solid";
 
+    var fomularioModificar="<form id='formularioMod'>";
     var labelCodigo="<label for='inputCodigo' onKeyPress='return soloNumeros(event)'>Codigo:</label>";
     var inputCodigo="<input type='number' id='inputCodigo' name='inputCodigo'>";
 
@@ -31,11 +32,17 @@ function iniciarModificarAsignatura(botonAsignatura)
     var labelSala="<label for='inputSala'>Sala:</label>";
     var inputSala="<input type='text' id='inputSala' name='inputSala'>";
 
-    var botonListo="<button onclick='guardarCambios()'>GUARDAR</button>";
+    var botonListo="<input type='submit' value='GUARDAR'></button>";
+    fomularioModificar+=labelCodigo+inputCodigo+labelNombre+inputNombre+labelSala+inputSala+botonListo+"</form>";
     var botonCancelar="<button onclick='cancelarCambios()'>CANCELAR</button>";
 
-    ventanaMantenedor.innerHTML=labelCodigo+inputCodigo+labelNombre+inputNombre+labelSala+inputSala+botonListo+botonCancelar;
+    // ventanaMantenedor.innerHTML=labelCodigo+inputCodigo+labelNombre+inputNombre+labelSala+inputSala+botonListo+botonCancelar;
+    ventanaMantenedor.innerHTML=fomularioModificar+botonCancelar;
 
+    document.getElementById("formularioMod").addEventListener("submit", function(event){
+        event.preventDefault();
+        guardarCambios();
+    });
     document.getElementById("inputCodigo").style.display="block";
     document.getElementById("inputNombre").style.display="block";
     document.getElementById("inputSala").style.display="block";
@@ -52,14 +59,25 @@ function guardarCambios()
     var nuevoNombre=document.getElementById("inputNombre").value;
     var nuevaSala=document.getElementById("inputSala").value;
 
-    // alert(salaActual);
-    var url="../modelo/asignatura/modificarAsignatura.php";
-    var parametros="codigoActual="+codigoActual+"&codigoNuevo="+nuevoCodigo+"&nombreAsignatura="+nuevoNombre+"&salaOLab="+nuevaSala+"&nombreActual="+nombreActual+"&salaActual="+salaActual;
-    llamadaAjax(url, parametros, cambios);
-
-    function cambios()
+    if(nuevoCodigo==codigoActual && nuevoNombre==nombreActual && nuevaSala==salaActual)
     {
-        alert(respuestaAjax);
+    }else
+    {
+        var url="../modelo/asignatura/modificarAsignatura.php";
+        var parametros="codigoActual="+codigoActual+"&codigoNuevo="+nuevoCodigo+"&nombreAsignatura="+nuevoNombre+"&salaOLab="+nuevaSala+"&nombreActual="+nombreActual+"&salaActual="+salaActual;
+        llamadaAjax(url, parametros, cambios);
+
+        function cambios()
+        {
+            if(respuestaAjax=="hecho")
+            {
+                alert("Asignatura modificada correctamente");
+                document.getElementById("divMantenedorAsignatura").innerHTML="";
+                mostrarTablaAsignaturas();
+
+            }    
+            if(respuestaAjax=="error") alert("Error al modificar esta Asignatura");
+        }
     }
 }
 
