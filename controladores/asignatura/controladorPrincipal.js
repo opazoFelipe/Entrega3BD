@@ -9,6 +9,8 @@ function mostrarTablaAsignaturas()
         if(document.getElementById("Asignaturas"))
             document.getElementById("Asignaturas").remove();
         document.getElementById("divTablaAsignaturas").innerHTML=respuestaAjax;
+        var botonNuevaAsignatura="<button id='nuevaAsignatura' onclick='iniciarIngresarAsignatura()'>Nueva Asignatura</button>";
+        document.getElementById("tituloPrincipal").innerHTML="Asignaturas "+botonNuevaAsignatura;
     }
 }
 
@@ -16,10 +18,9 @@ function modificarAsignatura(botonAsignatura)
 {
     iniciarModificarAsignatura(botonAsignatura);
 }
-function eliminarAsignatura(codigoAsignatura)
+function eliminarAsignatura(botonAsignatura)
 {
-    codigoAsignaturaSeleccionada=codigoAsignatura;
-    alert("Esta es la funcion eliminar asignatura");
+    iniciarEliminarAsignatura(botonAsignatura);
 }
 function asignarAlumno(codigoAsignatura, nombreAsignatura)
 {

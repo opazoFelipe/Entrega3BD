@@ -31,6 +31,7 @@
     <title>Aplicacion BD</title>
 </head>
 <body>
+    <div id="tituloPrincipal"></div>
     <div id="divBuscarAsignatura">
 
     </div>
@@ -62,6 +63,15 @@
             </div> 
 
             <div id="divTablaAsociados"></div> <!--Aqui va la tabla de registros encontrados-->
+        </div>
+    </div>
+
+    <div id="divIngresarAsignatura">
+        <div id="divFormularioIngresar"></div>
+        <div id="divBuscarProfesor">
+            <div id="divBuscadorProfesor"></div>
+            <div id="divTablaProfesores"></div>
+            <div id="divProfesorAsociado"></div>
         </div>
     </div>
 

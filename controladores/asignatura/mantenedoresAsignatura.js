@@ -23,7 +23,7 @@ function iniciarModificarAsignatura(botonAsignatura)
     ventanaMantenedor.style.borderStyle="solid";
 
     var fomularioModificar="<form id='formularioMod'>";
-    var labelCodigo="<label for='inputCodigo' onKeyPress='return soloNumeros(event)'>Codigo:</label>";
+    var labelCodigo="<label for='inputCodigo'>Codigo:</label>";
     var inputCodigo="<input type='number' id='inputCodigo' name='inputCodigo'>";
 
     var labelNombre="<label for='inputNombre'>Nombre:</label>";
@@ -85,3 +85,182 @@ function cancelarCambios()
 {
     document.getElementById("divMantenedorAsignatura").innerHTML="";
 }
+
+function iniciarEliminarAsignatura(botonAsignatura)
+{
+    codigoActual=botonAsignatura.id;
+    var desicion=confirm("La asignatura: "+document.getElementById(botonAsignatura.id+"nombre").innerHTML+" sera eliminada");
+
+    if(desicion)
+    {
+        var url="../modelo/asignatura/eliminarAsignatura.php";
+        var parametros="codigoAsignatura="+codigoActual;
+        llamadaAjax(url, parametros, eliminar);
+    }
+    function eliminar()
+    {
+        if(respuestaAjax="Asignatura eliminada correctamente")
+        {
+            alert(respuestaAjax);
+            document.getElementById("divMantenedorAsignatura").innerHTML="";
+            mostrarTablaAsignaturas();
+        }else alert(respuestaAjax);     
+    }
+}
+
+function iniciarIngresarAsignatura()
+{
+    var divFormularioIngresar=document.getElementById("divFormularioIngresar");
+    var divBuscadorProfesor=document.getElementById("divBuscadorProfesor");
+    var divProfesorAsociado=document.getElementById("divProfesorAsociado");
+    divFormularioIngresar.innerHTML="";
+    divBuscadorProfesor.innerHTML="";
+    divProfesorAsociado.innerHTML="";
+
+    var fomularioIngresar="<form id='formularioIn'>";
+    var labelCodigo="<label for='inputCodigo'>Codigo:</label>";
+    var inputCodigo="<input type='number' id='inputCodigo' name='inputCodigo'>";
+
+    var labelNombre="<label for='inputNombre'>Nombre Asignatura:</label>";
+    var inputNombre="<input type='text' id='inputNombre'name='inputNombre'>";
+
+    var labelSala="<label for='inputSala'>Sala:</label>";
+    var inputSala="<input type='text' id='inputSala' name='inputSala'>";
+
+    var botonListo="<input type='submit' value='GUARDAR'></button>";
+    fomularioIngresar+=labelCodigo+inputCodigo+labelNombre+inputNombre+labelSala+inputSala+botonListo+"</form>";
+    var botonCancelar="<button onclick='finalizarIngresarAsignatura()'>CANCELAR</button>";
+
+    divFormularioIngresar.innerHTML=fomularioIngresar+botonCancelar;
+
+    document.getElementById("formularioIn").addEventListener("submit", function(event){
+        event.preventDefault();
+        IngresarAsignatura();
+    });
+
+    var tituloIngresarAsignatura=document.createElement("h3");
+    tituloIngresarAsignatura.innerHTML="Ingresar Nueva Asignatura";
+    document.getElementById("formularioIn").before(tituloIngresarAsignatura);
+
+    tablaProfesoresNuevaAsignatura();
+}
+function tablaProfesoresNuevaAsignatura()
+{
+    //Crear los buscadores 
+    var labelNoAsociado=
+        "<label for='buscarProfesorNuevaAsignatura'>Buscar Profesor: </label>";
+    var buscadorNoAsociados=
+        "<input type='text' id='buscarProfesorNoAsociado' name= 'buscarProfesorNoAsociado'onkeyup='buscarProfesorNuevaAsignatura()'>";
+    var botonLimpiar=
+        "<button onclick='limpiarProfesoresNoAsociados()' style='display: inline-block;'>Limpiar</button>";
+    
+    var divBuscadorProfesor=document.getElementById("divBuscadorProfesor");
+    divBuscadorProfesor.innerHTML="<h4>Use el buscador para encontrar un profesor registrado y asociarlo a esta asignatura</h4>"+labelNoAsociado+buscadorNoAsociados+botonLimpiar;
+
+    var divProfesorAsociado=document.getElementById("divProfesorAsociado");
+    divProfesorAsociado.innerHTML="<h4>Profesor Asociado</h4>";
+} 
+
+function buscarProfesorNuevaAsignatura()
+{
+    var buscador=document.getElementById("buscarProfesorNoAsociado");
+    var clave=buscador.value;
+    if(clave.length > 0)
+    {
+        clave="coincidencia="+clave;
+        // Llamada Ajax
+        var urlServidor="../modelo/profesor/buscarProfesorNuevaAsignatura.php";
+        llamadaAjax(urlServidor, null, mostrarProfesores);
+
+        function mostrarProfesores()
+        {
+            eliminarTabla("asociarProfesor");
+            var divTabla=document.getElementById("divTablaProfesores");
+            divTabla.innerHTML=respuestaAjax;
+        }
+    }      
+    else
+    {
+        eliminarTabla("asociarProfesor");
+    } 
+}
+
+function asociarProfesorNuevaAsignatura(botonProfesor)
+{
+    var rut=document.getElementById("profesor"+botonProfesor.id).innerHTML;
+    var nombres=document.getElementById("nombres"+botonProfesor.id).innerHTML;
+    var apellidos=document.getElementById("apellidos"+botonProfesor.id).innerHTML;
+
+    // alert(rut+"\nNombres: "+nombres+"\nApellidos: "+apellidos);
+    var tablaProfesor="<table id='tablaProfesor'><thead><tr><th>Rut</th><th>Nombres</th><th>Apellidos</th></tr></thead><tbody id='tbodyTablaProfesor'><tr><td id='rutIngresar'>"+rut+"</td><td>"+nombres+"</td><td>"+apellidos+"</td></tr></tbody></table>";
+
+    document.getElementById("divProfesorAsociado").innerHTML="<h4>Profesor Asociado</h4>"+tablaProfesor;
+}
+
+function IngresarAsignatura()
+{
+    var codigo=false;
+    var nombre=false;
+    var sala=false;
+   
+    var formulario=document.getElementById("formularioIn");
+    var codigoAsignatura=document.getElementById("inputCodigo").value;
+    var nombreAsignatura=document.getElementById("inputNombre").value;
+    var salaNombre=document.getElementById("inputSala").value;
+
+    if(codigoAsignatura=="")
+    {
+        document.getElementById("inputCodigo").after("*");
+    }else codigo=true;
+    if(nombreAsignatura=="")
+    {
+        document.getElementById("inputNombre").after("*");
+    }else nombre=true;
+    if(salaNombre=="")
+    {
+        document.getElementById("inputSala").after("*");
+    }else sala=true;
+
+    if(!codigo | !nombre | !sala) 
+        alert("Porfavor complete todos los campos marcados con *");
+    else
+    {
+        if(!document.getElementById("tablaProfesor"))
+        {
+            alert("Debe Asociar un profesor a la asignatura antes de ingresarla");
+        }else
+        {
+            var rut=document.getElementById("rutIngresar").innerHTML;
+            var urlServidor="../modelo/asignatura/ingresarAsignatura.php";
+            var parametros="codigo="+codigoAsignatura+"&rutProfesor="+rut+"&nombreAsignatura="+nombreAsignatura+"&sala="+salaNombre;
+            llamadaAjax(urlServidor, parametros, respuesta);
+            
+            function respuesta()
+            {
+                if(respuestaAjax=="hecho")
+                {
+                    alert("Asignatura ingresada correctamente");
+                    finalizarIngresarAsignatura();
+                }
+                codigo ya existe
+                
+                else 
+                {
+                    alert("Error al ingresar asignatura, intente nuevamente");
+                }  
+            }
+        }
+    }
+
+}
+
+function finalizarIngresarAsignatura()
+{
+    document.getElementById("divFormularioIngresar").innerHTML="";
+    document.getElementById("divBuscadorProfesor").innerHTML="";
+    document.getElementById("divTablaProfesores").innerHTML="";
+    document.getElementById("divProfesorAsociado").innerHTML="";
+}
+    
+
+     
