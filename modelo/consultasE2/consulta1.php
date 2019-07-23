@@ -1,9 +1,51 @@
 <?php
     require ('../conexion.php');
 
-function getAsignaturas()
-{
-    $sql;
+
+    $sql=
+        "SELECT 
+        c1.alumno AS nombre_alumno,
+        c1.apoderado AS nombre_apoderado, 
+        c1.c_curso AS nombre_curso, 
+        c1.jefe AS nombre_profesor_jefe,
+        COALESCE(c2.asistente,'No posee') AS nombre_profesor_asistente
+        FROM 
+        (
+            SELECT 
+                e.codigo_curso, 
+                p.nombres AS asistente 
+            FROM 
+                es_asistente e, 
+                profesor p
+            WHERE 
+                e.rut_profesor=p.rut
+        ) AS c2 RIGHT OUTER JOIN
+        (
+            SELECT
+                alu.nombres AS alumno, 
+                apo.nombres AS apoderado, 
+                c.codigo AS c_curso, 
+                jefe.nombres AS jefe
+            FROM 
+                alumno alu, 
+                apoderado apo, 
+                curso c, 
+                profesor jefe, 
+                cursa cur, 
+                ciudad ciu, 
+                region r
+            WHERE
+                apo.rut=alu.rut_apoderado AND  
+                cur.rut_alumno=alu.rut AND 
+                cur.codigo_curso=c.codigo AND  
+                c.rut_profesor_jefe=jefe.rut AND 
+                alu.codigo_ciudad=ciu.codigo AND
+                ciu.codigo_region=r.codigo AND 
+                (r.nombre='Bio-Bio' OR r.nombre='Ñuble') AND 
+                c.año=(SELECT MAX(c2.año) FROM curso c2)
+                --El año maximo de los cursos deberia ser el año actual
+        )AS c1
+            ON c2.codigo_curso=c1.c_curso ";
 
     $conexion=new conexion();
     $bd=$conexion->get_conexion();
@@ -12,50 +54,37 @@ function getAsignaturas()
     {
         $tablaAsignaturas=
         "
-            <table id='Asignaturas'>
-                <thead id='theadAsignaturas'>
+            <table id='tablaConsultaE2'>
+                <thead id='theadConsultaE2'>
                     <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Rut Profesor</th>
-                        <th>Sala</th>
-                        <th>Opciones</th>
-                        <th>Asociar/Ver</th>
+                        <th>Nombre Alumno</th>
+                        <th>Nombre Apoderado</th>
+                        <th>Nombre Curso</th>
+                        <th>Nombre Profesor Jefe</th>
+                        <th>Nombre Profesor Asistente</th>
                     </tr>
                 </thead>
-                <tbody id='tbodyAsignaturas'>
+                <tbody id='tbodyConsultaE2'>
         ";
         while($result = $smt->fetch(PDO::FETCH_ASSOC))
         {
-            $codigo=$result["codigo"];
-            $nombre=$result["nombre"];
-            $rutProfesor=$result["rut_profesor"];
-            $sala=$result["sala"];
+            $nombreAlumno=$result["nombre_alumno"];
+            $nombreApoderado=$result["nombre_apoderado"];
+            $nombreCurso=$result["nombre_curso"];
+            $nombreProfesorJefe=$result["nombre_profesor_jefe"];
+            $nombreProfesorAsistente=$result["nombre_profesor_asistente"];
 
             $tablaAsignaturas.=
                 "<tr>
-                    <td id='".$codigo."codigo'>".$codigo."</td>
-                    <td id='".$codigo."nombre'>".$nombre."</td>
-                    <td id='".$codigo."rutProfesor'>".$rutProfesor."</td>
-                    <td id='".$codigo."sala'>".$sala."</td>
-                    <td>
-                        <button id=".$codigo." onclick='modificarAsignatura(this)'>MODIFICAR</button>
-                        <button id=".$codigo." onclick='eliminarAsignatura(this)'>ELIMINAR</button>
-                    </td>
-                    <td>
-                        <button id=".$codigo." name=".$nombre." onclick='asignarAlumno(this.id, this.name)'>ALUMNO</button>
-                        <button id=".$codigo." name=".$nombre." onclick='asignarProfesor(this.id, this.name)'>PROFESOR</button>
-                        <button id=".$codigo." name=".$nombre." onclick='asignarCurso(this.id, this.name)'>CURSO</button>
-                        <button id=".$codigo." name=".$nombre." onclick='asignarBloque(this.id, this.name)'>BLOQUE</button>
-                    </td>
+                    <td>".$nombreAlumno."</td>
+                    <td>".$nombreApoderado."</td>
+                    <td>".$nombreCurso."</td>
+                    <td>".$nombreProfesorJefe."</td>
+                    <td>".$nombreProfesorAsistente."</td>
                 </tr>";
                     
         }
-        $tablaAsignaturas.="</tbody>";
+        $tablaAsignaturas.="</tbody></table>";
         echo $tablaAsignaturas;                    
-    }
-}
-
-getAsignaturas();
-
+    }else echo "error";
 ?>

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="../controladores/asignatura/controladorPrincipal.js"></script>
     <script src="../controladores/asignatura/mantenedoresAsignatura.js"></script>
-    <script src="../controladores/asignatura/ajax.js"></script>
+    <script src="../controladores/ajax.js"></script>
     <script src="../controladores/asignatura/controladorAlumnos.js"></script>
     <script src="../controladores/asignatura/controladorCursos.js"></script>
     <script src="../controladores/asignatura/controladorProfesores.js"></script>
