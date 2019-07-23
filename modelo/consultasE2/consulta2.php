@@ -49,6 +49,7 @@
         while($result = $smt->fetch(PDO::FETCH_ASSOC))
         {
             $nombres=$result["nombres"];
+            $nombres=strtoupper($nombres);
 
             $tablaAsignaturas.=
                 "<tr>

@@ -38,8 +38,13 @@
                 while($result = $smt->fetch(PDO::FETCH_ASSOC))
                 {
                     $rut=$result["rut_profesor"];
+                    $rut=strtoupper($rut);
+
                     $nombres=$result["nombres"];
+                    $nombres=strtoupper($nombres);
+
                     $apellidos=$result["apellidos"];
+                    $apellidos=strtoupper($apellidos);
             
                     $tablaCursos.=
                         "<tr>

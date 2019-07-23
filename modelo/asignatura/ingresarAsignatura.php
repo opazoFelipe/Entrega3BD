@@ -5,6 +5,10 @@
     $nomAsig=$_POST["nombreAsignatura"];
     $salaOLab=$_POST["sala"];
 
+    $cod=strtolower($cod);
+    $nomAsig=strtolower($nomAsig);
+    $salaOLab=strtolower($salaOLab);
+
     $conexion=new conexion();
     $bd=$conexion->get_conexion();
     $sql="select * from asignatura where codigo=?";

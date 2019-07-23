@@ -37,7 +37,10 @@
                 while($result = $smt->fetch(PDO::FETCH_ASSOC))
                 {
                     $codigo=$result["codigo"];
+                    $codigo=strtoupper($codigo);
+
                     $descripcion=$result["descripcion"];
+                    $descripcion=strtoupper($descripcion);
 
                     $tablaBloques.=
                     "<tr>

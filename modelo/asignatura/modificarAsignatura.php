@@ -33,6 +33,9 @@
     $conexion=new conexion();
     $bd=$conexion->get_conexion();
 
+    $nomAsig=strtolower($nomAsig);
+    $salaOLab=strtolower($salaOLab);
+
     //Modificar todo
     if($updateCodigo and $updateNombre and $updateSala)
     {

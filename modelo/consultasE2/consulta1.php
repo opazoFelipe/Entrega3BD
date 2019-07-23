@@ -69,10 +69,19 @@
         while($result = $smt->fetch(PDO::FETCH_ASSOC))
         {
             $nombreAlumno=$result["nombre_alumno"];
+            $nombreAlumno=strtoupper($nombreAlumno);
+
             $nombreApoderado=$result["nombre_apoderado"];
+            $nombreApoderado=strtoupper($nombreApoderado);
+
             $nombreCurso=$result["nombre_curso"];
+            $nombreCurso=strtoupper($nombreCurso);
+
             $nombreProfesorJefe=$result["nombre_profesor_jefe"];
+            $nombreProfesorJefe=strtoupper($nombreProfesorJefe);
+            
             $nombreProfesorAsistente=$result["nombre_profesor_asistente"];
+            $nombreProfesorAsistente=strtoupper($nombreProfesorAsistente);
 
             $tablaAsignaturas.=
                 "<tr>

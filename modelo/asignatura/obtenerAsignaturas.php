@@ -36,9 +36,16 @@ function getAsignaturas()
         while($result = $smt->fetch(PDO::FETCH_ASSOC))
         {
             $codigo=$result["codigo"];
+            $codigo=strtoupper($codigo);
+
             $nombre=$result["nombre"];
+            $nombre=strtoupper($nombre);
+
             $rutProfesor=$result["rut_profesor"];
+            $rutProfesor=strtoupper($rutProfesor);
+
             $sala=$result["sala"];
+            $sala=strtoupper($sala);
 
             $tablaAsignaturas.=
                 "<tr>
