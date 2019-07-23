@@ -241,13 +241,16 @@ function IngresarAsignatura()
                 {
                     alert("Asignatura ingresada correctamente");
                     finalizarIngresarAsignatura();
+                    mostrarTablaAsignaturas();
                 }
-                codigo ya existe
-                
-                else 
+                if(respuestaAjax=="codigo ya existe")
+                {
+                    alert("El codigo ingresado ya existe, use otro");
+                }
+                if(respuestaAjax=="error")
                 {
                     alert("Error al ingresar asignatura, intente nuevamente");
-                }  
+                }
             }
         }
     }
