@@ -17,13 +17,16 @@ function mostrarTablaAsignaturas()
 function modificarAsignatura(botonAsignatura)
 {
     iniciarModificarAsignatura(botonAsignatura);
+    eliminarTitulo(); 
 }
 function eliminarAsignatura(botonAsignatura)
 {
     iniciarEliminarAsignatura(botonAsignatura);
+    eliminarTitulo();
 }
 function asignarAlumno(codigoAsignatura, nombreAsignatura)
 {
+    eliminarTitulo();
     codigoAsignaturaSeleccionada=codigoAsignatura;
     nombreAsignaturaSeleccionada=nombreAsignatura;
     iniciarAlumnos();
@@ -31,19 +34,28 @@ function asignarAlumno(codigoAsignatura, nombreAsignatura)
 }
 function asignarProfesor(codigoAsignatura, nombreAsignatura)
 {
+    eliminarTitulo();
     codigoAsignaturaSeleccionada=codigoAsignatura;
     nombreAsignaturaSeleccionada=nombreAsignatura;
     iniciarProfesores();
 }
 function asignarCurso(codigoAsignatura, nombreAsignatura)
 {
+    eliminarTitulo();
     codigoAsignaturaSeleccionada=codigoAsignatura;
     nombreAsignaturaSeleccionada=nombreAsignatura;
     iniciarCursos();
 }
 function asignarBloque(codigoAsignatura, nombreAsignatura)
 {
+    eliminarTitulo();
     codigoAsignaturaSeleccionada=codigoAsignatura;
     nombreAsignaturaSeleccionada=nombreAsignatura;
     iniciarBloques();
+}
+
+function eliminarTitulo()
+{
+    if(document.getElementById("tituloPrincipal"))
+    document.getElementById("tituloPrincipal").innerHTML="";
 }

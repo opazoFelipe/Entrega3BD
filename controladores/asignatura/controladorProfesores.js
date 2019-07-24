@@ -44,7 +44,7 @@ function tablaProfesores()
     divBuscadorNoAsociado.innerHTML=labelNoAsociado+buscadorNoAsociados+botonLimpiar;
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaNoAsociados");
-    divInfoTablaNoAsociados.innerHTML="<h4>Cursos No Asociados</h4>"
+    divInfoTablaNoAsociados.innerHTML="<h4>Profesores No Asociados</h4>"
 
     var labelAsociado=
         "<label for='buscarProfesorAsociado'>Buscar Profesor: </label>";
@@ -54,7 +54,7 @@ function tablaProfesores()
         "<button onclick='llenarTablaProfesoresAsociados()' style='display: inline-block;'>Ver Todos</button>";
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaAsociados");
-    divInfoTablaNoAsociados.innerHTML="<h4>Cursos Asociados</h4>"
+    divInfoTablaNoAsociados.innerHTML="<h4>Profesores Asociados</h4>"
 
     var divBuscadorAsociado=document.getElementById("buscadorAso");
     divBuscadorAsociado.innerHTML=labelAsociado+buscadorAsociados+botonVerTodos;

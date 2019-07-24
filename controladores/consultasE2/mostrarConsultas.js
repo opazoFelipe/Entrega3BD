@@ -2,7 +2,7 @@ window.onload=mostrarConsulta6;
 
 function mostrarConsulta1()
 {
-    var srcPantallazo="/aplicacionBDFinal/Entrega3BD/vistas/pantallazos/1/pantallazo1.jpg";
+    var srcPantallazo="/aplicacionBDFinal/vistas/pantallazos/1/pantallazo1.jpg";
     mostrarPantallazo(srcPantallazo);
     var divTabla=document.getElementById("divTablaConsulta");
     if(document.getElementById("tablaConsultaE2"))
@@ -21,7 +21,7 @@ function mostrarConsulta1()
 
 function mostrarConsulta2()
 {
-    var srcPantallazo="/aplicacionBDFinal/Entrega3BD/vistas/pantallazos/2/pantallazo2.jpg";
+    var srcPantallazo="/aplicacionBDFinal/vistas/pantallazos/2/pantallazo2.jpg";
     mostrarPantallazo(srcPantallazo);
     var divTabla=document.getElementById("divTablaConsulta");
     if(document.getElementById("tablaConsultaE2"))
@@ -40,7 +40,7 @@ function mostrarConsulta2()
 
 function mostrarConsulta3()
 {
-    var srcPantallazo="/aplicacionBDFinal/Entrega3BD/vistas/pantallazos/3/pantallazo3.jpg";
+    var srcPantallazo="/aplicacionBDFinal/vistas/pantallazos/3/pantallazo3.jpg";
     mostrarPantallazo(srcPantallazo);
     var divTabla=document.getElementById("divTablaConsulta");
     if(document.getElementById("tablaConsultaE2"))
@@ -60,8 +60,8 @@ function mostrarConsulta3()
 function mostrarConsulta4()
 {
     
-    var srcPantallazoVista="/aplicacionBDFinal/Entrega3BD/vistas/pantallazos/4/pantallazo4Vista.jpg";
-    var srcPantallazoConsulta="/aplicacionBDFinal/Entrega3BD/vistas/pantallazos/4/pantallazo4Consulta.jpg";
+    var srcPantallazoVista="/aplicacionBDFinal/vistas/pantallazos/4/pantallazo4Vista.jpg";
+    var srcPantallazoConsulta="/aplicacionBDFinal/vistas/pantallazos/4/pantallazo4Consulta.jpg";
     mostrarPantallazoVista(srcPantallazoVista, srcPantallazoConsulta);
     var divTabla=document.getElementById("divTablaConsulta");
     if(document.getElementById("tablaConsultaE2"))
@@ -80,7 +80,7 @@ function mostrarConsulta4()
 
 function mostrarConsulta5()
 {
-    var srcPantallazo="/aplicacionBDFinal/Entrega3BD/vistas/pantallazos/5/pantallazo5.jpg";
+    var srcPantallazo="/aplicacionBDFinal/vistas/pantallazos/5/pantallazo5.jpg";
     mostrarPantallazo(srcPantallazo);
     var divTabla=document.getElementById("divTablaConsulta");
     if(document.getElementById("tablaConsultaE2"))
@@ -99,8 +99,8 @@ function mostrarConsulta5()
 
 function mostrarConsulta6()
 {
-    var srcPantallazoVista="/aplicacionBDFinal/Entrega3BD/vistas/pantallazos/6/pantallazo6Vista.jpg";
-    var srcPantallazoConsulta="/aplicacionBDFinal/Entrega3BD/vistas/pantallazos/6/pantallazo6Consulta.jpg";
+    var srcPantallazoVista="/aplicacionBDFinal/vistas/pantallazos/6/pantallazo6Vista.jpg";
+    var srcPantallazoConsulta="/aplicacionBDFinal/vistas/pantallazos/6/pantallazo6Consulta.jpg";
     mostrarPantallazoVista(srcPantallazoVista, srcPantallazoConsulta);
     if(document.getElementById("tablaConsultaE2"))
         document.getElementById("tablaConsultaE2").remove();
