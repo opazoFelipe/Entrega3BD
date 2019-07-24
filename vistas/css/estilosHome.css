@@ -1,0 +1,99 @@
+/* |-----------------------------------------------------------------------------------------------
+|                                    ESTILOS PARA EL CONTENEDOR PRINCIPAL                         |                                                                                                |
+|-------------------------------------------------------------------------------------------------| */
+body
+{
+  background-color: silver;
+  overflow: hidden;
+}
+/* 
+#contenedorPrincipal
+{
+} */
+
+#divMenu
+{
+  display: block;
+  position: relative;
+  background-color:#2e518b;
+  width: 100%;
+  /* Altura asignada para que el div del menu quede del mismo tamaño del menu */
+  height: 6.3%; 
+}
+
+#divTituloAplicacion
+{
+  height: 100%;
+  width: 100%;
+  align-content: center;
+  text-align: center;
+  overflow: hidden;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
+  text-shadow: 2.5px 2.5px #558ABB; 
+}
+
+#logo
+{
+  height: 45%;
+  width: 30%;      
+}
+
+
+/* |-----------------------------------------------------------------------------------------------
+|                                    ESTILOS PARA EL MENU                                         |                                                                                                |
+|-------------------------------------------------------------------------------------------------| */
+
+#menu ul li {
+  background-color:#2e518b;
+}
+
+#menu ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+#menu ul a {
+  display:block;
+  color:#fff;
+  text-decoration:none;
+  font-weight:400;
+  font-size:15px;
+  padding:10px;
+  font-family:"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+text-transform:uppercase;
+letter-spacing:1px;
+}
+
+#menu ul li {
+  position:relative;
+  float:left;
+  margin:0;
+  padding:0;
+}
+
+#menu ul li:hover {
+  background:#5b78a7;
+}
+
+#menu ul ul {
+  display:none;
+  position:absolute;
+  top:100%;
+  left:0;
+  padding:0;
+}
+
+#menu ul ul li {
+  float:none;
+  width:150px
+}
+
+#menu ul ul a {
+  line-height:120%;
+  padding:10px 15px;
+}
+
+#menu ul li:hover > ul {
+  display:block;
+}
