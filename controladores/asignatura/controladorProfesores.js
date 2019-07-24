@@ -139,7 +139,8 @@ function limpiarProfesoresNoAsociados()
     eliminarTabla("asociarProfesor");
     document.getElementById("divTablaNoAsociados").innerHTML="";
     respuestaAjax="";
-
+    if(document.getElementById("advertenciaRut"))
+        document.getElementById("advertenciaRut").remove();
     document.getElementById("infoCantidadNoAso").innerHTML="";
     if(document.getElementById("buscarProfesorNoAsociado"))
         document.getElementById("buscarProfesorNoAsociado").value="";

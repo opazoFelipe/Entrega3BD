@@ -9,8 +9,8 @@ function mostrarTablaAsignaturas()
         if(document.getElementById("Asignaturas"))
             document.getElementById("Asignaturas").remove();
         document.getElementById("divTablaAsignaturas").innerHTML=respuestaAjax;
-        var botonNuevaAsignatura="<button id='nuevaAsignatura' onclick='iniciarIngresarAsignatura()'>Nueva Asignatura</button>";
-        document.getElementById("tituloPrincipal").innerHTML="Asignaturas "+botonNuevaAsignatura;
+        var botonNuevaAsignatura="<button id='nuevaAsignatura' class='botonNuevo' onclick='iniciarIngresarAsignatura()'>Nueva Asignatura</button>";
+        document.getElementById("tituloPrincipal").innerHTML="ASIGNATURAS"+botonNuevaAsignatura;
     }
 }
 

@@ -13,7 +13,7 @@ body
 
 #divMenu
 {
-  display: block;
+  display: inline-block
   position: relative;
   background-color:#2e518b;
   width: 100%;
@@ -38,6 +38,12 @@ body
   width: 30%;      
 }
 
+#divDatos
+{
+  height: 80%;
+  width: 100%;
+  display: inline-block;
+}
 
 /* |-----------------------------------------------------------------------------------------------
 |                                    ESTILOS PARA EL MENU                                         |                                                                                                |
@@ -96,4 +102,14 @@ letter-spacing:1px;
 
 #menu ul li:hover > ul {
   display:block;
+}
+
+/* |-----------------------------------------------------------------------------------------------
+|                         ESTILOS PARA LA TABLA ASIGNATURAS                                       |        
+|-------------------------------------------------------------------------------------------------| */
+
+#Asignaturas
+{
+  max-height: 20%;
+  overflow-y: auto;
 }

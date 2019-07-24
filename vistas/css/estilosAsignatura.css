@@ -1,0 +1,345 @@
+/* |-----------------------------------------------------------------------------------------------
+|                                    ESTILOS PARA EL CONTENEDOR PRINCIPAL                         |                                                                                                |
+|-------------------------------------------------------------------------------------------------| */
+body
+{
+  overflow: hidden;
+}
+/* 
+#contenedorPrincipal
+{
+} */
+
+#divMenu
+{
+  display: inline-block;
+  background-color: #2e518b;
+  width: 100%;
+  /* Altura asignada para que el div del menu quede del mismo tamaño del menu */
+  height: 6.3%; 
+}
+
+
+#divDatos
+{
+  height: 98%;
+  width: 100%;
+  display: block;
+}
+
+/* |-----------------------------------------------------------------------------------------------
+|                                    ESTILOS PARA EL MENU                                         |                                                                                                |
+|-------------------------------------------------------------------------------------------------| */
+
+#menu ul li {
+  background-color:#2e518b;
+}
+
+#menu ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+#menu ul a {
+  display:block;
+  color:#fff;
+  text-decoration:none;
+  font-weight:400;
+  font-size:15px;
+  padding:10px;
+  font-family:"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+text-transform:uppercase;
+letter-spacing:1px;
+}
+
+#menu ul li {
+  position:relative;
+  float:left;
+  margin:0;
+  padding:0;
+}
+
+#menu ul li:hover {
+  background:#5b78a7;
+}
+
+#menu ul ul {
+  display:none;
+  position:absolute;
+  top:100%;
+  left:0;
+  padding:0;
+}
+
+#menu ul ul li {
+  float:none;
+  width:150px
+}
+
+#menu ul ul a {
+  line-height:120%;
+  padding:10px 15px;
+}
+
+#menu ul li:hover > ul {
+  display:block;
+}
+
+/* |-----------------------------------------------------------------------------------------------
+|                         ESTILOS PARA LA TABLA ASIGNATURAS                                       |        
+|-------------------------------------------------------------------------------------------------| */
+#tituloPrincipal
+{
+    padding-top: 10px;
+    font-size: 30px;
+    text-align: center;
+}
+#divTablaAsignaturas
+{
+    padding-top: 5px;
+    width: 100%;
+    height: 50%;
+
+}
+#Asignaturas
+{
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: white;
+}
+#theadAsignaturas
+{
+  display: block;
+  width: 100%;
+  background-color: rgb(121, 97, 97);
+  color: white;
+}
+
+#tbodyAsignaturas
+{
+  width: 100%;
+  display: block;
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#tbodyAsignaturas tr:hover
+{
+    background-color: orange;
+}
+
+.columnaCodigo
+{
+    width: 200px;
+    max-width: 200px;
+    text-align: center;
+    word-wrap: break-word;
+}
+.columnaTexto
+{   width: 200px;
+    max-width: 200px;
+    text-align: center;
+    word-wrap: break-word;
+}
+.columnaOpciones
+{
+    width: 200px;
+    max-width: 200px;
+    text-align: center;
+    word-wrap: break-word;
+}
+.columnaAsignar
+{
+    width: 350px;
+    max-width: 350px;
+    text-align: center;
+    word-wrap: break-word;
+}
+ 
+.botonNuevo
+{
+    display: block;
+    background-color: blue;
+    color: white;
+    border-radius: 5px 5px; 
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    height: 30px;
+    width: 200px;
+    font-size: 15px;
+}
+.botonEliminar
+{
+    background-color: red;
+    color: white;
+    border-radius: 5px 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+}
+.botonModificar
+{   
+    background-color: green;
+    color: white;
+    border-radius: 5px 5px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif 
+    font-size: 15px;  
+    
+}
+
+.botonAsignar
+{
+    background-color: midnightblue;
+    color: white;
+    border-radius: 5px 5px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif 
+    font-size: 15px;
+    
+}
+
+/* |-----------------------------------------------------------------------------------------------
+|                ESTILOS PARA EL DIV DE INGRESAR NUEVA ASIGNATURA                                 |        
+|-------------------------------------------------------------------------------------------------| */
+#divIngresarAsignatura
+{    
+    display: block;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, Courier, monospace;
+    background-color: silver;
+}
+#divFormularioIngresar 
+{
+    padding-top: 10px;
+    text-align: center;
+    align-content: center;
+    float: left;
+    width: 40%;
+    height: 400px;
+    
+}
+#divBuscarProfesor
+{
+    float: left;
+    width: 60%;
+    height: 400px;
+    
+}
+#formularioIn
+{
+    text-align: left;
+   margin: auto auto;
+    width: 60%;
+}
+#formularioIn #inputCodigo, #inputNombre, #inputSala
+{
+    width: 100%;
+    display: block;
+    border-radius: 5px 5px;
+    height: 20px;
+}
+#submitNuevo
+{
+    margin: 10px 30%;
+    font-size: 15px;
+    display: inline-block;
+    width: 40%;
+    color: white;
+    background-color: blue;
+    border-radius: 5px 5px;
+    height: 30px;
+}
+#botonCancelarNueva
+{
+    display: inline-block;
+}
+#botonCancelarNueva
+{
+    display: block;
+    background-color: blue;
+    color: white;
+    border-radius: 5px 5px; 
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    height: 30px;
+    width: 200px;
+    font-size: 15px;
+}
+
+#divBuscadorProfesor
+{
+    margin-top: 25px;
+    width: 82%;
+    height: 25%;
+}
+#divTablaProfesores
+{
+    text-align: center;
+    width: 100%;
+    height: auto;
+    
+}
+#asociarProfesor thead
+{
+    display: block;
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: rgb(121, 97, 97);
+    color: white;
+}
+#asociarProfesor tbody
+{
+    width: 100%;
+    display: block;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#asociarProfesor tbody tr:hover
+{
+    background-color: orange;
+}
+.columnaProfesor
+{
+    text-align: center;
+    min-width: 135px;
+    max-width: 135px;
+    word-wrap: break-word;
+}
+
+#asociarProfesor
+{
+    background-color: white;
+}
+
+#tablaProfesor
+{
+   width: 65%;
+   margin-right: 100px;
+}
+#tbodyTablaProfesor th, td
+{
+    max-width: 150px;
+    min-width: 150px;
+}
+#buscarProfesorNoAsociado
+{
+    width: 50%;
+    border-radius: 5px 5px;
+    height: 20px;
+}
+
+#divTablaProfesores h4
+{
+    margin-right: 250px;
+}
+
+#botonLimpiar
+{
+    margin-left: 5px;
+    font-size: 15px;
+    width: 20%;
+    color: white;
+    background-color: green;
+    border-radius: 5px 5px;
+    height: 30px;
+}
+

@@ -23,12 +23,12 @@ function getAsignaturas()
             <table id='Asignaturas'>
                 <thead id='theadAsignaturas'>
                     <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Rut Profesor</th>
-                        <th>Sala</th>
-                        <th>Opciones</th>
-                        <th>Asociar/Ver</th>
+                        <th class='columnaCodigo'>Codigo</th>
+                        <th class='columnaTexto'>Nombre</th>
+                        <th class='columnaTexto'>Rut Profesor</th>
+                        <th class='columnaTexto'>Sala</th>
+                        <th class='columnaOpciones'>Opciones</th>
+                        <th class='columnaAsignar'>Asociar/Ver</th>
                     </tr>
                 </thead>
                 <tbody id='tbodyAsignaturas'>
@@ -49,19 +49,19 @@ function getAsignaturas()
 
             $tablaAsignaturas.=
                 "<tr>
-                    <td id='".$codigo."codigo'>".$codigo."</td>
-                    <td id='".$codigo."nombre'>".$nombre."</td>
-                    <td id='".$codigo."rutProfesor'>".$rutProfesor."</td>
-                    <td id='".$codigo."sala'>".$sala."</td>
-                    <td>
-                        <button id=".$codigo." onclick='modificarAsignatura(this)'>MODIFICAR</button>
-                        <button id=".$codigo." onclick='eliminarAsignatura(this)'>ELIMINAR</button>
+                    <td class='columnaCodigo' id='".$codigo."codigo'>".$codigo."</td>
+                    <td class='columnaTexto' id='".$codigo."nombre'>".$nombre."</td>
+                    <td class='columnaTexto' id='".$codigo."rutProfesor'>".$rutProfesor."</td>
+                    <td class='columnaTexto' id='".$codigo."sala'>".$sala."</td>
+                    <td class='columnaOpciones'>
+                        <button id=".$codigo." class='botonModificar' onclick='modificarAsignatura(this)'>MODIFICAR</button>
+                        <button id=".$codigo." class='botonEliminar' onclick='eliminarAsignatura(this)'>ELIMINAR</button>
                     </td>
-                    <td>
-                        <button id=".$codigo." name=".$nombre." onclick='asignarAlumno(this.id, this.name)'>ALUMNO</button>
-                        <button id=".$codigo." name=".$nombre." onclick='asignarProfesor(this.id, this.name)'>PROFESOR</button>
-                        <button id=".$codigo." name=".$nombre." onclick='asignarCurso(this.id, this.name)'>CURSO</button>
-                        <button id=".$codigo." name=".$nombre." onclick='asignarBloque(this.id, this.name)'>BLOQUE</button>
+                    <td class='columnaAsignar'>
+                        <button id=".$codigo." class='botonAsignar'name=".$nombre." onclick='asignarAlumno(this.id, this.name)'>ALUMNO</button>
+                        <button id=".$codigo." class='botonAsignar'name=".$nombre." onclick='asignarProfesor(this.id, this.name)'>PROFESOR</button>
+                        <button id=".$codigo." class='botonAsignar'name=".$nombre." onclick='asignarCurso(this.id, this.name)'>CURSO</button>
+                        <button id=".$codigo." class='botonAsignar'name=".$nombre." onclick='asignarBloque(this.id, this.name)'>BLOQUE</button>
                     </td>
                 </tr>";
                     

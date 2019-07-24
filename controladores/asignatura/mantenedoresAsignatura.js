@@ -110,28 +110,38 @@ function iniciarEliminarAsignatura(botonAsignatura)
 
 function iniciarIngresarAsignatura()
 {
+    if(document.getElementById("Asignaturas"))
+    {
+        document.getElementById("divTablaAsignaturas").innerHTML="";
+    }   
     var divFormularioIngresar=document.getElementById("divFormularioIngresar");
     var divBuscadorProfesor=document.getElementById("divBuscadorProfesor");
-    var divProfesorAsociado=document.getElementById("divProfesorAsociado");
     divFormularioIngresar.innerHTML="";
     divBuscadorProfesor.innerHTML="";
-    divProfesorAsociado.innerHTML="";
 
     var fomularioIngresar="<form id='formularioIn'>";
-    var labelCodigo="<label for='inputCodigo'>Codigo:</label>";
+    var labelCodigo="<label id='l1' for='inputCodigo'>Codigo:</label>";
     var inputCodigo="<input type='number' id='inputCodigo' name='inputCodigo'>";
 
-    var labelNombre="<label for='inputNombre'>Nombre Asignatura:</label>";
+    var labelNombre="<label id='l2' for='inputNombre'>Nombre Asignatura:</label>";
     var inputNombre="<input type='text' id='inputNombre'name='inputNombre'>";
 
-    var labelSala="<label for='inputSala'>Sala:</label>";
+    var labelSala="<label id='l3' for='inputSala'>Sala:</label>";
     var inputSala="<input type='text' id='inputSala' name='inputSala'>";
 
-    var botonListo="<input type='submit' value='GUARDAR'></button>";
+    var botonListo="<input id='submitNuevo' type='submit' value='GUARDAR'></button>";
     fomularioIngresar+=labelCodigo+inputCodigo+labelNombre+inputNombre+labelSala+inputSala+botonListo+"</form>";
-    var botonCancelar="<button onclick='finalizarIngresarAsignatura()'>CANCELAR</button>";
+    // var botonCancelar="<button class='botonCancelarNueva' onclick='finalizarIngresarAsignatura()'>CANCELAR</button>";
+    
+    var botonNueva=document.getElementById("nuevaAsignatura");
+    var botonCancelar=document.createElement("button");
 
-    divFormularioIngresar.innerHTML=fomularioIngresar+botonCancelar;
+    botonCancelar.innerHTML="CANCELAR";
+    botonCancelar.setAttribute("id", "botonCancelarNueva");
+    botonCancelar.addEventListener("click", finalizarIngresarAsignatura);
+
+    document.getElementById("tituloPrincipal").replaceChild(botonCancelar, botonNueva);
+    divFormularioIngresar.innerHTML=fomularioIngresar;
 
     document.getElementById("formularioIn").addEventListener("submit", function(event){
         event.preventDefault();
@@ -152,13 +162,11 @@ function tablaProfesoresNuevaAsignatura()
     var buscadorNoAsociados=
         "<input type='text' id='buscarProfesorNoAsociado' name= 'buscarProfesorNoAsociado'onkeyup='buscarProfesorNuevaAsignatura()'>";
     var botonLimpiar=
-        "<button onclick='limpiarProfesoresNoAsociados()' style='display: inline-block;'>Limpiar</button>";
+        "<button id='botonLimpiar' onclick='limpiarProfesoresNoAsociados()' style='display: inline-block;'>Limpiar</button>";
     
     var divBuscadorProfesor=document.getElementById("divBuscadorProfesor");
     divBuscadorProfesor.innerHTML="<h4>Use el buscador para encontrar un profesor registrado y asociarlo a esta asignatura</h4>"+labelNoAsociado+buscadorNoAsociados+botonLimpiar;
 
-    var divProfesorAsociado=document.getElementById("divProfesorAsociado");
-    divProfesorAsociado.innerHTML="<h4>Profesor Asociado</h4>";
 } 
 
 function buscarProfesorNuevaAsignatura()
@@ -170,13 +178,29 @@ function buscarProfesorNuevaAsignatura()
         clave="coincidencia="+clave;
         // Llamada Ajax
         var urlServidor="../modelo/profesor/buscarProfesorNuevaAsignatura.php";
-        llamadaAjax(urlServidor, null, mostrarProfesores);
+        llamadaAjax(urlServidor, clave, mostrarProfesores);
 
         function mostrarProfesores()
         {
-            eliminarTabla("asociarProfesor");
-            var divTabla=document.getElementById("divTablaProfesores");
-            divTabla.innerHTML=respuestaAjax;
+            if(respuestaAjax=="vacio")
+            {
+                eliminarTabla("asociarProfesor");
+                if(!document.getElementById("advertenciaRut"))
+                {
+                    var botonLimpiar=document.getElementById("botonLimpiar");
+                    var advertencia=document.createElement("p");
+                    advertencia.setAttribute("id","advertenciaRut");
+                    advertencia.innerHTML="El rut ingresado no se encuentra registrado";
+                    botonLimpiar.after(advertencia);
+                }
+            }else{
+                eliminarTabla("asociarProfesor");
+                var divTabla=document.getElementById("divTablaProfesores");
+                divTabla.innerHTML=respuestaAjax;
+                if(document.getElementById("advertenciaRut"))
+                document.getElementById("advertenciaRut").remove();
+            }
+            
         }
     }      
     else
@@ -194,7 +218,7 @@ function asociarProfesorNuevaAsignatura(botonProfesor)
     // alert(rut+"\nNombres: "+nombres+"\nApellidos: "+apellidos);
     var tablaProfesor="<table id='tablaProfesor'><thead><tr><th>Rut</th><th>Nombres</th><th>Apellidos</th></tr></thead><tbody id='tbodyTablaProfesor'><tr><td id='rutIngresar'>"+rut+"</td><td>"+nombres+"</td><td>"+apellidos+"</td></tr></tbody></table>";
 
-    document.getElementById("divProfesorAsociado").innerHTML="<h4>Profesor Asociado</h4>"+tablaProfesor;
+    document.getElementById("divTablaProfesores").innerHTML="<h4>Profesor Asociado</h4>"+tablaProfesor;
 }
 
 function IngresarAsignatura()
@@ -210,15 +234,15 @@ function IngresarAsignatura()
 
     if(codigoAsignatura=="")
     {
-        document.getElementById("inputCodigo").after("*");
+        document.getElementById("l1").before("*");
     }else codigo=true;
     if(nombreAsignatura=="")
     {
-        document.getElementById("inputNombre").after("*");
+        document.getElementById("l2").before("*");
     }else nombre=true;
     if(salaNombre=="")
     {
-        document.getElementById("inputSala").after("*");
+        document.getElementById("l3").before("*");
     }else sala=true;
 
     if(!codigo | !nombre | !sala) 
@@ -259,10 +283,11 @@ function IngresarAsignatura()
 
 function finalizarIngresarAsignatura()
 {
+    mostrarTablaAsignaturas();
     document.getElementById("divFormularioIngresar").innerHTML="";
     document.getElementById("divBuscadorProfesor").innerHTML="";
     document.getElementById("divTablaProfesores").innerHTML="";
-    document.getElementById("divProfesorAsociado").innerHTML="";
+    document.getElementById("divProfesorAsociado").innerHTML="";  
 }
     
 
