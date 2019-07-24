@@ -27,7 +27,7 @@
             {
                 $tablaBloques=
                 "
-                    <table id='asociarBloque'>
+                    <table id='asociarBloque' class='tablaAsociar'>
                         <thead id='theadAsociarBloque'>
                             <tr>
                                 <th>Codigo</th>

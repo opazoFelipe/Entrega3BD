@@ -15,12 +15,10 @@ function finalizarCursos()
     mostrarTablaAsignaturas();
     document.getElementById("divInfoTablaNoAsociados").innerHTML="";
     document.getElementById("buscadorNoAso").innerHTML="";
-    document.getElementById("infoCantidadNoAso").innerHTML="";
     document.getElementById("divTablaNoAsociados").innerHTML="";
    
     document.getElementById("divInfoTablaAsociados").innerHTML="";
     document.getElementById("buscadorAso").innerHTML="";
-    document.getElementById("infoCantidadAso").innerHTML="";
     document.getElementById("divTablaAsociados").innerHTML="";
 
     document.getElementById("tituloAsignatura").innerHTML="";
@@ -31,14 +29,14 @@ function finalizarCursos()
 
 function tablaCursos()
 {
-    mostrarAsignaturaSeleccionada();
+    mostrarAsignaturaSeleccionada("Cursos");
     //Crear los buscadores 
     var labelNoAsociado=
         "<label for='buscarCursoNoAsociado'>Buscar Curso: </label>";
     var buscadorNoAsociados=
         "<input type='text' id='buscarCursoNoAsociado' name= 'buscarCursoNoAsociado' onkeyup='buscarCursoNoAsociado()'>";
     var botonLimpiar=
-        "<button onclick='limpiarCursosNoAsociados()' style='display: inline-block;'>Limpiar</button>";
+        "<button class='botonLimpiar' onclick='limpiarCursosNoAsociados()' style='display: inline-block;'>Limpiar</button>";
     
     var divBuscadorNoAsociado=document.getElementById("buscadorNoAso");
     divBuscadorNoAsociado.innerHTML=labelNoAsociado+buscadorNoAsociados+botonLimpiar;
@@ -51,7 +49,7 @@ function tablaCursos()
     var buscadorAsociados=
         "<input type='text' id='buscarCursoAsociado' name= 'buscarCursoAsociado' onkeyup='buscarCursoAsociado()'>";
     var botonVerTodos=
-        "<button onclick='llenarTablaCursosAsociados()' style='display: inline-block;'>Ver Todos</button>";
+        "<button class='botonVerTodos' onclick='llenarTablaCursosAsociados()' style='display: inline-block;'>Ver Todos</button>";
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaAsociados");
     divInfoTablaNoAsociados.innerHTML="<h4>Cursos Asociados</h4>"
@@ -83,23 +81,21 @@ function buscarCursoNoAsociado()
             if(respuestaAjax=="vacio")
             {
                 eliminarTabla("asociarCurso");
-                document.getElementById("divTablaNoAsociados").innerHTML="No se han encontrado registros";
-                document.getElementById("infoCantidadNoAso").innerHTML="";
+                registrosVaciosNoAsociados();
             }
             else
             {
+                borrarRegistrosVaciosNoAsociados();
                 eliminarTabla("asociarCurso");
                 var divTabla=document.getElementById("divTablaNoAsociados");
                 divTabla.innerHTML=respuestaAjax;
                 cantidadActualNoAsociados=document.getElementById("tbodyAsociarCurso").childNodes.length;
                 cantidadActualNoAsociados-=1;
-                document.getElementById("infoCantidadNoAso").innerHTML="Encontrados: "+cantidadActualNoAsociados;
             }
         }      
     }
     else
     {
-        document.getElementById("infoCantidadNoAso").innerHTML="";
         eliminarTabla("asociarCurso");
     } 
      
@@ -117,7 +113,6 @@ function botonAsociarCurso(boton)
         {
             cantidadActualNoAsociados=cantidadActualNoAsociados-1;
             var fila=boton.parentNode.parentNode;
-            document.getElementById("infoCantidadNoAso").innerHTML="";
             fila.remove();
     
             if(document.getElementById("tbodyAsociarCurso"))
@@ -126,8 +121,7 @@ function botonAsociarCurso(boton)
                 {
                     document.getElementById("asociarCurso").remove();
                 }
-                else
-                    document.getElementById("infoCantidadNoAso").innerHTML="Encontrados: "+cantidadActualNoAsociados;  
+       
             }
         }else alert("Error al asociar curso a asignatura");
         respuestaAjax="";
@@ -140,7 +134,7 @@ function limpiarCursosNoAsociados()
     document.getElementById("divTablaNoAsociados").innerHTML="";
     respuestaAjax="";
 
-    document.getElementById("infoCantidadNoAso").innerHTML="";
+  
     if(document.getElementById("buscarCursoNoAsociado"))
         document.getElementById("buscarCursoNoAsociado").value="";
     
@@ -161,20 +155,19 @@ function llenarTablaCursosAsociados()
         
     function mostrarCursosAsociados()
     {
-        var infoCantidadAso=document.getElementById("infoCantidadAso");
         if(respuestaAjax == "vacio")
         {
             eliminarTabla("desAsociarCurso");
-            infoCantidadAso.innerHTML="Econtrados: 0";
+            registrosVaciosAsociados();
             respuestaAjax="";
         }
         else
         {   
+            borrarRegistrosVaciosAsociados();
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;
             cantidadActualAsociados=document.getElementById("tbodyDesAsociarCurso").childNodes.length;
             cantidadActualAsociados-=1;
             var hijos= document.getElementById("tbodyDesAsociarCurso").childNodes;
-            infoCantidadAso.innerHTML="Econtrados: "+cantidadActualAsociados;
         } 
     }
 }
@@ -192,25 +185,23 @@ function buscarCursoAsociado()
         llamadaAjax(urlServidor, parametros, mostrarCursosAsociadosCoincidencia);    
     }else
     {
-        document.getElementById("infoCantidadAso").innerHTML="";
         eliminarTabla("desAsociarCurso");
     } 
 
     function mostrarCursosAsociadosCoincidencia()
     {
-        var infoCantidadAso=document.getElementById("infoCantidadAso");
         if(respuestaAjax=="vacio")
         {
             eliminarTabla("desAsociarCurso");
-            infoCantidadAso.innerHTML="Econtrados: 0";
+            registrosVaciosAsociados();
         }
         else
         {
+            borrarRegistrosVaciosAsociados()
             eliminarTabla("desAsociarCurso");
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;  
             cantidadActualAsociados=document.getElementById("tbodyDesAsociarCurso").childNodes.length;
             cantidadActualAsociados-=1;
-            infoCantidadAso.innerHTML="Econtrados: "+cantidadActualAsociados;
         }       
     }
 }
@@ -232,8 +223,7 @@ function botonDesAsociarCurso(boton)
             if(document.getElementById("tbodyDesAsociarCurso").childNodes.length==0)
             {
                 document.getElementById("desAsociarCurso").remove();
-            }else 
-                document.getElementById("infoCantidadAso").innerHTML="Encontrados: "+cantidadActualAsociados; 
+            }
         }else alert("Error al desAsociar Curso");   
         respuestaAjax="";
     }

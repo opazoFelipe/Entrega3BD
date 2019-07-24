@@ -27,7 +27,7 @@
             {
                 $tablaAlumnos=
                 "
-                    <table id='desAsociarAlumno'>
+                    <table id='desAsociarAlumno' class='tablaAsociar'>
                         <thead id='theadDesAsociarAlumno'>
                             <tr>
                                 <th>Rut</th>

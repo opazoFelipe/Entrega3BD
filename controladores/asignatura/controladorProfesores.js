@@ -15,12 +15,12 @@ function finalizarCursos()
     mostrarTablaAsignaturas();
     document.getElementById("divInfoTablaNoAsociados").innerHTML="";
     document.getElementById("buscadorNoAso").innerHTML="";
-    document.getElementById("infoCantidadNoAso").innerHTML="";
+
     document.getElementById("divTablaNoAsociados").innerHTML="";
    
     document.getElementById("divInfoTablaAsociados").innerHTML="";
     document.getElementById("buscadorAso").innerHTML="";
-    document.getElementById("infoCantidadAso").innerHTML="";
+
     document.getElementById("divTablaAsociados").innerHTML="";
 
     document.getElementById("tituloAsignatura").innerHTML="";
@@ -31,14 +31,14 @@ function finalizarCursos()
 
 function tablaProfesores()
 {
-    mostrarAsignaturaSeleccionada();
+    mostrarAsignaturaSeleccionada("Profesores");
     //Crear los buscadores 
     var labelNoAsociado=
         "<label for='buscarProfesorNoAsociado'>Buscar Profesor: </label>";
     var buscadorNoAsociados=
         "<input type='text' id='buscarProfesorNoAsociado' name= 'buscarProfesorNoAsociado' onkeyup='buscarProfesorNoAsociado()'>";
     var botonLimpiar=
-        "<button onclick='limpiarProfesoresNoAsociados()' style='display: inline-block;'>Limpiar</button>";
+        "<button class='botonLimpiar' onclick='limpiarProfesoresNoAsociados()' style='display: inline-block;'>Limpiar</button>";
     
     var divBuscadorNoAsociado=document.getElementById("buscadorNoAso");
     divBuscadorNoAsociado.innerHTML=labelNoAsociado+buscadorNoAsociados+botonLimpiar;
@@ -51,7 +51,7 @@ function tablaProfesores()
     var buscadorAsociados=
         "<input type='text' id='buscarProfesorAsociado' name= 'buscarProfesorAsociado' onkeyup='buscarProfesorAsociado()'>";
     var botonVerTodos=
-        "<button onclick='llenarTablaProfesoresAsociados()' style='display: inline-block;'>Ver Todos</button>";
+        "<button class='botonVerTodos' onclick='llenarTablaProfesoresAsociados()' style='display: inline-block;'>Ver Todos</button>";
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaAsociados");
     divInfoTablaNoAsociados.innerHTML="<h4>Profesores Asociados</h4>"
@@ -83,23 +83,22 @@ function buscarProfesorNoAsociado()
             if(respuestaAjax=="vacio")
             {
                 eliminarTabla("asociarProfesor");
-                document.getElementById("divTablaNoAsociados").innerHTML="No se han encontrado registros";
-                document.getElementById("infoCantidadNoAso").innerHTML="";
+                registrosVaciosNoAsociados();
             }
             else
             {
+                borrarRegistrosVaciosNoAsociados();
                 eliminarTabla("asociarProfesor");
                 var divTabla=document.getElementById("divTablaNoAsociados");
                 divTabla.innerHTML=respuestaAjax;
                 cantidadActualNoAsociados=document.getElementById("tbodyAsociarProfesor").childNodes.length;
                 cantidadActualNoAsociados-=1;
-                document.getElementById("infoCantidadNoAso").innerHTML="Encontrados: "+cantidadActualNoAsociados;
+
             }
         }      
     }
     else
     {
-        document.getElementById("infoCantidadNoAso").innerHTML="";
         eliminarTabla("asociarProfesor");
     } 
      
@@ -117,7 +116,6 @@ function botonAsociarProfesor(boton)
         {
             cantidadActualNoAsociados=cantidadActualNoAsociados-1;
             var fila=boton.parentNode.parentNode;
-            document.getElementById("infoCantidadNoAso").innerHTML="";
             fila.remove();
     
             if(document.getElementById("tbodyAsociarProfesor"))
@@ -126,8 +124,6 @@ function botonAsociarProfesor(boton)
                 {
                     document.getElementById("asociarProfesor").remove();
                 }
-                else
-                    document.getElementById("infoCantidadNoAso").innerHTML="Encontrados: "+cantidadActualNoAsociados;  
             }
         }else alert("Error al asociar profesor a asignatura");
         respuestaAjax="";
@@ -141,7 +137,7 @@ function limpiarProfesoresNoAsociados()
     respuestaAjax="";
     if(document.getElementById("advertenciaRut"))
         document.getElementById("advertenciaRut").remove();
-    document.getElementById("infoCantidadNoAso").innerHTML="";
+
     if(document.getElementById("buscarProfesorNoAsociado"))
         document.getElementById("buscarProfesorNoAsociado").value="";
     
@@ -162,20 +158,19 @@ function llenarTablaProfesoresAsociados()
         
     function mostrarProfesoresAsociados()
     {
-        var infoCantidadAso=document.getElementById("infoCantidadAso");
         if(respuestaAjax == "vacio")
         {
             eliminarTabla("desAsociarProfesor");
-            infoCantidadAso.innerHTML="Econtrados: 0";
+            registrosVaciosAsociados();
             respuestaAjax="";
         }
         else
         {   
+            borrarRegistrosVaciosAsociados();
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;
             cantidadActualAsociados=document.getElementById("tbodyDesAsociarProfesor").childNodes.length;
             cantidadActualAsociados-=1;
             var hijos= document.getElementById("tbodyDesAsociarProfesor").childNodes;
-            infoCantidadAso.innerHTML="Econtrados: "+cantidadActualAsociados;
         } 
     }
 }
@@ -193,25 +188,23 @@ function buscarProfesorAsociado()
         llamadaAjax(urlServidor, parametros, mostrarProfesoresAsociadosCoincidencia);    
     }else
     {
-        document.getElementById("infoCantidadAso").innerHTML="";
         eliminarTabla("desAsociarProfesor");
     } 
 
     function mostrarProfesoresAsociadosCoincidencia()
     {
-        var infoCantidadAso=document.getElementById("infoCantidadAso");
         if(respuestaAjax=="vacio")
         {
             eliminarTabla("desAsociarProfesor");
-            infoCantidadAso.innerHTML="Econtrados: 0";
+            registrosVaciosAsociados();
         }
         else
         {
+            borrarRegistrosVaciosAsociados();
             eliminarTabla("desAsociarProfesor");
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;  
             cantidadActualAsociados=document.getElementById("tbodyDesAsociarProfesor").childNodes.length;
             cantidadActualAsociados-=1;
-            infoCantidadAso.innerHTML="Econtrados: "+cantidadActualAsociados;
         }       
     }
 }
@@ -233,8 +226,7 @@ function botonDesAsociarProfesor(boton)
             if(document.getElementById("tbodyDesAsociarProfesor").childNodes.length==0)
             {
                 document.getElementById("desAsociarProfesor").remove();
-            }else 
-                document.getElementById("infoCantidadAso").innerHTML="Encontrados: "+cantidadActualAsociados; 
+            }
         }else alert("Error al desAsociar Profesor");   
         respuestaAjax="";
     }

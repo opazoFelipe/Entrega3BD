@@ -6,7 +6,7 @@ var divTituloAsignatura;//Variable Global
 
 function iniciarAlumnos()
 {
-    tablaAlumnos(nombreAsignaturaSeleccionada);
+    tablaInicial(nombreAsignaturaSeleccionada);
     document.getElementById("Asignaturas").remove();
 }
 
@@ -15,10 +15,12 @@ function finalizarAlumnos()
     mostrarTablaAsignaturas();
     document.getElementById("divInfoTablaNoAsociados").innerHTML="";
     document.getElementById("buscadorNoAso").innerHTML="";
+    document.getElementById("infoCantidadNoAso").innerHTML="";
     document.getElementById("divTablaNoAsociados").innerHTML="";
    
     document.getElementById("divInfoTablaAsociados").innerHTML="";
     document.getElementById("buscadorAso").innerHTML="";
+    document.getElementById("infoCantidadAso").innerHTML="";
     document.getElementById("divTablaAsociados").innerHTML="";
 
     document.getElementById("tituloAsignatura").innerHTML="";
@@ -27,32 +29,32 @@ function finalizarAlumnos()
     nombreAsignaturaSeleccionada="";  
 }
 
-function tablaAlumnos()
+function tablaInicial(labelBuscar, tituloAsociados, tituloNoAsociados)
 {
-    mostrarAsignaturaSeleccionada("Alumnos");
+    mostrarAsignaturaSeleccionada();
     //Crear los buscadores 
     var labelNoAsociado=
-        "<label for='buscarAlumnoNoAsociado'>Buscar Alumno: </label>";
+        "<label for='buscarAlumnoNoAsociado'>"+labelBuscar+"</label>";
     var buscadorNoAsociados=
         "<input type='text' id='buscarAlumnoNoAsociado' name= 'buscarAlumnoNoAsociado' onkeyup='buscarAlumnoNoAsociado()'>";
     var botonLimpiar=
-        "<button class='botonLimpiar' onclick='limpiarNoAsociados()' style='display: inline-block;'>Limpiar</button>";
+        "<button onclick='limpiarNoAsociados()' style='display: inline-block;'>Limpiar</button>";
     
     var divBuscadorNoAsociado=document.getElementById("buscadorNoAso");
     divBuscadorNoAsociado.innerHTML=labelNoAsociado+buscadorNoAsociados+botonLimpiar;
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaNoAsociados");
-    divInfoTablaNoAsociados.innerHTML="<h4>Alumnos No Asociados</h4>"
+    divInfoTablaNoAsociados.innerHTML="<h4>"+tituloNoAsociados+"</h4>"
 
     var labelAsociado=
-        "<label for='buscarAlumnoAsociado'>Buscar Alumno: </label>";
+        "<label for='buscarAlumnoAsociado'>"+labelBuscar+"</label>";
     var buscadorAsociados=
         "<input type='text' id='buscarAlumnoAsociado' name= 'buscarAlumnoAsociado' onkeyup='buscarAlumnoAsociado()'>";
     var botonVerTodos=
-        "<button class='botonVerTodos' id='botonVerTodos' onclick='llenarTablaAsociados()' style='display: inline-block;'>Ver Todos</button>";
+        "<button id='botonVerTodos' onclick='llenarTablaAsociados()' style='display: inline-block;'>Ver Todos</button>";
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaAsociados");
-    divInfoTablaNoAsociados.innerHTML="<h4>Alumnos Asociados</h4>"
+    divInfoTablaNoAsociados.innerHTML="<h4>"+tituloAsociados+"</h4>"
 
     var divBuscadorAsociado=document.getElementById("buscadorAso");
     divBuscadorAsociado.innerHTML=labelAsociado+buscadorAsociados+botonVerTodos;
@@ -64,7 +66,7 @@ function tablaAlumnos()
 // |               Funciones para la tabla de alumnos NO ASOCIADOS                                  |                                                                                                |
 // |------------------------------------------------------------------------------------------------|
 
-function buscarAlumnoNoAsociado()
+function buscarAlumnoNoAsociado(urlServidor)
 {
     var buscador=document.getElementById("buscarAlumnoNoAsociado");
     var clave=buscador.value;
@@ -72,7 +74,8 @@ function buscarAlumnoNoAsociado()
     {
         clave="coincidencia="+clave;
         // Llamada Ajax
-        var urlServidor="../modelo/alumno/buscarAlumnoNoAsociado.php";
+        // var urlServidor="../modelo/alumno/buscarAlumnoNoAsociado.php";
+        var urlServidor=urlServidor;
         var parametros=clave+"&codigoAsignatura="+codigoAsignaturaSeleccionada;
         llamadaAjax(urlServidor, parametros, mostrarAlumnosNoAsociados);
 
@@ -80,24 +83,22 @@ function buscarAlumnoNoAsociado()
         {
             if(respuestaAjax=="vacio")
             {
-                eliminarTabla("asociarAlumno");
-                registrosVaciosNoAsociados();
-                // document.getElementById("divTablaNoAsociados").innerHTML="No se han encontrado registros";
+                eliminarTabla("asociar");
+                document.getElementById("divTablaNoAsociados").innerHTML="No se han encontrado registros";
             }
             else
             {
-                borrarRegistrosVaciosNoAsociados();
-                eliminarTabla("asociarAlumno");
+                eliminarTabla("asociar");
                 var divTabla=document.getElementById("divTablaNoAsociados");
                 divTabla.innerHTML=respuestaAjax;
-                cantidadActualNoAsociados=document.getElementById("tbodyAsociarAlumno").childNodes.length;
+                cantidadActualNoAsociados=document.getElementById("tbodyAsociar").childNodes.length;
                 cantidadActualNoAsociados-=1;
             }
         }      
     }
     else
     {
-        eliminarTabla("asociarAlumno");
+        eliminarTabla("asociar");
     } 
      
 }
@@ -156,12 +157,11 @@ function llenarTablaAsociados()
     {
         if(respuestaAjax == "vacio")
         {
-            registrosVaciosAsociados();
             eliminarTabla("desAsociarAlumno");
             respuestaAjax="";
         }
         else
-        {   borrarRegistrosVaciosAsociados();
+        {   
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;
             cantidadActualAsociados=document.getElementById("tbodyDesAsociarAlumno").childNodes.length;
             cantidadActualAsociados-=1;
@@ -193,12 +193,10 @@ function buscarAlumnoAsociado()
 
         if(respuestaAjax=="vacio")
         {
-            registrosVaciosAsociados();
             eliminarTabla("desAsociarAlumno");
         }
         else
         {
-            borrarRegistrosVaciosAsociados();
             eliminarTabla("desAsociarAlumno");
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;  
             cantidadActualAsociados=document.getElementById("tbodyDesAsociarAlumno").childNodes.length;

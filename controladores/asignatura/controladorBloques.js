@@ -15,12 +15,10 @@ function finalizarCursos()
     mostrarTablaAsignaturas();
     document.getElementById("divInfoTablaNoAsociados").innerHTML="";
     document.getElementById("buscadorNoAso").innerHTML="";
-    document.getElementById("infoCantidadNoAso").innerHTML="";
     document.getElementById("divTablaNoAsociados").innerHTML="";
    
     document.getElementById("divInfoTablaAsociados").innerHTML="";
     document.getElementById("buscadorAso").innerHTML="";
-    document.getElementById("infoCantidadAso").innerHTML="";
     document.getElementById("divTablaAsociados").innerHTML="";
 
     document.getElementById("tituloAsignatura").innerHTML="";
@@ -31,14 +29,14 @@ function finalizarCursos()
 
 function tablaBloques()
 {
-    mostrarAsignaturaSeleccionada();
+    mostrarAsignaturaSeleccionada("Bloques");
     //Crear los buscadores 
     var labelNoAsociado=
         "<label for='buscarBloqueNoAsociado'>Buscar Bloque: </label>";
     var buscadorNoAsociados=
         "<input type='text' id='buscarBloqueNoAsociado' name= 'buscarBloqueNoAsociado' onkeyup='buscarBloqueNoAsociado()'>";
     var botonLimpiar=
-        "<button onclick='limpiarBloquesNoAsociados()' style='display: inline-block;'>Limpiar</button>";
+        "<button class='botonLimpiar' onclick='limpiarBloquesNoAsociados()' style='display: inline-block;'>Limpiar</button>";
     
     var divBuscadorNoAsociado=document.getElementById("buscadorNoAso");
     divBuscadorNoAsociado.innerHTML=labelNoAsociado+buscadorNoAsociados+botonLimpiar;
@@ -51,7 +49,7 @@ function tablaBloques()
     var buscadorAsociados=
         "<input type='text' id='buscarBloqueAsociado' name= 'buscarBloqueAsociado' onkeyup='buscarBloqueAsociado()'>";
     var botonVerTodos=
-        "<button onclick='llenarTablaBloquesAsociados()' style='display: inline-block;'>Ver Todos</button>";
+        "<button class='botonVerTodos' onclick='llenarTablaBloquesAsociados()' style='display: inline-block;'>Ver Todos</button>";
 
     var divInfoTablaNoAsociados=document.getElementById("divInfoTablaAsociados");
     divInfoTablaNoAsociados.innerHTML="<h4>Bloques Asociados</h4>"
@@ -83,23 +81,21 @@ function buscarBloqueNoAsociado()
             if(respuestaAjax=="vacio")
             {
                 eliminarTabla("asociarBloque");
-                document.getElementById("divTablaNoAsociados").innerHTML="No se han encontrado registros";
-                document.getElementById("infoCantidadNoAso").innerHTML="";
+                registrosVaciosNoAsociados();
             }
             else
             {
+                borrarRegistrosVaciosNoAsociados();
                 eliminarTabla("asociarBloque");
                 var divTabla=document.getElementById("divTablaNoAsociados");
                 divTabla.innerHTML=respuestaAjax;
                 cantidadActualNoAsociados=document.getElementById("tbodyAsociarBloque").childNodes.length;
                 cantidadActualNoAsociados-=1;
-                document.getElementById("infoCantidadNoAso").innerHTML="Encontrados: "+cantidadActualNoAsociados;
             }
         }      
     }
     else
     {
-        document.getElementById("infoCantidadNoAso").innerHTML="";
         eliminarTabla("asociarBloque");
     } 
      
@@ -117,7 +113,6 @@ function botonAsociarBloque(boton)
         {
             cantidadActualNoAsociados=cantidadActualNoAsociados-1;
             var fila=boton.parentNode.parentNode;
-            document.getElementById("infoCantidadNoAso").innerHTML="";
             fila.remove();
     
             if(document.getElementById("tbodyAsociarBloque"))
@@ -126,8 +121,6 @@ function botonAsociarBloque(boton)
                 {
                     document.getElementById("asociarBloque").remove();
                 }
-                else
-                    document.getElementById("infoCantidadNoAso").innerHTML="Encontrados: "+cantidadActualNoAsociados;  
             }
         }else alert("Error al asociar bloque a asignatura");
         respuestaAjax="";
@@ -140,7 +133,6 @@ function limpiarBloquesNoAsociados()
     document.getElementById("divTablaNoAsociados").innerHTML="";
     respuestaAjax="";
 
-    document.getElementById("infoCantidadNoAso").innerHTML="";
     if(document.getElementById("buscarBloqueNoAsociado"))
         document.getElementById("buscarBloqueNoAsociado").value="";
     
@@ -161,20 +153,19 @@ function llenarTablaBloquesAsociados()
         
     function mostrarBloquesAsociados()
     {
-        var infoCantidadAso=document.getElementById("infoCantidadAso");
         if(respuestaAjax == "vacio")
         {
             eliminarTabla("desAsociarBloque");
-            infoCantidadAso.innerHTML="Econtrados: 0";
+            registrosVaciosAsociados();
             respuestaAjax="";
         }
         else
         {   
+            borrarRegistrosVaciosAsociados();
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;
             cantidadActualAsociados=document.getElementById("tbodyDesAsociarBloque").childNodes.length;
             cantidadActualAsociados-=1;
             var hijos= document.getElementById("tbodyDesAsociarBloque").childNodes;
-            infoCantidadAso.innerHTML="Econtrados: "+cantidadActualAsociados;
         } 
     }
 }
@@ -192,25 +183,24 @@ function buscarBloqueAsociado()
         llamadaAjax(urlServidor, parametros, mostrarBloquesAsociadosCoincidencia);    
     }else
     {
-        document.getElementById("infoCantidadAso").innerHTML="";
         eliminarTabla("desAsociarBloque");
     } 
 
     function mostrarBloquesAsociadosCoincidencia()
     {
-        var infoCantidadAso=document.getElementById("infoCantidadAso");
         if(respuestaAjax=="vacio")
         {
             eliminarTabla("desAsociarBloque");
-            infoCantidadAso.innerHTML="Econtrados: 0";
+            registrosVaciosAsociados();
+           
         }
         else
         {
+            borrarRegistrosVaciosAsociados();
             eliminarTabla("desAsociarBloque");
             document.getElementById("divTablaAsociados").innerHTML=respuestaAjax;  
             cantidadActualAsociados=document.getElementById("tbodyDesAsociarBloque").childNodes.length;
             cantidadActualAsociados-=1;
-            infoCantidadAso.innerHTML="Econtrados: "+cantidadActualAsociados;
         }       
     }
 }
@@ -231,8 +221,7 @@ function botonDesAsociarBloque(boton)
             if(document.getElementById("tbodyDesAsociarBloque").childNodes.length==0)
             {
                 document.getElementById("desAsociarBloque").remove();
-            }else 
-                document.getElementById("infoCantidadAso").innerHTML="Encontrados: "+cantidadActualAsociados; 
+            }
         }else alert("Error al desAsociar Bloque");   
         respuestaAjax="";
     }

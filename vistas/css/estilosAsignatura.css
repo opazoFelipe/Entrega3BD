@@ -218,6 +218,7 @@ letter-spacing:1px;
 }
 #divBuscarProfesor
 {
+    margin-top: -25px;
     float: left;
     width: 60%;
     height: 400px;
@@ -271,6 +272,7 @@ letter-spacing:1px;
 }
 #divTablaProfesores
 {
+  margin-top: 15px;
     text-align: center;
     width: 100%;
     height: auto;

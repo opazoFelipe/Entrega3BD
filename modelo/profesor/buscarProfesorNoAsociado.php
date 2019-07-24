@@ -28,7 +28,7 @@
             {
                 $tablaProfesores=
                 "
-                    <table id='asociarProfesor'>
+                    <table id='asociarProfesor' class='tablaAsociar'>
                         <thead id='theadAsociarProfesor'>
                             <tr>
                                 <th>Rut</th>
