@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/estilosAsignatura.css">
     <link rel="stylesheet" href="css/estilosAsignar.css">
+    <link rel="stylesheet" href="css/estilosMantenedor.css">
     <script src="../controladores/scriptPantallaHome.js"></script>
     <script src="../controladores/asignatura/controladorPrincipal.js"></script>
     <script src="../controladores/asignatura/mantenedoresAsignatura.js"></script>
@@ -23,14 +24,14 @@
                 <nav id="menu">
                     <ul>
                         <li><a href="mostrarAsignaturas.php">VER ASIGNATURAS</a></li>
-                        <li><a href="mostrarConsultasE2php">CONSULTAS ENTREGA 2</a></li>
+                        <li><a href="mostrarConsultasE2.php">CONSULTAS ENTREGA 2</a></li>
                     </ul>
                 </nav>
             </div>
         <div id="divDatos">
             <div id="tituloPrincipal"></div>
             <div id="divBuscarAsignatura"></div>
-            <div id="divTablaAsignaturas"></div>
+            <div id="divTablaAsignaturas" style="z-index: 0;"></div>
 
             <div id="tituloAsignatura"></div> <!--Aqui va el nombre de la asignatura seleccionada y la cantidad de asociados-->
 
@@ -66,7 +67,9 @@
                 </div>
             </div>
 
-            <div id="divMantenedorAsignatura" style="height: 300px; width: 400px"></div>
+            <div id="divMantenedorAsignatura">
+                <div id="divFormularioModificar"></div>
+            </div>
         </div>
     </div>
 </body>

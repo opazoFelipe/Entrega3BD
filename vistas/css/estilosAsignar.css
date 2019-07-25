@@ -1,5 +1,6 @@
 #tituloAsignatura
 {
+    font-family: 'Courier New', Courier, monospace;
     text-align: center;
     font-size: 25px;
     color: black;
@@ -88,7 +89,7 @@ h4
 {
     margin-left: 5px;
     font-size: 15px;
-    width: 20%;
+    width: 15%;
     color: white;
     background-color:blue;
     border-radius: 5px 5px;

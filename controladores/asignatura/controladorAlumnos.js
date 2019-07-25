@@ -6,7 +6,7 @@ var divTituloAsignatura;//Variable Global
 
 function iniciarAlumnos()
 {
-    tablaAlumnos(nombreAsignaturaSeleccionada);
+    tablaAlumnos();
     document.getElementById("Asignaturas").remove();
 }
 

@@ -1,0 +1,70 @@
+#divMantenedorAsignatura
+{
+    position: absolute;
+    top: 5px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0.5);
+    display: none;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, Courier, monospace;
+}
+#divFormularioModificar
+{
+    position: absolute;
+    left: -150px;
+    top: 100px;
+    width: 40%;
+    height: 60%;
+    background-color: white;
+    box-shadow: 5px 5px 5px rgb(129, 118, 118);     
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, Courier, monospace;
+
+}
+
+#formularioMod
+{
+    margin: -20px 120px;
+    display: block;
+    height: 70%;
+    width: 60%;
+    opacity: 1;
+    background-color: white;
+}
+
+#inputNombre, #inputCodigo, #inputSala
+{
+    width: 300px;
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+#botonCancelarMod
+{
+   color: white;
+   background-color: red;
+   height: 40px;
+   width: 150px;
+   border-radius: 5px 5px;
+}
+#botonGuardar
+{
+    margin-left: 2px;
+    color: white;
+   background-color: blue;
+   height: 40px;
+   width: 150px;
+   border-radius: 5px 5px;
+}
+#tituloModificar
+{
+    font-family: 'Courier New', Courier, monospace;
+    margin-left: 190px; 
+}
+#subTituloModificar
+{
+    margin-top: -10px;
+    font-family: 'Courier New', Courier, monospace;
+    margin-left: 60px; 
+}
+
+

@@ -1,0 +1,79 @@
+#divPantallazo
+{
+    height: 70%;  
+    width: 100%;
+    margin: auto auto;
+    overflow-y: auto;
+    float: left;
+}
+#listaConsultas
+{
+    height: 550px;
+    width: 18%;
+    margin: auto auto;
+    float: left;
+
+}
+#pantallazos
+{
+    height: 550px;  
+    width: 80%;
+    margin: auto auto;
+    overflow-y: auto;
+    float: left;
+}
+#pantallazoVista
+{
+    width: 100%;
+    height: 600px;
+}
+#pantallazoConsulta
+{
+    width: 100%;
+    height: 600px;
+}
+.listaBotones
+{
+    width: 100%;
+    height: 92px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    background-color: rgb(61, 110, 100);
+    color: white;
+}
+#tablaConsultaE1, 
+ #tablaConsultaE3, #tablaConsultaE4, #tablaConsultaE5, #tablaConsultaE6
+{
+    max-width: 100%;
+    min-width: 70%;
+    margin: 0 auto;
+    text-align: center;
+}
+#tablaConsultaE2
+{
+    max-width: 100%;
+    min-width: 10%;
+    margin: 0 auto;
+    text-align: center;
+}
+table thead
+{
+    display: block;
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: rgb(121, 97, 97);
+    color: white;
+}
+table tbody
+{
+    width: 100%;
+    display: block;
+    max-height: 150px;;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+th, td
+{
+    word-wrap: break-word;
+    width: 150px;
+}

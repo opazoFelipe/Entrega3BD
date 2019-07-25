@@ -53,7 +53,6 @@ function asignarBloque(codigoAsignatura, nombreAsignatura)
     nombreAsignaturaSeleccionada=nombreAsignatura;
     iniciarBloques();
 }
-
 function eliminarTitulo()
 {
     if(document.getElementById("tituloPrincipal"))

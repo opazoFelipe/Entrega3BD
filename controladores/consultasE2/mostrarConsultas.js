@@ -1,4 +1,4 @@
-window.onload=mostrarConsulta6;
+
 
 function mostrarConsulta1()
 {
@@ -120,13 +120,13 @@ function mostrarConsulta6()
 function mostrarPantallazo(src)
 {
     var divPantallazo=document.getElementById("divPantallazo");
-    if(document.getElementById("pantallazo"))
-        document.getElementById("pantallazo").remove();
+    if(document.getElementById("pantallazoConsulta"))
+        document.getElementById("pantallazoConsulta").remove();
+    if(document.getElementById("pantallazoVista"))
+        document.getElementById("pantallazoVista").remove();
     var img=document.createElement("img"); 
-    img.setAttribute("id", "pantallazo"); 
+    img.setAttribute("id", "pantallazoConsulta"); 
     img.setAttribute("src", src); 
-    img.setAttribute("width","168"); 
-    img.setAttribute("height","66");
     divPantallazo.append(img); 
 }
 

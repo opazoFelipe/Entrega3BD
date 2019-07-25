@@ -14,7 +14,7 @@
             <nav id="menu">
                 <ul>
                     <li><a href="mostrarAsignaturas.php">VER ASIGNATURAS</a></li>
-                    <li><a href="mostrarConsultasE2php">CONSULTAS ENTREGA 2</a></li>
+                    <li><a href="mostrarConsultasE2.php">CONSULTAS ENTREGA 2</a></li>
                 </ul>
             </nav>
         </div>

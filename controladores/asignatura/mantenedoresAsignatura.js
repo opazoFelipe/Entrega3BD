@@ -5,14 +5,16 @@ var salaActual;
 function iniciarModificarAsignatura(botonAsignatura)
 {
     //Estas variables solo pueden ser usadas para guardar los valores actuales de la asignatura seleccionada de la tabla, ademas se usan tambien solo cuando se iniciar la modificacion y se cancela o se guarda pero sin ningun cambio hecho.
-    
+    nombreAsignaturaSeleccionada=botonAsignatura.name;
+    aplicarDimensionesMantenedor();
     codigoActual=document.getElementById(botonAsignatura.id+"codigo").innerHTML;
     nombreActual=document.getElementById(botonAsignatura.id+"nombre").innerHTML;
     salaActual=document.getElementById(botonAsignatura.id+"sala").innerHTML;
 
-    document.getElementById("Asignaturas").style.zIndex="0";
+    document.getElementById("divMantenedorAsignatura").style.display="block";
+    
 
-    var ventanaMantenedor=document.getElementById("divMantenedorAsignatura");
+    var ventanaMantenedor=document.getElementById("divFormularioModificar");
     ventanaMantenedor.innerHTML="";
     ventanaMantenedor.style.zIndex="100000";
 
@@ -23,22 +25,23 @@ function iniciarModificarAsignatura(botonAsignatura)
     ventanaMantenedor.style.borderStyle="solid";
 
     var fomularioModificar="<form id='formularioMod'>";
-    var labelCodigo="<label for='inputCodigo'>Codigo:</label>";
-    var inputCodigo="<input type='number' id='inputCodigo' name='inputCodigo'>";
+    var labelCodigo="<label class='dimenisonFormulario' for='inputCodigo'>Nuevo Codigo:</label>";
+    var inputCodigo="<input class='dimenisonFormulario' type='number' id='inputCodigo' name='inputCodigo'>";
 
-    var labelNombre="<label for='inputNombre'>Nombre:</label>";
-    var inputNombre="<input type='text' id='inputNombre'name='inputNombre'>";
+    var labelNombre="<label class='dimenisonFormulario' for='inputNombre'>Nuevo Nombre:</label>";
+    var inputNombre="<input class='dimenisonFormulario' type='text' id='inputNombre'name='inputNombre'>";
 
-    var labelSala="<label for='inputSala'>Sala:</label>";
-    var inputSala="<input type='text' id='inputSala' name='inputSala'>";
+    var labelSala="<label class='dimenisonFormulario' for='inputSala'>Nueva Sala:</label>";
+    var inputSala="<input class='dimenisonFormulario' type='text' id='inputSala' name='inputSala'>";
 
-    var botonListo="<input type='submit' value='GUARDAR'></button>";
-    fomularioModificar+=labelCodigo+inputCodigo+labelNombre+inputNombre+labelSala+inputSala+botonListo+"</form>";
-    var botonCancelar="<button onclick='cancelarCambios()'>CANCELAR</button>";
+    var botonListo="<input id='botonGuardar' type='submit' value='GUARDAR'></button>";
+    var botonCancelar="<button id='botonCancelarMod' onclick='cancelarCambios()'>CANCELAR</button>";
+    fomularioModificar+=labelCodigo+inputCodigo+labelNombre+inputNombre+labelSala+inputSala+botonListo+botonCancelar+"</form>";
+    // document.getElementById("divFormularioModificar").append(tituloModificar);
+    
 
     // ventanaMantenedor.innerHTML=labelCodigo+inputCodigo+labelNombre+inputNombre+labelSala+inputSala+botonListo+botonCancelar;
-    ventanaMantenedor.innerHTML=fomularioModificar+botonCancelar;
-
+    ventanaMantenedor.innerHTML="<h3 id='tituloModificar'>Modificar "+nombreAsignaturaSeleccionada+"</h3><h4 id='subTituloModificar'>Deje vacio los valores que no desea cambiar<h4>"+fomularioModificar;
     document.getElementById("formularioMod").addEventListener("submit", function(event){
         event.preventDefault();
         guardarCambios();
@@ -50,7 +53,7 @@ function iniciarModificarAsignatura(botonAsignatura)
     document.getElementById("inputCodigo").setAttribute("placeholder", codigoActual);
     document.getElementById("inputNombre").setAttribute("placeholder", nombreActual);
     document.getElementById("inputSala").setAttribute("placeholder", salaActual);
-    
+ 
 }
 
 function guardarCambios()
@@ -72,8 +75,9 @@ function guardarCambios()
             if(respuestaAjax=="hecho")
             {
                 alert("Asignatura modificada correctamente");
-                document.getElementById("divMantenedorAsignatura").innerHTML="";
+                document.getElementById("divMantenedorAsignatura").style.display="none";
                 mostrarTablaAsignaturas();
+
 
             }    
             if(respuestaAjax=="error") alert("Error al modificar esta Asignatura");
@@ -83,7 +87,8 @@ function guardarCambios()
 
 function cancelarCambios()
 {
-    document.getElementById("divMantenedorAsignatura").innerHTML="";
+    document.getElementById("divMantenedorAsignatura").style.display="none";
+    mostrarTablaAsignaturas();
 }
 
 function iniciarEliminarAsignatura(botonAsignatura)

@@ -203,7 +203,8 @@ letter-spacing:1px;
 #divIngresarAsignatura
 {    
     display: block;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, Courier, monospace;
+    /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif, Courier, monospace; */
+    font-family: 'Courier New', Courier, monospace;
     background-color: silver;
 }
 #divFormularioIngresar 
@@ -230,9 +231,9 @@ letter-spacing:1px;
    margin: auto auto;
     width: 60%;
 }
-#formularioIn #inputCodigo, #inputNombre, #inputSala
+#inputCodigo, #inputNombre, #inputSala
 {
-    width: 100%;
+    width: 150px;
     display: block;
     border-radius: 5px 5px;
     height: 20px;
@@ -255,7 +256,7 @@ letter-spacing:1px;
 #botonCancelarNueva
 {
     display: block;
-    background-color: blue;
+    background-color: red;
     color: white;
     border-radius: 5px 5px; 
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
